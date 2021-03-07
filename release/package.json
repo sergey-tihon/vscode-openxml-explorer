@@ -3,16 +3,16 @@
     "version": "0.0.1",
     "publisher": "Sergey Tihon",
     "contributors": [
-		{
-			"name": "Sergey Tihon",
-			"url": "https://twitter.com/sergey_tihon"
-		}
-	],
+        {
+            "name": "Sergey Tihon",
+            "url": "https://twitter.com/sergey_tihon"
+        }
+    ],
     "description": "OpenXml Package Explorer",
     "repository": {
-		"type": "git",
-		"url": "https://github.com/sergey-tihon/vscode-openxml-explorer.git"
-	},
+        "type": "git",
+        "url": "https://github.com/sergey-tihon/vscode-openxml-explorer.git"
+    },
     "engines": {
       "vscode": "^0.10.10"
     },
@@ -28,7 +28,52 @@
         {
           "command": "openxml-explorer.sayHello",
           "title": "Hello OpenXml World"
+        },
+        {
+            "command": "openxml-explorer.exploreFile",
+            "title": "Explore OpenXml"
+        },
+        {
+          "command": "openxml-explorer.clearView",
+          "title": "Clear OpenXml view"
         }
-      ]
+      ],
+      "languages": [
+        {
+          "id": "openxml",
+          "aliases": [
+            "OpenXml",
+            "OpenXML"
+          ],
+          "extensions": [
+            ".pptx",
+            ".docx",
+            ".xlsx"
+          ]
+        }
+      ],
+      "menus": {
+        "explorer/context": [
+          {
+            "command": "openxml-explorer.exploreFile",
+            "when": "resourceLangId == openxml",
+            "group": "0_openxml@1"
+          }
+        ],
+        "view/title": [
+          {
+            "command": "openxml-explorer.clearView",
+            "when": "view == openXmlExplorer"
+          }
+        ]
+      },
+      "views": {
+        "explorer": [
+          {
+            "id": "openXmlExplorer",
+            "name": "OpenXml Explorer"
+          }
+        ]
+      }
     }
   }
