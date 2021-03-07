@@ -1,0 +1,34 @@
+{
+    "name": "openxml-explorer",
+    "version": "0.0.1",
+    "publisher": "Sergey Tihon",
+    "contributors": [
+		{
+			"name": "Sergey Tihon",
+			"url": "https://twitter.com/sergey_tihon"
+		}
+	],
+    "description": "OpenXml Package Explorer",
+    "repository": {
+		"type": "git",
+		"url": "https://github.com/sergey-tihon/vscode-openxml-explorer.git"
+	},
+    "engines": {
+      "vscode": "^0.10.10"
+    },
+    "categories": [
+      "Other"
+    ],
+    "activationEvents": [
+      "onCommand:openxml-explorer.sayHello"
+    ],
+    "main": "./extension",
+    "contributes": {
+      "commands": [
+        {
+          "command": "openxml-explorer.sayHello",
+          "title": "Hello OpenXml World"
+        }
+      ]
+    }
+  }

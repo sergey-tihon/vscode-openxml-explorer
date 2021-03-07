@@ -1,0 +1,34 @@
+version 5.249.0
+source https://api.nuget.org/v3/index.json
+frameworks: netstandard2.0
+storage:none
+
+nuget Fable.Core
+nuget Fable.Promise
+nuget Fable.Node
+nuget Fable.Browser.Dom
+nuget FSharp.Core
+
+github ionide/ionide-vscode-helpers src/Fable.Import.VSCode.fs
+github ionide/ionide-vscode-helpers src/Helpers.fs
+
+group build
+  source https://api.nuget.org/v3/index.json
+  storage:none
+  framework:netstandard2.0
+
+  nuget FSharp.Core 4.7.2
+  nuget Fake.Core.Target
+  nuget Fake.Core.Process
+  nuget Fake.Core.ReleaseNotes
+  nuget Fake.Core.Environment
+  nuget Fake.Core.UserInput
+  nuget Fake.DotNet.Cli
+  nuget Fake.DotNet.AssemblyInfoFile
+  nuget Fake.DotNet.Paket
+  nuget Fake.DotNet.MsBuild
+  nuget Fake.IO.FileSystem
+  nuget Fake.IO.Zip
+  nuget Fake.Api.GitHub
+  nuget Fake.Tools.Git
+  nuget Fake.JavaScript.Yarn

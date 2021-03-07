@@ -1,0 +1,60 @@
+// Available variables which can be used inside of strings.
+// ${workspaceRoot}: the root folder of the team
+// ${file}: the current opened file
+// ${fileBasename}: the current opened file's basename
+// ${fileDirname}: the current opened file's dirname
+// ${fileExtname}: the current opened file's extension
+// ${cwd}: the current working directory of the spawned process
+{
+    "version": "2.0.0",
+    "presentation": {
+        "reveal": "silent"
+    },
+    "type": "shell",
+    "tasks": [
+        {
+            "command": "${workspaceRoot}/build.sh",
+            "type": "shell",
+            "windows": {
+                "command": "${workspaceRoot}/build.cmd",
+                "type": "process"
+            },
+            "label": "Build",
+            "args": [
+                "-t", "Default"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "command": "${workspaceRoot}/build.sh",
+            "type": "shell",
+            "windows": {
+                "command": "${workspaceRoot}/build.cmd",
+                "type": "process"
+            },
+            "label": "Full Build",
+            "args": [
+                "-t", "Build"
+            ],
+            "group": "build"
+        },
+        {
+            "command": "${workspaceRoot}/build.sh",
+            "type": "shell",
+            "windows": {
+                "command": "${workspaceRoot}/build.cmd",
+                "type": "process"
+            },
+            "label": "Watch",
+            "args": [
+                "-t", "Watch"
+            ],
+            "group": "build",
+            "isBackground": true,
+            "problemMatcher": []
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+Fable.Core
+Fable.Promise
+Fable.Node
+Fable.Browser.Dom
+
+FSharp.Core
+
+File: Fable.Import.VSCode.fs
+File: Helpers.fs
