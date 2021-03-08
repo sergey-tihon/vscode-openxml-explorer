@@ -20,14 +20,14 @@
       "Other"
     ],
     "activationEvents": [
-      "onCommand:openxml-explorer.sayHello"
+      "onCommand:openxml-explorer.activate"
     ],
     "main": "./extension",
     "contributes": {
       "commands": [
         {
-          "command": "openxml-explorer.sayHello",
-          "title": "Hello OpenXml World"
+          "command": "openxml-explorer.activate",
+          "title": "Activate OpenXml Explorer"
         },
         {
             "command": "openxml-explorer.exploreFile",
@@ -35,7 +35,7 @@
         },
         {
           "command": "openxml-explorer.clearView",
-          "title": "Clear OpenXml view"
+          "title": "Clear OpenXml View"
         }
       ],
       "languages": [

@@ -4,19 +4,28 @@ module OpenXmlExplorer
 open Fable.Import
 
 type MyTreeDataProvider() =
+    let items = ResizeArray<string>();
     let event = vscode.EventEmitter<string option>()
 
     member this.openOpenXml(fileUri: vscode.Uri) =
-        event.emit(fileUri.path) |> ignore
+        printfn "Open %A" fileUri
+        items.Add(fileUri.path)
+        event.fire(None)
+
+    member this.clear() =
+        items.Clear();
+        event.fire(None)
 
     interface vscode.TreeDataProvider<string> with
         member this.onDidChangeTreeData = event.event
-        member this.getTreeItem(x) = failwith "not implemented" 
-        member this.getChildren(x) = ResizeArray<string>()
+        member this.getTreeItem(x) = 
+           vscode.TreeItem(x, vscode.TreeItemCollapsibleState.None)
+        member this.getChildren(x) = 
+            if System.String.IsNullOrEmpty(x) then items else ResizeArray<_>()
         member this.getParent = None
 
     interface vscode.TextDocumentContentProvider with
-        member this.provideTextDocumentContent(url) = ""
+        member this.provideTextDocumentContent(url) = url.path
 
 let activate (context : vscode.ExtensionContext) =
     printfn "Hello world from extension activate"
@@ -39,15 +48,15 @@ let activate (context : vscode.ExtensionContext) =
 
 
     let action : obj -> obj = fun _ ->
-        vscode.window.showInformationMessage("Hello world from command!", Array.empty<string>) |> box
+        vscode.window.showInformationMessage("OpenXml is activated!", Array.empty<string>) |> box
 
-    vscode.commands.registerCommand("openxml-explorer.sayHello", action)
+    vscode.commands.registerCommand("openxml-explorer.activate", action)
     |> context.subscriptions.Add
 
     let exploreFile : obj -> obj = fun param ->
         match param with
         | :? vscode.Uri as uri ->
-            // openXmlExplorerProvider.openOpenXml(uri)
+            openXmlExplorerProvider.openOpenXml(uri)
             vscode.window.showInformationMessage("File Opened!", Array.empty<string>) |> box
         | _ ->
             vscode.window.showWarningMessage("Unexpected param!", param.ToString()) |> box
@@ -56,6 +65,7 @@ let activate (context : vscode.ExtensionContext) =
     |> context.subscriptions.Add
 
     let clearView : obj -> obj = fun param ->
+        openXmlExplorerProvider.clear()
         vscode.window.showInformationMessage("Clear View!", Array.empty<string>) |> box
 
     vscode.commands.registerCommand("openxml-explorer.clearView", clearView)
