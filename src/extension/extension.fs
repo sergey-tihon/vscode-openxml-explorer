@@ -1,7 +1,7 @@
 module OpenXmlExplorer
 
-
 open Fable.Import
+open Fable.System.IO
 
 type MyTreeDataProvider() =
     let items = ResizeArray<string>();
@@ -19,7 +19,8 @@ type MyTreeDataProvider() =
     interface vscode.TreeDataProvider<string> with
         member this.onDidChangeTreeData = event.event
         member this.getTreeItem(x) = 
-           vscode.TreeItem(x, vscode.TreeItemCollapsibleState.None)
+            let fileName = Path.GetFileName(x)
+            vscode.TreeItem(fileName, vscode.TreeItemCollapsibleState.None)
         member this.getChildren(x) = 
             if System.String.IsNullOrEmpty(x) then items else ResizeArray<_>()
         member this.getParent = None

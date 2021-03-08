@@ -8,6 +8,7 @@ nuget Fable.Promise
 nuget Fable.Node
 nuget Fable.Browser.Dom
 nuget FSharp.Core
+nuget Fable.System.IO
 
 github ionide/ionide-vscode-helpers src/Fable.Import.VSCode.fs
 github ionide/ionide-vscode-helpers src/Helpers.fs

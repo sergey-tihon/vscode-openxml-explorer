@@ -2,6 +2,7 @@ Fable.Core
 Fable.Promise
 Fable.Node
 Fable.Browser.Dom
+Fable.System.IO
 
 FSharp.Core
 

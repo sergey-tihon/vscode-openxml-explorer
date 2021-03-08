@@ -26,6 +26,9 @@ NUGET
     Fable.Promise (2.2)
       Fable.Core (>= 3.1.5)
       FSharp.Core (>= 5.0)
+    Fable.System.IO (0.1.1)
+      Fable.Core (>= 3.2.2)
+      FSharp.Core (>= 4.7.2)
     FSharp.Core (5.0.1)
 GITHUB
   remote: ionide/ionide-vscode-helpers
