@@ -46,13 +46,6 @@ let activate (context : vscode.ExtensionContext) =
         vscode.DocumentSelector.Case1 "xlsx", openXmlExplorerProvider)
     |> context.subscriptions.Add
 
-
-    let action : obj -> obj = fun _ ->
-        vscode.window.showInformationMessage("OpenXml is activated!", Array.empty<string>) |> box
-
-    vscode.commands.registerCommand("openxml-explorer.activate", action)
-    |> context.subscriptions.Add
-
     let exploreFile : obj -> obj = fun param ->
         match param with
         | :? vscode.Uri as uri ->

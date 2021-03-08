@@ -20,15 +20,12 @@
       "Other"
     ],
     "activationEvents": [
-      "onCommand:openxml-explorer.activate"
+      "onView:openXmlExplorer",
+      "onCommand:openxml-explorer.exploreFile"
     ],
     "main": "./extension",
     "contributes": {
       "commands": [
-        {
-          "command": "openxml-explorer.activate",
-          "title": "Activate OpenXml Explorer"
-        },
         {
             "command": "openxml-explorer.exploreFile",
             "title": "Explore OpenXml"
