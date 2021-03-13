@@ -1,5 +1,26 @@
-#r "paket: groupref build //"
-#load ".fake/build.fsx/intellisense.fsx"
+#r @"paket:
+source https://api.nuget.org/v3/index.json
+framework:netstandard2.0
+nuget FSharp.Core 4.7.2
+nuget Fake.Core.Target
+nuget Fake.Core.Process
+nuget Fake.Core.ReleaseNotes
+nuget Fake.Core.Environment
+nuget Fake.Core.UserInput
+nuget Fake.DotNet.Cli
+nuget Fake.DotNet.AssemblyInfoFile
+nuget Fake.DotNet.Paket
+nuget Fake.DotNet.MsBuild
+nuget Fake.IO.FileSystem
+nuget Fake.IO.Zip
+nuget Fake.Api.GitHub
+nuget Fake.Tools.Git
+nuget Fake.JavaScript.Yarn //"
+
+#if !FAKE
+#load "./.fake/build.fsx/intellisense.fsx"
+#r "netstandard" // Temp fix for https://github.com/fsharp/FAKE/issues/1985
+#endif
 
 open Fake.Core
 open Fake.JavaScript
@@ -18,9 +39,6 @@ Target.create "Clean" (fun _ ->
 
 Target.create "YarnInstall" <| fun _ ->
     Yarn.install id
-
-Target.create "DotNetRestore" <| fun _ ->
-    DotNet.restore id "src/extension"
 
 module Fable =
     type Command =
@@ -43,7 +61,7 @@ module Fable =
     let DefaultArgs = {
         Command = Build
         Debug = false
-        ProjectPath = "./src/extension/OpenXml.Explorer.Extension.fsproj"
+        ProjectPath = "./src/Extension/Extension.fsproj"
         OutDir = Some "./out"
         Defines = []
         AdditionalFableArgs = None
@@ -98,7 +116,6 @@ Target.create "Watch" (fun _ ->
 Target.create "Default" ignore
 
 "YarnInstall" ?=> "RunScript"
-"DotNetRestore" ?=> "RunScript"
 
 "Clean"
 ==> "RunScript"

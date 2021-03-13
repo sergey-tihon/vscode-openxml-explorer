@@ -12,6 +12,9 @@
       <Paket>True</Paket>
       <Link>paket-files/Helpers.fs</Link>
     </Compile>
+    <Compile Include="..\Shared.fs">
+      <Link>Shared.fs</Link>
+    </Compile>
     <Compile Include="extension.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
