@@ -6,11 +6,14 @@ nuget Fable.Core
 nuget Fable.Promise
 nuget Fable.Node
 nuget Fable.Browser.Dom
-nuget Fable.System.IO
 
 nuget FSharp.Core
 nuget Saturn prerelease
 nuget Fable.Remoting.Giraffe prerelease
+nuget System.IO.Packaging
+
+nuget Microsoft.NET.Test.Sdk
+nuget FsUnit
 
 github ionide/ionide-vscode-helpers src/Fable.Import.VSCode.fs
 github ionide/ionide-vscode-helpers src/Helpers.fs

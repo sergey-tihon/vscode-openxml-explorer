@@ -15,13 +15,9 @@ let getClient (serverHost) : IOpenXmlApi =
     let getRoute methodName =
         serverHost + Route.builder typeName methodName
 
-    { 
-        test = fun () -> 
-            axios.get<string> (getRoute "test")
-            |> toAsync
-
-        getName = fun filePath -> 
+    {
+        getPackageInfo = fun filePath -> 
             let data = [filePath]
-            axios.post<string>(getRoute "getName", data)
+            axios.post<Document>(getRoute "getPackageInfo", data)
             |> toAsync
     }

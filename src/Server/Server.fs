@@ -6,20 +6,10 @@ open Saturn
 
 open Shared
 
-let openXmlApi : IOpenXmlApi =
-    { 
-        test = fun () -> async { return "Hello World!" } 
-        getName = 
-            fun filePath -> async { 
-                let fileName = System.IO.Path.GetFileName filePath
-                return fileName
-            } 
-    }
-
 let webApp =
     Remoting.createApi()
     |> Remoting.withRouteBuilder Route.builder
-    |> Remoting.fromValue openXmlApi
+    |> Remoting.fromValue OpenXmlApi.openXmlApi
     |> Remoting.buildHttpHandler
 
 let app =
