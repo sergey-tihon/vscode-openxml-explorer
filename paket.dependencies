@@ -6,7 +6,6 @@ nuget Fable.Core
 nuget Fable.Promise
 nuget Fable.Node
 nuget Fable.Browser.Dom
-nuget Fable.Remoting.Client
 nuget Fable.System.IO
 
 nuget FSharp.Core

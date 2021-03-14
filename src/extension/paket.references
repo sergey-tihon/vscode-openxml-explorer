@@ -3,7 +3,6 @@ Fable.Promise
 Fable.Node
 Fable.Browser.Dom
 Fable.System.IO
-Fable.Remoting.Client
 
 FSharp.Core
 

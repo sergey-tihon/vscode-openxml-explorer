@@ -3,8 +3,9 @@ module OpenXmlExplorer
 open Fable.Core
 open Fable.Import
 open Fable.System.IO
-open Fable.Remoting.Client
 open Shared
+open Fable.Axios
+open Fable.Axios.Globals
 
 type MyTreeDataProvider() =
     let items = ResizeArray<string>();
@@ -31,30 +32,28 @@ type MyTreeDataProvider() =
         member this.provideTextDocumentContent(url) = url.path
 
 type Actions =
+    | Activation
     | ExploreFile of uri:vscode.Uri
-    | ResetView 
+    | ResetView
+    
+type MyIp =
+    { ip : string}
 
 let createAgent (provider: MyTreeDataProvider) =
-    // get a typed-proxy for the service
-    let openXmlApi =
-        Remoting.createApi()
-        |> Remoting.withBaseUrl "http://0.0.0.0:20489"
-        |> Remoting.withRouteBuilder Route.builder
-        |> Remoting.buildProxy<IOpenXmlApi>
-
     MailboxProcessor.Start(fun inbox->
         let rec messageLoop() = async {
             let! cmd = inbox.Receive();
             match cmd with
+            | Activation ->
+                printfn "Before call"
+                let! resp =
+                    axios.get<MyIp> ("https://api.ipify.org?format=json")
+                    |> Async.AwaitPromise
+                let _ = vscode.window.showInformationMessage($"You IP address is %A{resp.data.ip}", Array.empty<string>)
+                printfn $"!!! Never happened before '%A{resp.data.ip}'"
+
             | ExploreFile uri -> 
                 provider.openOpenXml(uri)
-
-                async {
-                    printfn "Before call"
-                    let! name = openXmlApi.getName uri.path
-                    printfn "!!! Never happens '%A'" name
-                } |> Async.StartImmediate
-
                 let _ = vscode.window.showInformationMessage("File Opened!", Array.empty<string>)
                 ()
             | ResetView -> 
@@ -73,6 +72,7 @@ let activate (context : vscode.ExtensionContext) =
     let openXmlExplorerProvider = MyTreeDataProvider()
     let agent = createAgent openXmlExplorerProvider
 
+    agent.Post Activation
 
     vscode.window.registerTreeDataProvider(
         "openXmlExplorer", openXmlExplorerProvider)
