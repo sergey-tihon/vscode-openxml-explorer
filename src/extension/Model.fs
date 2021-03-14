@@ -5,12 +5,12 @@ open Shared
 
 type DataNode =
     | Document of document:Shared.Document 
-    | Part of part:Shared.DocumentPart
+    | Part of part:Shared.DocumentPart * document:Shared.Document 
 
     override this.ToString() =
         match this with
         | Document doc -> $"Document: %s{doc.FileName}[%d{doc.MainParts.Length}]"
-        | Part part -> $"Part: %s{part.Uri}[%d{part.ChildParts.Length}]"
+        | Part (part,_) -> $"Part: %s{part.Uri}[%d{part.ChildParts.Length}]"
 
 let getCollapseStatus (list:'a []) =
     if Array.length list > 0
@@ -36,9 +36,13 @@ type MyTreeDataProvider() =
             printfn $"getTreeItem %O{node}"
             match node with
             | Document document -> 
-                vscode.TreeItem(document.FileName, getCollapseStatus document.MainParts)
-            | Part part -> 
-                vscode.TreeItem(part.Title, getCollapseStatus part.ChildParts)
+                vscode.TreeItem(document.FileName, getCollapseStatus document.MainParts,
+                    tooltip = Some document.Path,
+                    resourceUri = Some(vscode.Uri.parse(document.Path)))
+            | Part (part, document) -> 
+                vscode.TreeItem(part.Title, getCollapseStatus part.ChildParts,
+                    tooltip = Some part.Uri,
+                    id = Some $"%s{document.Path};%s{part.Uri}")
 
         member this.getChildren(node) = 
             printfn $"getChildren %O{node}"
@@ -46,11 +50,11 @@ type MyTreeDataProvider() =
             | None -> items
             | Some(Document document) -> 
                 document.MainParts
-                |> Array.map Part
+                |> Array.map(fun x -> Part(x, document))
                 |> ResizeArray
-            | Some(Part part) -> 
+            | Some(Part (part, document)) -> 
                 part.ChildParts
-                |> Array.map Part
+                |> Array.map(fun x -> Part(x, document))
                 |> ResizeArray
 
         member this.getParent = None
