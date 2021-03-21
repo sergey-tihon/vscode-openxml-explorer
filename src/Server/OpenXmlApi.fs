@@ -5,9 +5,10 @@ open System.IO
 open System.IO.Packaging
 
 open Shared
+open System.Xml.Linq
 
 let getPackageInfo (path:string)  : Document = 
-    use package = Package.Open(path, FileMode.Open, FileAccess.ReadWrite)
+    use package = Package.Open(path, FileMode.Open, FileAccess.Read)
     
     let rec parsePart (parent:string)  (part:PackagePart) =
         let uri = part.Uri.OriginalString
@@ -32,7 +33,18 @@ let getPackageInfo (path:string)  : Document =
         LastWriteTime = package.PackageProperties.Modified |> Option.ofNullable
         MainParts = package.GetRelationships() |> parseRelationships "" ""
     }
-    
+
+let getPartContent  (path:string) (partUri:string) formatXml : string = 
+    use package = Package.Open(path, FileMode.Open, FileAccess.Read)
+    let part = package.GetPart(Uri(partUri, UriKind.Relative))
+    use stream = part.GetStream()
+    use sr = new StreamReader(stream)
+    let xml = sr.ReadToEnd()
+    if formatXml then
+        let xDoc = XDocument.Parse(xml)
+        xDoc.ToString()
+    else xml
+
 let openXmlApi : IOpenXmlApi =
     { 
         getPackageInfo = 
@@ -43,5 +55,14 @@ let openXmlApi : IOpenXmlApi =
                 | ex ->
                     printfn $"%A{ex}"
                     return getPackageInfo filePath
-            } 
+            }
+        getPartContent =
+            fun filePath partUri -> async {
+                try
+                    return getPartContent filePath partUri true
+                with
+                | ex ->
+                    printfn $"%A{ex}"
+                    return $"%A{ex}"
+            }
     }

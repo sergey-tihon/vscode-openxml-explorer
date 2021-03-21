@@ -1,6 +1,7 @@
 module OpenXmlExplorer
 
 open Fable.Import
+open Fable.Core.JS
 open Agent
 
 let activate (context : vscode.ExtensionContext) =
@@ -14,13 +15,7 @@ let activate (context : vscode.ExtensionContext) =
     |> context.subscriptions.Add
 
     vscode.workspace.registerTextDocumentContentProvider(
-        vscode.DocumentSelector.Case1 "pptx", openXmlExplorerProvider)
-    |> context.subscriptions.Add
-    vscode.workspace.registerTextDocumentContentProvider(
-        vscode.DocumentSelector.Case1 "docx", openXmlExplorerProvider)
-    |> context.subscriptions.Add
-    vscode.workspace.registerTextDocumentContentProvider(
-        vscode.DocumentSelector.Case1 "xlsx", openXmlExplorerProvider)
+        vscode.DocumentSelector.Case1 "openxml", openXmlExplorerProvider)
     |> context.subscriptions.Add
 
     let exploreFile : obj -> obj = fun param ->
@@ -37,4 +32,18 @@ let activate (context : vscode.ExtensionContext) =
         agent.Post ResetView |> box
 
     vscode.commands.registerCommand("openxml-explorer.clearView", clearView)
+    |> context.subscriptions.Add
+
+    let openOpenXmlResource : obj -> obj = fun param ->
+        match param with
+        | :? vscode.Uri as uri ->
+            promise {
+                let! document = vscode.workspace.openTextDocument(uri)
+                let! editor = vscode.window.showTextDocument(document)
+                return ()
+            } |> box
+        | _ ->
+            vscode.window.showWarningMessage("Unexpected param!", param.ToString()) |> box
+
+    vscode.commands.registerCommand("openOpenXmlResource", openOpenXmlResource)
     |> context.subscriptions.Add

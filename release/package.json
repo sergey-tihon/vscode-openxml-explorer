@@ -33,6 +33,10 @@
         {
           "command": "openxml-explorer.clearView",
           "title": "Clear OpenXml View"
+        },
+        {
+          "command": "openOpenXmlResource",
+          "title": "Open OpenXml Resource"
         }
       ],
       "languages": [

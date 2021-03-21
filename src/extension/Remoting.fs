@@ -20,4 +20,10 @@ let getClient (serverHost) : IOpenXmlApi =
             let data = [filePath]
             axios.post<Document>(getRoute "getPackageInfo", data)
             |> toAsync
+        getPartContent = fun filePath partUri -> 
+            let data = [filePath; partUri]
+            axios.post<string>(getRoute "getPartContent", data)
+            |> toAsync
     }
+
+let client = lazy(getClient "http://0.0.0.0:20489")

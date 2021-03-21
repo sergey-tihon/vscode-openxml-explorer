@@ -24,5 +24,6 @@ module Route =
 
 type IOpenXmlApi =
     { 
-        getPackageInfo : string -> Async<Document> 
+        getPackageInfo : string -> Async<Document>
+        getPartContent : string -> string -> Async<string>
     }

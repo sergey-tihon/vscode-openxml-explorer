@@ -1,6 +1,7 @@
 module Model
 
 open Fable.Import
+open Fable.Core
 open Shared
 
 type DataNode =
@@ -16,6 +17,12 @@ let getCollapseStatus (list:'a []) =
     if Array.length list > 0
         then vscode.TreeItemCollapsibleState.Collapsed
         else vscode.TreeItemCollapsibleState.None
+
+type OpenPartCommand(args) =
+    interface vscode.Command with
+        member val title = "Open OpenXml Resource" with get, set
+        member val command = "openOpenXmlResource" with get, set
+        member val arguments = Some args with get, set
 
 type MyTreeDataProvider() =
     let items = ResizeArray<DataNode>();
@@ -38,14 +45,21 @@ type MyTreeDataProvider() =
             | Document document -> 
                 vscode.TreeItem(document.FileName, getCollapseStatus document.MainParts,
                     tooltip = Some document.Path,
-                    resourceUri = Some(vscode.Uri.parse(document.Path)))
+                    resourceUri = Some(vscode.Uri.parse(document.Path)),
+                    contextValue = Some "openxml")
             | Part (part, document) -> 
+                let command = 
+                    if part.Uri.Contains(".xml") then 
+                        let uri = vscode.Uri(scheme="openxml", path=part.Uri, fragment=document.Path)
+                        let cmd = OpenPartCommand([box uri] |> ResizeArray) :> vscode.Command
+                        Some cmd
+                    else None
                 vscode.TreeItem(part.Title, getCollapseStatus part.ChildParts,
                     tooltip = Some part.Uri,
-                    id = Some $"%s{document.Path};%s{part.Uri}")
+                    command = command,
+                    contextValue = Some "file")
 
         member this.getChildren(node) = 
-            printfn $"getChildren %O{node}"
             match node with
             | None -> items
             | Some(Document document) -> 
@@ -60,4 +74,7 @@ type MyTreeDataProvider() =
         member this.getParent = None
 
     interface vscode.TextDocumentContentProvider with
-        member this.provideTextDocumentContent(url) = url.path
+        member this.provideTextDocumentContent(url) = 
+            Remoting.client.Value.getPartContent (url.fragment) (url.path)
+            |> Async.StartAsPromise
+            |> U2.Case2

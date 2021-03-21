@@ -9,7 +9,7 @@ type Actions =
     | ResetView
 
 let createAgent (provider: MyTreeDataProvider) =
-    let client = Remoting.getClient "http://0.0.0.0:20489"
+    let client = Remoting.client.Value
 
     MailboxProcessor.Start(fun inbox->
         let rec messageLoop() = async {
@@ -18,7 +18,6 @@ let createAgent (provider: MyTreeDataProvider) =
             | ExploreFile uri -> 
                 let! doc = client.getPackageInfo uri.path
                 provider.openOpenXml(doc)
-                
                 vscode.window.showInformationMessage($"File '%s{doc.FileName}' Opened!", Array.empty<string>) |> ignore
             | ResetView -> 
                 provider.clear()
