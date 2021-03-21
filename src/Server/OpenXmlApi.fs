@@ -35,16 +35,12 @@ let getPackageInfo (path:string)  : Document =
         MainParts = package.GetRelationships() |> parseRelationships "" ""
     }
 
-let getPartContent  (path:string) (partUri:string) formatXml : string = 
+let getPartContent  (path:string) (partUri:string) : string = 
     use package = Package.Open(path, FileMode.Open, FileAccess.Read)
     let part = package.GetPart(Uri(partUri, UriKind.Relative))
     use stream = part.GetStream()
     use sr = new StreamReader(stream)
-    let xml = sr.ReadToEnd()
-    if formatXml then
-        let xDoc = XDocument.Parse(xml)
-        xDoc.ToString()
-    else xml
+    sr.ReadToEnd()
 
 let openXmlApi : IOpenXmlApi =
     { 
@@ -60,7 +56,12 @@ let openXmlApi : IOpenXmlApi =
         getPartContent =
             fun filePath partUri -> async {
                 try
-                    return getPartContent filePath partUri true
+                    let content = getPartContent filePath partUri
+                    if partUri.Contains(".xml") then
+                        let xDoc = XDocument.Parse(content)
+                        return xDoc.ToString()
+                    else 
+                        return content
                 with
                 | ex ->
                     printfn $"%A{ex}"

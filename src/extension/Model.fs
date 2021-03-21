@@ -54,10 +54,15 @@ type MyTreeDataProvider() =
                         let cmd = OpenPartCommand([box uri] |> ResizeArray) :> vscode.Command
                         Some cmd
                     else None
+
                 vscode.TreeItem(part.Title, getCollapseStatus part.ChildParts,
                     tooltip = Some part.Uri,
                     command = command,
-                    contextValue = Some "file")
+                    contextValue = (command |> Option.map(fun _ -> "file")),
+                    iconPath =
+                        (if command.IsSome then "file-code" else "file-binary"
+                         |> vscode.ThemeIcon |> U4.Case4 |> Some)
+                )
 
         member this.getChildren(node) = 
             match node with
