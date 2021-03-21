@@ -5,8 +5,7 @@ open Fable.Core.JS
 open Agent
 
 let activate (context : vscode.ExtensionContext) =
-    printfn "[!!!] OpenXml Explorer Extension Activated!"
-
+    
     let openXmlExplorerProvider = Model.MyTreeDataProvider()
     let agent = createAgent openXmlExplorerProvider
 

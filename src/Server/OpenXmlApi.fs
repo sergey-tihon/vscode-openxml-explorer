@@ -20,6 +20,7 @@ let getPackageInfo (path:string)  : Document =
         }
     and parseRelationships (parentUri:string) (thisUri:string) (relationship:PackageRelationshipCollection) =
         relationship
+        |> Seq.filter (fun r -> r.TargetMode = TargetMode.Internal)
         |> Seq.choose (fun relationship ->
             let uri = PackUriHelper.ResolvePartUri(relationship.SourceUri, relationship.TargetUri)
             if uri.OriginalString = parentUri then None

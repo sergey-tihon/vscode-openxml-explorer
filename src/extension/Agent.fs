@@ -16,9 +16,13 @@ let createAgent (provider: MyTreeDataProvider) =
             let! cmd = inbox.Receive();
             match cmd with
             | ExploreFile uri -> 
-                let! doc = client.getPackageInfo uri.path
-                provider.openOpenXml(doc)
-                vscode.window.showInformationMessage($"File '%s{doc.FileName}' Opened!", Array.empty<string>) |> ignore
+                try 
+                    let! doc = client.getPackageInfo uri.path
+                    provider.openOpenXml(doc)
+                    vscode.window.showInformationMessage($"File '%s{doc.FileName}' Opened!", Array.empty<string>) |> ignore
+                with
+                | e -> 
+                    vscode.window.showErrorMessage($"File '%s{uri.path}' cannot be opened! Error: '%s{e.Message}'", Array.empty<string>) |> ignore
             | ResetView -> 
                 provider.clear()
                 vscode.window.showInformationMessage("Clear View!", Array.empty<string>) |> ignore
