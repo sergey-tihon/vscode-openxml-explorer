@@ -46,7 +46,8 @@ type MyTreeDataProvider() =
                 vscode.TreeItem(document.FileName, getCollapseStatus document.MainParts,
                     tooltip = Some document.Path,
                     resourceUri = Some(vscode.Uri.parse(document.Path)),
-                    contextValue = Some "openxml")
+                    contextValue = Some "openxml",
+                    iconPath = (vscode.ThemeIcon("package") |> U4.Case4 |> Some))
             | Part (part, document) -> 
                 let command = 
                     if part.Uri.Contains(".xml") then 
