@@ -17,20 +17,30 @@ let activate (context : vscode.ExtensionContext) =
         vscode.DocumentSelector.Case1 "openxml", openXmlExplorerProvider)
     |> context.subscriptions.Add
 
-    let exploreFile : obj -> obj = fun param ->
+    let explorePackage : obj -> obj = fun param ->
         match param with
         | :? vscode.Uri as uri ->
-            agent.Post (ExploreFile uri) |> box
+            agent.Post (ExplorePackage uri) |> box
         | _ ->
             vscode.window.showWarningMessage("Unexpected param!", param.ToString()) |> box
 
-    vscode.commands.registerCommand("openxml-explorer.exploreFile", exploreFile)
+    vscode.commands.registerCommand("openxml-explorer.explorePackage", explorePackage)
     |> context.subscriptions.Add
 
-    let clearView : obj -> obj = fun param ->
-        agent.Post ResetView |> box
+    let closePackage : obj -> obj = fun param ->
+        match param with
+        | :? Model.DataNode as node ->
+            agent.Post (ClosePackage node) |> box
+        | _ ->
+            vscode.window.showWarningMessage("Unexpected param!", param.ToString()) |> box
 
-    vscode.commands.registerCommand("openxml-explorer.clearView", clearView)
+    vscode.commands.registerCommand("openxml-explorer.closePackage", closePackage)
+    |> context.subscriptions.Add
+
+    let closeAllPackage : obj -> obj = fun param ->
+        agent.Post (CloseAllPackages) |> box
+
+    vscode.commands.registerCommand("openxml-explorer.closeAllPackage", closeAllPackage)
     |> context.subscriptions.Add
 
     let openOpenXmlResource : obj -> obj = fun param ->
@@ -44,5 +54,5 @@ let activate (context : vscode.ExtensionContext) =
         | _ ->
             vscode.window.showWarningMessage("Unexpected param!", param.ToString()) |> box
 
-    vscode.commands.registerCommand("openOpenXmlResource", openOpenXmlResource)
+    vscode.commands.registerCommand("openxml-explorer.openPart", openOpenXmlResource)
     |> context.subscriptions.Add

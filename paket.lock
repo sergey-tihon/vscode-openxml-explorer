@@ -137,5 +137,5 @@ NUGET
       System.ValueTuple (>= 4.4)
 GITHUB
   remote: ionide/ionide-vscode-helpers
-    src/Fable.Import.VSCode.fs (f9cfaa474910164482c2f5ae4a2fc1e54aa4ec72)
-    src/Helpers.fs (f9cfaa474910164482c2f5ae4a2fc1e54aa4ec72)
+    src/Fable.Import.VSCode.fs (3c6cc652db8f2d58d54636595679149904f93c31)
+    src/Helpers.fs (3c6cc652db8f2d58d54636595679149904f93c31)

@@ -21,7 +21,7 @@ let getCollapseStatus (list:'a []) =
 type OpenPartCommand(args) =
     interface vscode.Command with
         member val title = "Open OpenXml Resource" with get, set
-        member val command = "openOpenXmlResource" with get, set
+        member val command = "openxml-explorer.openPart" with get, set
         member val arguments = Some args with get, set
 
 type MyTreeDataProvider() =
@@ -35,6 +35,10 @@ type MyTreeDataProvider() =
 
     member this.clear() =
         items.Clear();
+        event.fire(None)
+
+    member this.close(item:DataNode) =
+        items.Remove(item) |> ignore
         event.fire(None)
 
     interface vscode.TreeDataProvider<DataNode> with
