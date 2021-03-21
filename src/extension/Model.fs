@@ -52,21 +52,22 @@ type MyTreeDataProvider() =
                     resourceUri = Some(vscode.Uri.parse(document.Path)),
                     contextValue = Some "openxml",
                     iconPath = (vscode.ThemeIcon("package") |> U4.Case4 |> Some))
-            | Part (part, document) -> 
+            | Part (part, document) when part.Uri.Contains(".xml") ->
                 let command = 
-                    if part.Uri.Contains(".xml") then 
-                        let uri = vscode.Uri(scheme="openxml", path=part.Uri, fragment=document.Path)
-                        let cmd = OpenPartCommand([box uri] |> ResizeArray) :> vscode.Command
-                        Some cmd
-                    else None
+                    let uri = vscode.Uri(scheme="openxml", path=part.Uri, fragment=document.Path)
+                    OpenPartCommand([box uri] |> ResizeArray) :> vscode.Command
 
-                vscode.TreeItem(part.Title, getCollapseStatus part.ChildParts,
-                    tooltip = Some part.Uri,
-                    command = command,
-                    contextValue = (command |> Option.map(fun _ -> "file")),
-                    iconPath =
-                        (if command.IsSome then "file-code" else "file-binary"
-                         |> vscode.ThemeIcon |> U4.Case4 |> Some)
+                vscode.TreeItem(part.Name, getCollapseStatus part.ChildParts,
+                    tooltip = Some(part.Uri),
+                    command = Some command,
+                    contextValue = Some "file",
+                    iconPath = (vscode.ThemeIcon("file-code") |> U4.Case4 |> Some)
+                )
+            | Part (part, _) -> 
+                let name = $"%s{part.Name} (%d{part.Length} bytes)"
+                vscode.TreeItem(name, getCollapseStatus part.ChildParts,
+                    tooltip = Some(part.Uri),
+                    iconPath = (vscode.ThemeIcon("file-binary") |> U4.Case4 |> Some)
                 )
 
         member this.getChildren(node) = 

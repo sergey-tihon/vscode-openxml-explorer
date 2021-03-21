@@ -12,9 +12,11 @@ let getPackageInfo (path:string)  : Document =
     
     let rec parsePart (parent:string)  (part:PackagePart) =
         let uri = part.Uri.OriginalString
+        use stream = part.GetStream()
         {
             Uri = uri
-            Title = Path.GetFileName(uri)
+            Name = Path.GetFileName(uri)
+            Length = stream.Length
             ContentType = part.ContentType
             ChildParts = part.GetRelationships() |> parseRelationships parent uri
         }

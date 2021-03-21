@@ -5,7 +5,8 @@ open System
 type DocumentPart =
     {
         Uri : string
-        Title : string
+        Name : string
+        Length : int64
         ContentType : string
         ChildParts : DocumentPart []
     }
