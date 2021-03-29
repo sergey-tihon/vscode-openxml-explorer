@@ -37,8 +37,9 @@ Target.create "Clean" (fun _ ->
     Shell.copyFile "release/CHANGELOG.md" "RELEASE_NOTES.md"
 )
 
-Target.create "YarnInstall" <| fun _ ->
+Target.create "YarnInstall" (fun _ ->
     Yarn.install id
+)
 
 module Fable =
     type Command =
@@ -109,6 +110,11 @@ Target.create "Watch" (fun _ ->
 )
 
 
+Target.create "BuildServer" (fun _ ->
+    DotNet.exec id "publish" "src/Server/Server.fsproj -c Release -o release/bin" |> ignore
+)
+
+
 // --------------------------------------------------------------------------------------
 // Run generator by default. Invoke 'build <Target>' to override
 // --------------------------------------------------------------------------------------
@@ -119,6 +125,7 @@ Target.create "Default" ignore
 
 "Clean"
 ==> "RunScript"
+==> "BuildServer"
 ==> "Default"
 
 Target.runOrDefault "Default"
