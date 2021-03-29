@@ -64,8 +64,7 @@ type MyTreeDataProvider() =
                     iconPath = (vscode.ThemeIcon("file-code") |> U4.Case4 |> Some)
                 )
             | Part (part, _) -> 
-                let name = $"%s{part.Name} (%d{part.Length} bytes)"
-                vscode.TreeItem(name, getCollapseStatus part.ChildParts,
+                vscode.TreeItem(part.Name, getCollapseStatus part.ChildParts,
                     tooltip = Some(part.Uri),
                     iconPath = (vscode.ThemeIcon("file-binary") |> U4.Case4 |> Some)
                 )
