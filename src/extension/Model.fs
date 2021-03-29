@@ -85,6 +85,8 @@ type MyTreeDataProvider() =
 
     interface vscode.TextDocumentContentProvider with
         member this.provideTextDocumentContent(url) = 
-            Remoting.client.Value.getPartContent (url.fragment) (url.path)
+            // TODO: communicate with agent
+            let client = Remoting.getClient()
+            client.getPartContent (url.fragment) (url.path)
             |> Async.StartAsPromise
             |> U2.Case2

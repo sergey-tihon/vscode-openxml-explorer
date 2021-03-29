@@ -10,7 +10,8 @@ type Actions =
     | CloseAllPackages
 
 let createAgent (provider: MyTreeDataProvider) =
-    let client = Remoting.client.Value
+    // TODO: start backend API process from agent
+    let client = Remoting.getClient()
 
     MailboxProcessor.Start(fun inbox->
         let rec messageLoop() = async {
