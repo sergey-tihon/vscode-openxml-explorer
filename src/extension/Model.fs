@@ -28,6 +28,8 @@ type MyTreeDataProvider() =
     let items = ResizeArray<DataNode>();
     let event = vscode.EventEmitter<DataNode option>()
 
+    member val ApiClint : IOpenXmlApi option = None with get, set
+
     member this.openOpenXml(document: Document) =
         let node = Document(document)
         items.Add(node)
@@ -85,8 +87,10 @@ type MyTreeDataProvider() =
 
     interface vscode.TextDocumentContentProvider with
         member this.provideTextDocumentContent(url) = 
-            // TODO: communicate with agent
-            let client = Remoting.getClient()
-            client.getPartContent (url.fragment) (url.path)
-            |> Async.StartAsPromise
-            |> U2.Case2
+            match this.ApiClint with
+            | Some(client) ->
+                client.getPartContent (url.fragment) (url.path)
+                |> Async.StartAsPromise
+                |> U2.Case2
+            | None ->
+                U2.Case1 "Extension API client is not available"

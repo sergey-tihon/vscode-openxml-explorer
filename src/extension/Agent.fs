@@ -9,9 +9,9 @@ type Actions =
     | ClosePackage of document:DataNode
     | CloseAllPackages
 
-let createAgent (provider: MyTreeDataProvider) =
-    // TODO: start backend API process from agent
-    let client = Remoting.getClient()
+let createAgent (provider: MyTreeDataProvider) (context : vscode.ExtensionContext) =
+    let client = Remoting.startServer context.extensionPath |> snd
+    provider.ApiClint <- Some client
 
     MailboxProcessor.Start(fun inbox->
         let rec messageLoop() = async {

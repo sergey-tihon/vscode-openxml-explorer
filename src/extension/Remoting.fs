@@ -32,11 +32,11 @@ open Node.ChildProcess
 open Fable.Core.JsInterop
 
 let toStr = function
-  | U2.Case2(x:Buffer.Buffer) ->x.toString Buffer.BufferEncoding.Utf8
+  | U2.Case2(x:Buffer.Buffer) -> 
+    x.toString Buffer.BufferEncoding.Utf8
   | U2.Case1(x:string) -> x
 
-let server = lazy(
-    let cmd = "dotnet Server.dll"
+let startServer extensionPath =
     let cb (e:ExecError option) stdout' stderr' =
       if e.IsSome then
           printfn $"ExecError: %s{e.Value.ToString()}"
@@ -44,11 +44,8 @@ let server = lazy(
       printfn $"Out: %s{stdout' |> toStr}"
 
     let opts = createEmpty<ExecOptions>
-    opts.cwd <- Some "/Users/sergey/github/vscode-openxml-explorer/release/bin/"
-    let server = childProcess.exec (cmd, opts, cb)
+    opts.cwd <- Some (extensionPath + "/bin")
+    let server = childProcess.exec ("dotnet Server.dll", opts, cb)
 
     let client = getApiClient "http://0.0.0.0:20489"
     server, client
-)
-
-let getClient() = snd server.Value

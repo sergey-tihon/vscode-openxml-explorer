@@ -11,7 +11,7 @@ module Objectify =
 let activate (context : vscode.ExtensionContext) =
 
     let openXmlExplorerProvider = Model.MyTreeDataProvider()
-    let agent = createAgent openXmlExplorerProvider
+    let agent = createAgent openXmlExplorerProvider context
 
     vscode.window.registerTreeDataProvider(
         "openXmlExplorer", openXmlExplorerProvider)
