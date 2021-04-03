@@ -14,7 +14,7 @@ let webApp =
 
 let app =
     application {
-        url "http://0.0.0.0:20489"
+        url Route.host
         use_router webApp
         memory_cache
         use_static "public"

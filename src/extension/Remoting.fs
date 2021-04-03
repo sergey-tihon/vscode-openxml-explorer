@@ -1,17 +1,16 @@
 module Remoting
 
 open Fable.Core
-open Fable.Axios
-open Fable.Axios.Globals
+open Fable.Import.Axios
+open Fable.Import.Axios.Globals
 open Shared
-
 
 let inline private toAsync<'a> (resp: JS.Promise<AxiosXHR<'a>>) =
     resp
     |> Promise.map (fun x -> x.data)
     |> Async.AwaitPromise
 
-let getApiClient (serverHost) : IOpenXmlApi =
+let private getApiClient (serverHost) : IOpenXmlApi =
     let typeName = nameof(IOpenXmlApi)
     let getRoute methodName =
         serverHost + Route.builder typeName methodName
@@ -21,6 +20,7 @@ let getApiClient (serverHost) : IOpenXmlApi =
             let data = [filePath]
             axios.post<Document>(getRoute "getPackageInfo", data)
             |> toAsync
+            
         getPartContent = fun filePath partUri ->
             let data = [filePath; partUri]
             axios.post<string>(getRoute "getPartContent", data)
@@ -29,9 +29,9 @@ let getApiClient (serverHost) : IOpenXmlApi =
 
 open Node
 open Node.ChildProcess
-open Fable.Core.JsInterop
+open Fable.Core.JsInterop    
 
-let toStr = function
+let private toStr = function
   | U2.Case2(x:Buffer.Buffer) -> 
     x.toString Buffer.BufferEncoding.Utf8
   | U2.Case1(x:string) -> x
@@ -45,7 +45,6 @@ let startServer extensionPath =
 
     let opts = createEmpty<ExecOptions>
     opts.cwd <- Some (extensionPath + "/bin")
-    let server = childProcess.exec ("dotnet Server.dll", opts, cb)
+    childProcess.exec ("dotnet Server.dll", opts, cb) |> ignore
 
-    let client = getApiClient "http://0.0.0.0:20489"
-    server, client
+    getApiClient Route.host

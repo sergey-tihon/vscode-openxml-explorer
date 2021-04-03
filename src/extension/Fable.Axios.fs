@@ -1,4 +1,4 @@
-namespace Fable.Axios
+namespace Fable.Import.Axios
 
 open System
 open Fable.Core

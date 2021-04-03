@@ -10,7 +10,7 @@ type Actions =
     | CloseAllPackages
 
 let createAgent (provider: MyTreeDataProvider) (context : vscode.ExtensionContext) =
-    let client = Remoting.startServer context.extensionPath |> snd
+    let client = Remoting.startServer context.extensionPath
     provider.ApiClint <- Some client
 
     MailboxProcessor.Start(fun inbox->
@@ -21,16 +21,13 @@ let createAgent (provider: MyTreeDataProvider) (context : vscode.ExtensionContex
                 try 
                     let! doc = client.getPackageInfo uri.path
                     provider.openOpenXml(doc)
-                    vscode.window.showInformationMessage($"Package '%s{doc.FileName}' opened!", Array.empty<string>) |> ignore
                 with
                 | e -> 
                     vscode.window.showErrorMessage($"Package '%s{uri.path}' cannot be opened! Error: '%s{e.Message}'", Array.empty<string>) |> ignore
             | ClosePackage document -> 
                 provider.close(document)
-                vscode.window.showInformationMessage($"Package closed!", Array.empty<string>) |> ignore            
             | CloseAllPackages ->
                 provider.clear()
-                vscode.window.showInformationMessage("All packages closed!", Array.empty<string>) |> ignore
             return! messageLoop()
         }
         messageLoop()

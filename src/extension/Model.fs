@@ -2,7 +2,6 @@ module Model
 
 open Fable.Import
 open Fable.Core
-open Shared
 
 type DataNode =
     | Document of document:Shared.Document 
@@ -28,9 +27,9 @@ type MyTreeDataProvider() =
     let items = ResizeArray<DataNode>();
     let event = vscode.EventEmitter<DataNode option>()
 
-    member val ApiClint : IOpenXmlApi option = None with get, set
+    member val ApiClint : Shared.IOpenXmlApi option = None with get, set
 
-    member this.openOpenXml(document: Document) =
+    member this.openOpenXml(document: Shared.Document) =
         let node = Document(document)
         items.Add(node)
         event.fire(None)
