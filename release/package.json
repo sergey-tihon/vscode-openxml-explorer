@@ -1,6 +1,8 @@
 {
     "name": "openxml-explorer",
-    "version": "0.0.1",
+    "displayName": "OpenXml Package Explorer",
+    "description": "Display content of OpenXml packages (*.pptx, *.docx, *.xlsx) in Tree Explorer",
+    "version": "0.0.2",
     "publisher": "sergey-tihon",
     "contributors": [
         {
@@ -8,8 +10,10 @@
             "url": "https://twitter.com/sergey_tihon"
         }
     ],
-    "description": "OpenXml Package Explorer",
     "icon": "images/logo.png",
+    "bugs": {
+		"url": "https://github.com/sergey-tihon/vscode-openxml-explorer/issues"
+	},
     "repository": {
         "type": "git",
         "url": "https://github.com/sergey-tihon/vscode-openxml-explorer.git"
