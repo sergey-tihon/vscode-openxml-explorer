@@ -1,0 +1,31 @@
+name: Build Pull Requests
+
+on:
+  push:
+   branches:
+     - '*'
+
+jobs:
+  build:
+
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+        dotnet: [5.0.201]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+    - uses: actions/setup-node@v2-beta
+      with:
+        node-version: '15.12.0'
+    - name: Restore tools
+      run: dotnet tool restore
+    - name: Install VSCE
+      run: yarn global add vsce
+    - name: Run Test
+      run: dotnet fake build -t Build
