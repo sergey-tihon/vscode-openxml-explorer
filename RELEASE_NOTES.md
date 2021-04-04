@@ -1,3 +1,8 @@
+### 0.0.3 - 04.04.2021
+* Updated dependencies
+* Fixed [CVE-2021-27290](https://github.com/advisories/GHSA-vx3p-948g-6vhq)
+* Fixed [CVE-2020-28168](https://github.com/advisories/GHSA-4w2v-q235-vp99)
+
 ### 0.0.2 - 04.04.2021
 * Tree view for OpenXml package
 * XML part content provider with formatting
