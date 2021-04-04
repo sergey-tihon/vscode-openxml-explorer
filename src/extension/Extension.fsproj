@@ -12,7 +12,14 @@
       <Paket>True</Paket>
       <Link>paket-files/Helpers.fs</Link>
     </Compile>
+    <Compile Include="Fable.Axios.fs" />
+    <Compile Include="Remoting.fs" />
+    <Compile Include="Model.fs" />
+    <Compile Include="Agent.fs" />
     <Compile Include="extension.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

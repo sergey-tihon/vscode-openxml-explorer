@@ -1,14 +1,19 @@
 {
     "name": "openxml-explorer",
-    "version": "0.0.1",
-    "publisher": "Sergey Tihon",
+    "displayName": "OpenXml Package Explorer",
+    "description": "Display content of OpenXml packages (*.pptx, *.docx, *.xlsx) in Tree Explorer",
+    "version": "0.0.2",
+    "publisher": "sergey-tihon",
     "contributors": [
         {
             "name": "Sergey Tihon",
             "url": "https://twitter.com/sergey_tihon"
         }
     ],
-    "description": "OpenXml Package Explorer",
+    "icon": "images/logo.png",
+    "bugs": {
+		"url": "https://github.com/sergey-tihon/vscode-openxml-explorer/issues"
+	},
     "repository": {
         "type": "git",
         "url": "https://github.com/sergey-tihon/vscode-openxml-explorer.git"
@@ -21,18 +26,26 @@
     ],
     "activationEvents": [
       "onView:openXmlExplorer",
-      "onCommand:openxml-explorer.exploreFile"
+      "onCommand:openxml-explorer.explorePackage"
     ],
     "main": "./extension",
     "contributes": {
       "commands": [
         {
-            "command": "openxml-explorer.exploreFile",
-            "title": "Explore OpenXml"
+            "command": "openxml-explorer.explorePackage",
+            "title": "Explore OpenXml package"
         },
         {
-          "command": "openxml-explorer.clearView",
-          "title": "Clear OpenXml View"
+          "command": "openxml-explorer.closePackage",
+          "title": "Close package"
+        },
+        {
+          "command": "openxml-explorer.closeAllPackage",
+          "title": "Close all packages"
+        },
+        {
+          "command": "openxml-explorer.openPart",
+          "title": "Open OpenXml part"
         }
       ],
       "languages": [
@@ -52,15 +65,21 @@
       "menus": {
         "explorer/context": [
           {
-            "command": "openxml-explorer.exploreFile",
+            "command": "openxml-explorer.explorePackage",
             "when": "resourceLangId == openxml",
             "group": "0_openxml@1"
           }
         ],
         "view/title": [
           {
-            "command": "openxml-explorer.clearView",
+            "command": "openxml-explorer.closeAllPackage",
             "when": "view == openXmlExplorer"
+          }
+        ],
+        "view/item/context": [
+          {
+            "command": "openxml-explorer.closePackage",
+            "when": "view == openXmlExplorer && viewItem == openxml"
           }
         ]
       },
@@ -72,5 +91,8 @@
           }
         ]
       }
-    }
+    },
+    "extensionDependencies": [
+      "ms-dotnettools.vscode-dotnet-runtime"
+    ]
   }

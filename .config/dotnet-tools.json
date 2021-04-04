@@ -9,13 +9,13 @@
       ]
     },
     "fake-cli": {
-      "version": "5.20.3",
+      "version": "5.20.4",
       "commands": [
         "fake"
       ]
     },
     "fable": {
-      "version": "3.1.5",
+      "version": "3.1.12",
       "commands": [
         "fable"
       ]
