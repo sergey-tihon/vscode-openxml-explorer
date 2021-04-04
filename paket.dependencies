@@ -9,8 +9,7 @@ nuget Fable.Node
 nuget Fable.Browser.Dom
 
 nuget FSharp.Core
-nuget Saturn prerelease
-nuget Fable.Remoting.Giraffe prerelease
+nuget Fable.Remoting.AspNetCore
 nuget System.IO.Packaging
 
 nuget Microsoft.NET.Test.Sdk

@@ -1,8 +1,8 @@
 module Server
 
+open Microsoft.AspNetCore.Hosting
 open Fable.Remoting.Server
-open Fable.Remoting.Giraffe
-open Saturn
+open Fable.Remoting.AspNetCore
 
 open Shared
 
@@ -10,15 +10,12 @@ let webApp =
     Remoting.createApi()
     |> Remoting.withRouteBuilder Route.builder
     |> Remoting.fromValue OpenXmlApi.openXmlApi
-    |> Remoting.buildHttpHandler
 
-let app =
-    application {
-        url Route.host
-        use_router webApp
-        memory_cache
-        use_static "public"
-        use_gzip
-    }
-
-run app
+[<EntryPoint>]
+let main _ =
+    WebHostBuilder()
+        .UseKestrel()
+        .Configure(fun app -> app.UseRemoting webApp)
+        .Build()
+        .Run()
+    0

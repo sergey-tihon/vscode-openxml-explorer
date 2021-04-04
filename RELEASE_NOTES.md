@@ -1,3 +1,6 @@
+### 0.0.4 - 05.04.2021
+* Removed dependency on Saturn and Giraffe
+
 ### 0.0.3 - 04.04.2021
 * Updated dependencies
 * Fixed [CVE-2021-27290](https://github.com/advisories/GHSA-vx3p-948g-6vhq)
