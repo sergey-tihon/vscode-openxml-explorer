@@ -182,9 +182,8 @@ Target.create "Default" ignore
 Target.create "Build" ignore
 Target.create "Release" ignore
 
-"YarnInstall" ?=> "RunScript"
-
 "Clean"
+==> "YarnInstall"
 ==> "RunScript"
 ==> "BuildServer"
 ==> "Default"
