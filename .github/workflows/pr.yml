@@ -9,6 +9,7 @@ jobs:
   build:
 
     strategy:
+      fail-fast: false
       matrix:
         os: [windows-latest, macos-latest]
         dotnet: [5.0.201]
@@ -23,9 +24,11 @@ jobs:
     - uses: actions/setup-node@v2-beta
       with:
         node-version: '15.12.0'
-    - name: Restore tools
+    - name: Restore local tools
       run: dotnet tool restore
+    - name: Paket Restore
+      run: dotnet paket restore
     - name: Install VSCE
       run: yarn global add vsce
-    - name: Run Test
-      run: dotnet fake build -t Build
+    - name: Build and Test
+      run: dotnet fake run build.fsx
