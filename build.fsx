@@ -1,38 +1,31 @@
-#r @"paket:
-source https://api.nuget.org/v3/index.json
-framework:netstandard2.0
-nuget FSharp.Core 4.7.2
-nuget Fake.Core.Target
-nuget Fake.Core.Process
-nuget Fake.Core.ReleaseNotes
-nuget Fake.Core.Environment
-nuget Fake.Core.UserInput
-nuget Fake.DotNet.Cli
-nuget Fake.DotNet.AssemblyInfoFile
-nuget Fake.DotNet.Paket
-nuget Fake.DotNet.MsBuild
-nuget Fake.IO.FileSystem
-nuget Fake.IO.Zip
-nuget Fake.Api.GitHub
-nuget Fake.Tools.Git
-nuget Fake.JavaScript.Yarn //"
+// --------------------------------------------------------------------------------------
+// FAKE build script
+// --------------------------------------------------------------------------------------
 
-#if !FAKE
-#load "./.fake/build.fsx/intellisense.fsx"
-#r "netstandard" // Temp fix for https://github.com/fsharp/FAKE/issues/1985
-#endif
+#r "paket: groupref build //"
+#load ".fake/build.fsx/intellisense.fsx"
 
 open Fake.Core
+open Fake.Core.TargetOperators
 open Fake.JavaScript
 open Fake.DotNet
 open Fake.IO
-open Fake.Core.TargetOperators
+open Fake.IO.Globbing.Operators
+open System.IO
+
+let releaseNotesData =
+    File.ReadAllLines "RELEASE_NOTES.md"
+    |> ReleaseNotes.parseAll
+
+let release = List.head releaseNotesData
 
 // --------------------------------------------------------------------------------------
 // Build the Generator project and run it
 // --------------------------------------------------------------------------------------
 
 Target.create "Clean" (fun _ ->
+    Shell.cleanDir "./temp"
+    Shell.cleanDir "./out"
     Shell.copy "release" ["README.md"; "LICENSE.md"]
     Shell.copyFile "release/CHANGELOG.md" "RELEASE_NOTES.md"
 )
@@ -114,12 +107,80 @@ Target.create "BuildServer" (fun _ ->
     DotNet.exec id "publish" "src/Server/Server.fsproj -c Release -o release/bin" |> ignore
 )
 
+// --------------------------------------------------------------------------------------
+// Packaging and release
+// --------------------------------------------------------------------------------------
+
+let run cmd args dir =
+    let parms = { ExecParams.Empty with Program = cmd; WorkingDir = dir; CommandLine = args }
+    if Process.shellExec parms <> 0 then
+        failwithf "Error while running '%s' with args: %s" cmd args
+
+
+let platformTool tool path =
+    match Environment.isUnix with
+    | true -> tool
+    | _ ->  match ProcessUtils.tryFindFileOnPath path with
+            | None -> failwithf "can't find tool %s on PATH" tool
+            | Some v -> v
+
+
+let vsceTool = lazy (platformTool "vsce" "vsce.cmd")
+
+let setPackageJsonField name value releaseDir =
+    let fileName = sprintf "./%s/package.json" releaseDir
+    let lines =
+        File.ReadAllLines fileName
+        |> Seq.map (fun line ->
+            if line.TrimStart().StartsWith(sprintf "\"%s\":" name) then
+                let indent = line.Substring(0,line.IndexOf("\""))
+                sprintf "%s\"%s\": %s," indent name value
+            else line)
+    File.WriteAllLines(fileName,lines)
+
+let setVersion (release: ReleaseNotes.ReleaseNotes) releaseDir =
+    let versionString = sprintf "\"%O\"" release.NugetVersion
+    setPackageJsonField "version" versionString releaseDir
+
+let buildPackage dir =
+    Process.killAllByName "vsce"
+    run vsceTool.Value "package" dir
+    !! (sprintf "%s/*.vsix" dir)
+    |> Seq.iter(Shell.moveFile "./temp/")
+
+
+Target.create "SetVersion" (fun _ ->
+    setVersion release "release"
+)
+
+let publishToGallery releaseDir =
+    let token =
+        match Environment.environVarOrDefault "vsce-token" "" with
+        | s when not (String.isNullOrWhiteSpace s) -> s
+        | _ -> UserInput.getUserPassword "VSCE Token: "
+
+    Process.killAllByName "vsce"
+    run vsceTool.Value (sprintf "publish --pat %s" token) releaseDir
+
+Target.create "BuildPackage" ( fun _ ->
+    buildPackage "release"
+)
+
+Target.create "PublishToGallery" ( fun _ ->
+    publishToGallery "release"
+)
+
+// Target.create "ReleaseGitHub" (fun _ ->
+//     releaseGithub release
+// )
 
 // --------------------------------------------------------------------------------------
 // Run generator by default. Invoke 'build <Target>' to override
 // --------------------------------------------------------------------------------------
 
 Target.create "Default" ignore
+Target.create "Build" ignore
+Target.create "Release" ignore
 
 "YarnInstall" ?=> "RunScript"
 
@@ -127,5 +188,13 @@ Target.create "Default" ignore
 ==> "RunScript"
 ==> "BuildServer"
 ==> "Default"
+==> "Build"
+
+"Build"
+==> "SetVersion"
+==> "BuildPackage"
+//==> "ReleaseGitHub"
+==> "PublishToGallery"
+==> "Release"
 
 Target.runOrDefault "Default"

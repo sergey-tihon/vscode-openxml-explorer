@@ -9,6 +9,7 @@
         }
     ],
     "description": "OpenXml Package Explorer",
+    "icon": "images/logo.png",
     "repository": {
         "type": "git",
         "url": "https://github.com/sergey-tihon/vscode-openxml-explorer.git"
