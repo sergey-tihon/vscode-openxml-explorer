@@ -16,6 +16,7 @@ let main _ =
     WebHostBuilder()
         .UseKestrel()
         .Configure(fun app -> app.UseRemoting webApp)
+        .UseUrls(Route.host)
         .Build()
         .Run()
     0
