@@ -1,3 +1,7 @@
+### 0.0.5 - 10.04.2021
+* Added 'openxml' output channel
+* Fixed Server app port number
+
 ### 0.0.4 - 05.04.2021
 * Removed dependency on Saturn and Giraffe
 * Add new logo
