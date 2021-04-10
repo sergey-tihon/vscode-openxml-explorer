@@ -19,11 +19,11 @@ let createAgent (provider: MyTreeDataProvider) (context : vscode.ExtensionContex
             match cmd with
             | ExplorePackage uri -> 
                 try 
-                    let! doc = client.getPackageInfo uri.path
+                    let! doc = client.getPackageInfo uri.fsPath
                     provider.openOpenXml(doc)
                 with
                 | e -> 
-                    vscode.window.showErrorMessage($"Package '%s{uri.path}' cannot be opened! Error: '%s{e.Message}'", Array.empty<string>) |> ignore
+                    vscode.window.showErrorMessage($"Package '%s{uri.fsPath}' cannot be opened! Error: '%s{e.Message}'", Array.empty<string>) |> ignore
             | ClosePackage document -> 
                 provider.close(document)
             | CloseAllPackages ->
