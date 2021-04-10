@@ -1,3 +1,6 @@
+### 0.0.6 - 10.04.2021
+* Fixed file open issue on Windows [#9](https://github.com/sergey-tihon/vscode-openxml-explorer/pull/9)
+
 ### 0.0.5 - 10.04.2021
 * Added 'openxml' output channel
 * Fixed Server app port number
