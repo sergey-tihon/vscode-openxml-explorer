@@ -46,6 +46,10 @@
         {
           "command": "openxml-explorer.openPart",
           "title": "Open OpenXml part"
+        },
+        {
+            "command": "openxml-explorer.restartServer",
+            "title": "Restart OpenXml Server"
         }
       ],
       "languages": [
@@ -73,6 +77,10 @@
         "view/title": [
           {
             "command": "openxml-explorer.closeAllPackage",
+            "when": "view == openXmlExplorer"
+          },
+          {
+            "command": "openxml-explorer.restartServer",
             "when": "view == openXmlExplorer"
           }
         ],

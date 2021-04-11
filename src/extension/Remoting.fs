@@ -25,6 +25,10 @@ let private getApiClient (serverHost) : IOpenXmlApi =
             let data = [filePath; partUri]
             axios.post<string>(getRoute "getPartContent", data)
             |> toAsync
+            
+        stopApplication = fun () ->
+            axios.get(getRoute "stopApplication")
+            |> toAsync
     }
 
 open Node

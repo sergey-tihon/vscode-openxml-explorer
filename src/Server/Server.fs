@@ -9,7 +9,7 @@ open Shared
 let webApp =
     Remoting.createApi()
     |> Remoting.withRouteBuilder Route.builder
-    |> Remoting.fromValue OpenXmlApi.openXmlApi
+    |> Remoting.fromContext OpenXmlApi.createOpenXmlApiFromContext
 
 [<EntryPoint>]
 let main _ =

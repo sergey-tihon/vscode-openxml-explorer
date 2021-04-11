@@ -1,17 +1,22 @@
 module OpenXmlExplorer
 
 open Fable.Import
+open Fable.Core
 open Agent
+open Shared
 
 [<AutoOpen>]
 module Objectify =
     let inline objfy2 (f: 'a -> 'b): obj -> obj = unbox f
     let inline objfy3 (f: 'a -> 'b -> 'c): obj -> obj -> obj = unbox f
+    
+let mutable agentOption : MailboxProcessor<AgentActions> option = None
 
 let activate (context : vscode.ExtensionContext) =
 
     let openXmlExplorerProvider = Model.MyTreeDataProvider()
     let agent = createAgent openXmlExplorerProvider context
+    agentOption <- Some agent
 
     vscode.window.registerTreeDataProvider(
         "openXmlExplorer", openXmlExplorerProvider)
@@ -40,3 +45,12 @@ let activate (context : vscode.ExtensionContext) =
             return ()
         }
     )) |> context.subscriptions.Add
+
+    vscode.commands.registerCommand("openxml-explorer.restartServer", objfy2 (fun _ ->
+        agent.Post RestartServer
+    )) |> context.subscriptions.Add
+    
+let deactivate(disposables : vscode.Disposable[]) =
+    match agentOption with
+    | Some(agent) -> agent.Post CloseAllPackages
+    | _ -> ()

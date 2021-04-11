@@ -4,10 +4,12 @@ open Fable.Import
 open Shared
 open Model
 
-type Actions =
+type AgentActions =
     | ExplorePackage of uri:vscode.Uri
     | ClosePackage of document:DataNode
     | CloseAllPackages
+    | RestartServer
+    | StopServer
 
 let createAgent (provider: MyTreeDataProvider) (context : vscode.ExtensionContext) =
     let client = Remoting.startServer context.extensionPath
@@ -28,6 +30,11 @@ let createAgent (provider: MyTreeDataProvider) (context : vscode.ExtensionContex
                 provider.close(document)
             | CloseAllPackages ->
                 provider.clear()
+            | RestartServer ->
+                do! client.stopApplication()
+                Remoting.startServer context.extensionPath |> ignore
+            | StopServer -> 
+                do! client.stopApplication()
             return! messageLoop()
         }
         messageLoop()
