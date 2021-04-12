@@ -20,7 +20,6 @@ type Document =
     }
 
 module Route =
-    let host = "http://0.0.0.0:20489"
     
     let builder typeName methodName =
         $"/api/%s{typeName}/%s{methodName}"

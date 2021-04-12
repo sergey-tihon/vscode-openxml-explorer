@@ -41,7 +41,7 @@ let private toStr = function
     x.toString Buffer.BufferEncoding.Utf8
   | U2.Case1(x:string) -> x
 
-let startServer extensionPath =
+let startServer port extensionPath =
     let cb (e:ExecError option) stdout' stderr' =
       let channel = vscode.window.createOutputChannel "openxml"
 
@@ -51,8 +51,9 @@ let startServer extensionPath =
       channel.appendLine($"Out: %s{stdout' |> toStr}")
       channel.show()
 
+    let host = $"http://0.0.0.0:%d{port}"
     let opts = createEmpty<ExecOptions>
     opts.cwd <- Some (extensionPath + "/bin")
-    childProcess.exec ("dotnet Server.dll", opts, cb) |> ignore
+    childProcess.exec ($"dotnet Server.dll %s{host}", opts, cb) |> ignore
 
-    getApiClient Route.host
+    getApiClient host
