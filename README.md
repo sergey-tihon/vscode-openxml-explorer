@@ -31,7 +31,6 @@ Technologies:
 * [fable-node](https://github.com/fable-compiler/fable-node)
 * [Fable.Remoting](https://zaid-ajaj.github.io/Fable.Remoting/)
 * [ionide-vscode-helpers](https://github.com/ionide/ionide-vscode-helpers)
-* [Saturn Framework](https://saturnframework.org)
 
 ## License
 
