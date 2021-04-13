@@ -1,5 +1,9 @@
 # OpenXML Package Explorer for VS Code
 
+[![Version](https://vsmarketplacebadge.apphb.com/version/sergey-tihon.openxml-explorer.svg)](https://marketplace.visualstudio.com/items?itemName=sergey-tihon.openxml-explorer) 
+[![Installs](https://vsmarketplacebadge.apphb.com/downloads-short/sergey-tihon.openxml-explorer.svg)](https://marketplace.visualstudio.com/items?itemName=sergey-tihon.openxml-explorer)
+
+
 Display the content of a OpenXml (*.pptx, *.docx, *.xlsx) file in a Tree Explorer
 
 ## Features
