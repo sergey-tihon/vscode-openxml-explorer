@@ -2,7 +2,7 @@
     "name": "openxml-explorer",
     "displayName": "OpenXml Package Explorer",
     "description": "Display content of OpenXml packages (*.pptx, *.docx, *.xlsx) in Tree Explorer",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "publisher": "sergey-tihon",
     "contributors": [
         {
@@ -46,6 +46,10 @@
         {
           "command": "openxml-explorer.openPart",
           "title": "Open OpenXml part"
+        },
+        {
+            "command": "openxml-explorer.restartServer",
+            "title": "Restart OpenXml Server"
         }
       ],
       "languages": [
@@ -73,6 +77,10 @@
         "view/title": [
           {
             "command": "openxml-explorer.closeAllPackage",
+            "when": "view == openXmlExplorer"
+          },
+          {
+            "command": "openxml-explorer.restartServer",
             "when": "view == openXmlExplorer"
           }
         ],

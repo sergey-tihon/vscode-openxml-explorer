@@ -25,6 +25,10 @@ let private getApiClient (serverHost) : IOpenXmlApi =
             let data = [filePath; partUri]
             axios.post<string>(getRoute "getPartContent", data)
             |> toAsync
+            
+        stopApplication = fun () ->
+            axios.get(getRoute "stopApplication")
+            |> toAsync
     }
 
 open Node
@@ -37,18 +41,19 @@ let private toStr = function
     x.toString Buffer.BufferEncoding.Utf8
   | U2.Case1(x:string) -> x
 
-let startServer extensionPath =
+let startServer port extensionPath =
     let cb (e:ExecError option) stdout' stderr' =
       let channel = vscode.window.createOutputChannel "openxml"
 
+      channel.appendLine($"Out: %s{stdout' |> toStr}")
+      channel.appendLine($"Err: %s{stderr' |> toStr}")
       if e.IsSome then
           channel.appendLine($"ExecError: %s{e.Value.ToString()}")
-      channel.appendLine($"Err: %s{stderr' |> toStr}")
-      channel.appendLine($"Out: %s{stdout' |> toStr}")
-      channel.show()
+          channel.show()
 
+    let host = $"http://0.0.0.0:%d{port}"
     let opts = createEmpty<ExecOptions>
     opts.cwd <- Some (extensionPath + "/bin")
-    childProcess.exec ("dotnet Server.dll", opts, cb) |> ignore
+    childProcess.exec ($"dotnet Server.dll %s{host}", opts, cb) |> ignore
 
-    getApiClient Route.host
+    getApiClient host

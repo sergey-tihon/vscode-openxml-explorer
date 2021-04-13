@@ -3,9 +3,11 @@ module OpenXmlApi
 open System
 open System.IO
 open System.IO.Packaging
+open System.Xml.Linq
+open Microsoft.Extensions.Hosting
+open Microsoft.AspNetCore.Http
 
 open Shared
-open System.Xml.Linq
 
 let getPackageInfo (path:string)  : Document = 
     use package = Package.Open(path, FileMode.Open, FileAccess.Read)
@@ -44,7 +46,8 @@ let getPartContent  (path:string) (partUri:string) : string =
     use sr = new StreamReader(stream)
     sr.ReadToEnd()
 
-let openXmlApi : IOpenXmlApi =
+let createOpenXmlApiFromContext (httpContext: HttpContext) : IOpenXmlApi =
+    let lifetime = httpContext.GetService<IHostApplicationLifetime>()
     { 
         getPackageInfo = 
             fun filePath -> async {
@@ -69,4 +72,8 @@ let openXmlApi : IOpenXmlApi =
                     printfn $"%A{ex}"
                     return $"%A{ex}"
             }
+        stopApplication = fun () -> async {
+            lifetime.StopApplication()
+            return ()
+        }
     }

@@ -13,6 +13,7 @@
       <Link>paket-files/Helpers.fs</Link>
     </Compile>
     <Compile Include="Fable.Axios.fs" />
+    <Compile Include="Fable.PortFinder.fs" />
     <Compile Include="Remoting.fs" />
     <Compile Include="Model.fs" />
     <Compile Include="Agent.fs" />

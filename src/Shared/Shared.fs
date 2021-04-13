@@ -20,7 +20,6 @@ type Document =
     }
 
 module Route =
-    let host = "http://0.0.0.0:20489"
     
     let builder typeName methodName =
         $"/api/%s{typeName}/%s{methodName}"
@@ -29,4 +28,5 @@ type IOpenXmlApi =
     { 
         getPackageInfo : string -> Async<Document>
         getPartContent : string -> string -> Async<string>
+        stopApplication: unit -> Async<unit>
     }
