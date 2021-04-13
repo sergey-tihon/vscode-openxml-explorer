@@ -45,11 +45,11 @@ let startServer port extensionPath =
     let cb (e:ExecError option) stdout' stderr' =
       let channel = vscode.window.createOutputChannel "openxml"
 
+      channel.appendLine($"Out: %s{stdout' |> toStr}")
+      channel.appendLine($"Err: %s{stderr' |> toStr}")
       if e.IsSome then
           channel.appendLine($"ExecError: %s{e.Value.ToString()}")
-      channel.appendLine($"Err: %s{stderr' |> toStr}")
-      channel.appendLine($"Out: %s{stdout' |> toStr}")
-      channel.show()
+          channel.show()
 
     let host = $"http://0.0.0.0:%d{port}"
     let opts = createEmpty<ExecOptions>

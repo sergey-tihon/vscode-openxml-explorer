@@ -1,3 +1,8 @@
+### 0.0.7 - 13.04.2021
+* Dynamic port number for API Server [#10](https://github.com/sergey-tihon/vscode-openxml-explorer/pull/10)
+* Stop process on extension diactivation
+* Added `Restart OpenXml Server` command
+
 ### 0.0.6 - 10.04.2021
 * Fixed file open issue on Windows [#9](https://github.com/sergey-tihon/vscode-openxml-explorer/pull/9)
 
