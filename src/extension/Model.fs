@@ -1,4 +1,4 @@
-module Model
+module OpenXmlExplorer.Model
 
 open Fable.Import
 open Fable.Core
@@ -45,7 +45,6 @@ type MyTreeDataProvider() =
     interface vscode.TreeDataProvider<DataNode> with
         member this.onDidChangeTreeData = event.event
         member this.getTreeItem(node) =
-            printfn $"getTreeItem %O{node}"
             match node with
             | Document document -> 
                 vscode.TreeItem(document.FileName, getCollapseStatus document.MainParts,
