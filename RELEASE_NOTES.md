@@ -1,3 +1,6 @@
+### 0.0.10 - 17.04.2021
+* Fixed typo in Action name
+
 ### 0.0.9 - 17.04.2021
 * Fixed process leak
 * Server API process stopped on VSCode close (extension deactivation)

@@ -11,6 +11,11 @@ let activate (context : vscode.ExtensionContext) =
     let agent = createAgent openXmlExplorerProvider context
     agentOption <- Some agent
 
+    vscode.Disposable(fun _ -> 
+        Log.line "Stopping server from Disposable"
+        agent.Post StopServer)
+    |> context.subscriptions.Add
+
     vscode.window.registerTreeDataProvider("openXmlExplorer", openXmlExplorerProvider)
     |> context.subscriptions.Add
 
@@ -46,5 +51,7 @@ let activate (context : vscode.ExtensionContext) =
 let deactivate() =
     Log.line "Extension deactivation"
     match agentOption with
-    | Some(agent) -> agent.Post CloseAllPackages
+    | Some(agent) -> 
+        Log.line "Stopping server from extension deactivation"
+        agent.Post StopServer
     | _ -> ()
