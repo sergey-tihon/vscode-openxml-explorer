@@ -42,7 +42,8 @@ let activate (context : vscode.ExtensionContext) =
         agent.Post RestartServer
     )) |> context.subscriptions.Add
     
-let deactivate(disposables : vscode.Disposable[]) =
+// Signature is important https://github.com/microsoft/vscode/issues/567
+let deactivate() =
     Log.line "Extension deactivation"
     match agentOption with
     | Some(agent) -> agent.Post CloseAllPackages

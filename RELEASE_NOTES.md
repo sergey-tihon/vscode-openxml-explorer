@@ -1,3 +1,7 @@
+### 0.0.9 - 17.04.2021
+* Fixed process leak
+* Server API process stopped on VSCode close (extension deactivation)
+
 ### 0.0.8 - 17.04.2021
 * Added `OpenXml Package Explorer` output channel
 * Improved application logging
