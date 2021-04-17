@@ -1,4 +1,4 @@
-module Agent
+module OpenXmlExplorer.Agent
 
 open Fable.Import
 open Fable.Import.PortFinder
@@ -22,7 +22,7 @@ let createAgent (provider: MyTreeDataProvider) (context : vscode.ExtensionContex
         |> Async.AwaitPromise
     let getNewClient () = async {
         let! port = getFreePort()
-        printfn "Starting server on port %d" port
+        Log.line $"Starting server on port %d{port} ..."
         let client = Remoting.startServer port context.extensionPath
         provider.ApiClint <- Some client
         return client

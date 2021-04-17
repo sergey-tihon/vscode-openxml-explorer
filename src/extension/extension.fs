@@ -1,15 +1,8 @@
-module OpenXmlExplorer
+module OpenXmlExplorer.Extension
 
 open Fable.Import
-open Fable.Core
 open Agent
-open Shared
 
-[<AutoOpen>]
-module Objectify =
-    let inline objfy2 (f: 'a -> 'b): obj -> obj = unbox f
-    let inline objfy3 (f: 'a -> 'b -> 'c): obj -> obj -> obj = unbox f
-    
 let mutable agentOption : MailboxProcessor<AgentActions> option = None
 
 let activate (context : vscode.ExtensionContext) =
@@ -18,8 +11,12 @@ let activate (context : vscode.ExtensionContext) =
     let agent = createAgent openXmlExplorerProvider context
     agentOption <- Some agent
 
-    vscode.window.registerTreeDataProvider(
-        "openXmlExplorer", openXmlExplorerProvider)
+    vscode.Disposable(fun _ -> 
+        Log.line "Stopping server from Disposable"
+        agent.Post StopServer)
+    |> context.subscriptions.Add
+
+    vscode.window.registerTreeDataProvider("openXmlExplorer", openXmlExplorerProvider)
     |> context.subscriptions.Add
 
     vscode.workspace.registerTextDocumentContentProvider(
@@ -50,7 +47,11 @@ let activate (context : vscode.ExtensionContext) =
         agent.Post RestartServer
     )) |> context.subscriptions.Add
     
-let deactivate(disposables : vscode.Disposable[]) =
+// Signature is important https://github.com/microsoft/vscode/issues/567
+let deactivate() =
+    Log.line "Extension deactivation"
     match agentOption with
-    | Some(agent) -> agent.Post CloseAllPackages
+    | Some(agent) -> 
+        Log.line "Stopping server from extension deactivation"
+        agent.Post StopServer
     | _ -> ()

@@ -1,3 +1,14 @@
+### 0.0.10 - 17.04.2021
+* Fixed typo in Action name
+
+### 0.0.9 - 17.04.2021
+* Fixed process leak
+* Server API process stopped on VSCode close (extension deactivation)
+
+### 0.0.8 - 17.04.2021
+* Added `OpenXml Package Explorer` output channel
+* Improved application logging
+
 ### 0.0.7 - 13.04.2021
 * Dynamic port number for API Server [#10](https://github.com/sergey-tihon/vscode-openxml-explorer/pull/10)
 * Stop process on extension diactivation
