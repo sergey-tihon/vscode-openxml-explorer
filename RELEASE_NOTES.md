@@ -1,3 +1,6 @@
+### 0.0.11 - 18.04.2021
+* Lazy server start (on first request instead of extension actication)
+
 ### 0.0.10 - 17.04.2021
 * Fixed typo in Action name
 

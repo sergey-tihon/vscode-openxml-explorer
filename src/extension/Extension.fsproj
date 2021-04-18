@@ -16,6 +16,7 @@
     <Compile Include="Fable.PortFinder.fs" />
     <Compile Include="Helpers.fs" />
     <Compile Include="Remoting.fs" />
+    <Compile Include="ServerHost.fs" />
     <Compile Include="Model.fs" />
     <Compile Include="Agent.fs" />
     <Compile Include="extension.fs" />

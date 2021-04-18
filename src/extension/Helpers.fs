@@ -5,7 +5,9 @@ module Log =
 
     let private channel = lazy(vscode.window.createOutputChannel "OpenXml Package Explorer")
 
-    let line str = channel.Value.appendLine(str)
+    let line str = 
+        printfn $"%s{str}"
+        channel.Value.appendLine(str)
     let show() = channel.Value.show()
 
 [<AutoOpen>]

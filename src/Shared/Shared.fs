@@ -28,5 +28,7 @@ type IOpenXmlApi =
     { 
         getPackageInfo : string -> Async<Document>
         getPartContent : string -> string -> Async<string>
+        
+        checkHealth : unit -> Async<bool>
         stopApplication: unit -> Async<unit>
     }

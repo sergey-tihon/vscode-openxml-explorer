@@ -72,6 +72,9 @@ let createOpenXmlApiFromContext (httpContext: HttpContext) : IOpenXmlApi =
                     printfn $"%A{ex}"
                     return $"%A{ex}"
             }
+        checkHealth = fun () -> async {
+            return true
+        }
         stopApplication = fun () -> async {
             lifetime.StopApplication()
             return ()
