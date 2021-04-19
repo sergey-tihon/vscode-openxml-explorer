@@ -1,3 +1,6 @@
+### 0.0.12 - 19.04.2021
+* Continuous deployment
+
 ### 0.0.11 - 18.04.2021
 * Lazy server start (on first request instead of extension actication)
 
