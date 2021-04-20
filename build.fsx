@@ -108,6 +108,16 @@ Target.create "BuildServer" (fun _ ->
 )
 
 // --------------------------------------------------------------------------------------
+// Build and run test projects
+// --------------------------------------------------------------------------------------
+
+Target.create "RunTests" (fun _ ->
+    let result = DotNet.exec id "test" ""
+    if not result.OK
+    then failwithf "Test failed: %A" result.Errors
+)
+
+// --------------------------------------------------------------------------------------
 // Packaging and release
 // --------------------------------------------------------------------------------------
 
@@ -187,6 +197,7 @@ Target.create "Release" ignore
 ==> "RunScript"
 ==> "BuildServer"
 ==> "Default"
+==> "RunTests"
 ==> "Build"
 
 "Build"
