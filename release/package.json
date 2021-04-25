@@ -12,95 +12,95 @@
     ],
     "icon": "images/logo.png",
     "bugs": {
-		"url": "https://github.com/sergey-tihon/vscode-openxml-explorer/issues"
-	},
+        "url": "https://github.com/sergey-tihon/vscode-openxml-explorer/issues"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/sergey-tihon/vscode-openxml-explorer.git"
     },
     "engines": {
-      "vscode": "^0.10.10"
+        "vscode": "^0.10.10"
     },
     "categories": [
-      "Other"
+        "Other"
     ],
     "activationEvents": [
-      "onView:openXmlExplorer",
-      "onCommand:openxml-explorer.explorePackage"
+        "onView:openXmlExplorer",
+        "onCommand:openxml-explorer.explorePackage"
     ],
     "main": "./extension",
     "contributes": {
-      "commands": [
-        {
-            "command": "openxml-explorer.explorePackage",
-            "title": "Explore OpenXml package"
-        },
-        {
-          "command": "openxml-explorer.closePackage",
-          "title": "Close package"
-        },
-        {
-          "command": "openxml-explorer.closeAllPackage",
-          "title": "Close all packages"
-        },
-        {
-          "command": "openxml-explorer.openPart",
-          "title": "Open OpenXml part"
-        },
-        {
-            "command": "openxml-explorer.restartServer",
-            "title": "Restart OpenXml Server"
-        }
-      ],
-      "languages": [
-        {
-          "id": "openxml",
-          "aliases": [
-            "OpenXml",
-            "OpenXML"
-          ],
-          "extensions": [
-            ".pptx",
-            ".docx",
-            ".xlsx"
-          ]
-        }
-      ],
-      "menus": {
-        "explorer/context": [
-          {
-            "command": "openxml-explorer.explorePackage",
-            "when": "resourceLangId == openxml",
-            "group": "0_openxml@1"
-          }
+        "languages": [
+            {
+                "id": "openxml",
+                "aliases": [
+                    "OpenXml",
+                    "OpenXML"
+                ],
+                "extensions": [
+                    ".pptx",
+                    ".docx",
+                    ".xlsx"
+                ]
+            }
         ],
-        "view/title": [
-          {
-            "command": "openxml-explorer.closeAllPackage",
-            "when": "view == openXmlExplorer"
-          },
-          {
-            "command": "openxml-explorer.restartServer",
-            "when": "view == openXmlExplorer"
-          }
+        "commands": [
+            {
+                "command": "openxml-explorer.explorePackage",
+                "title": "Explore OpenXml package"
+            },
+            {
+                "command": "openxml-explorer.closePackage",
+                "title": "Close package"
+            },
+            {
+                "command": "openxml-explorer.closeAllPackage",
+                "title": "Close all packages"
+            },
+            {
+                "command": "openxml-explorer.openPart",
+                "title": "Open OpenXml part"
+            },
+            {
+                "command": "openxml-explorer.restartServer",
+                "title": "Restart OpenXml Server"
+            }
         ],
-        "view/item/context": [
-          {
-            "command": "openxml-explorer.closePackage",
-            "when": "view == openXmlExplorer && viewItem == openxml"
-          }
-        ]
-      },
-      "views": {
-        "explorer": [
-          {
-            "id": "openXmlExplorer",
-            "name": "OpenXml Explorer"
-          }
-        ]
-      }
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "openxml-explorer.explorePackage",
+                    "when": "resourceLangId == openxml",
+                    "group": "0_openxml@1"
+                }
+            ],
+            "view/title": [
+                {
+                    "command": "openxml-explorer.closeAllPackage",
+                    "when": "view == openXmlExplorer"
+                },
+                {
+                    "command": "openxml-explorer.restartServer",
+                    "when": "view == openXmlExplorer"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "openxml-explorer.closePackage",
+                    "when": "view == openXmlExplorer && viewItem == openxml"
+                }
+            ]
+        },
+        "views": {
+            "explorer": [
+                {
+                    "id": "openXmlExplorer",
+                    "name": "OpenXml Explorer"
+                }
+            ]
+        }
     },
     "extensionDependencies": [
-      "ms-dotnettools.vscode-dotnet-runtime"
+        "ms-dotnettools.vscode-dotnet-runtime"
     ]
-  }
+}
