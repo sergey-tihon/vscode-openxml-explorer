@@ -28,6 +28,14 @@ Target.create "Clean" (fun _ ->
     Shell.cleanDir "./out"
     Shell.copy "release" ["README.md"; "LICENSE.md"]
     Shell.copyFile "release/CHANGELOG.md" "RELEASE_NOTES.md"
+
+    // Remove SVG files from the release
+    // https://github.com/microsoft/vscode-vsce/issues/183
+    let fileName = "release/README.md"
+    let lines = 
+        File.ReadAllLines fileName
+        |> Array.filter (fun s -> s.Contains(".svg") |> not)
+    File.WriteAllLines(fileName, lines)
 )
 
 Target.create "YarnInstall" (fun _ ->
