@@ -22,7 +22,7 @@ github ionide/ionide-vscode-helpers src/Helpers.fs
 group build
     source https://api.nuget.org/v3/index.json
     storage:none
-    framework:netstandard2.0
+    frameworks: net6.0
 
     nuget Fake.Core.Target
     nuget Fake.Core.Process
