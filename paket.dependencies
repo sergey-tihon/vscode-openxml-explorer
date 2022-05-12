@@ -1,6 +1,5 @@
-version 5.257.0
 source https://api.nuget.org/v3/index.json
-frameworks: net5.0, netstandard2.0
+frameworks: net6.0, netstandard2.0
 storage:none
 
 nuget Fable.Core
