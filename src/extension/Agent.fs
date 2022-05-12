@@ -1,17 +1,17 @@
 module OpenXmlExplorer.Agent
 
-open Fable.Import
+open Fable.Import.VSCode
 open Shared
 open Model
 
 type AgentActions =
-    | ExplorePackage of uri:vscode.Uri
+    | ExplorePackage of uri:Vscode.Uri
     | ClosePackage of document:DataNode
     | CloseAllPackages
     | RestartServer
     | StopServer
 
-let createAgent (provider: MyTreeDataProvider) (context : vscode.ExtensionContext) =
+let createAgent (provider: MyTreeDataProvider) (context : Vscode.ExtensionContext) =
     let getNewClient () = async {
         let! port = ServerHost.getFreePort()
         Log.line $"Starting server on port %d{port} ..."
@@ -40,7 +40,7 @@ let createAgent (provider: MyTreeDataProvider) (context : vscode.ExtensionContex
                     provider.openOpenXml(doc)
                 with
                 | e -> 
-                    vscode.window.showErrorMessage($"Package '%s{uri.fsPath}' cannot be opened! Error: '%s{e.Message}'", Array.empty<string>) |> ignore
+                    Vscode.window.showErrorMessage($"Package '%s{uri.fsPath}' cannot be opened! Error: '%s{e.Message}'", Array.empty<string>) |> ignore
                 return! messageLoop (Some client)
             | ClosePackage document -> 
                 provider.close(document)

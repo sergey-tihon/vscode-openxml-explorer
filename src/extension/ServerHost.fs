@@ -7,9 +7,9 @@ open Node
 open Node.ChildProcess
 
 let private toStr = function
-  | U2.Case2(x:Buffer.Buffer) ->
-    x.toString Buffer.BufferEncoding.Utf8
-  | U2.Case1(x:string) -> x
+    | U2.Case2(x:Buffer.Buffer) ->
+        x.toString Buffer.BufferEncoding.Utf8
+    | U2.Case1(x:string) -> x
 
 let startServer port extensionPath =
     let cb (e:ExecError option) stdout' stderr' =

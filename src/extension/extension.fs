@@ -1,51 +1,58 @@
 module OpenXmlExplorer.Extension
 
-open Fable.Import
+open Fable.Import.VSCode
 open Agent
 
 let mutable agentOption : MailboxProcessor<AgentActions> option = None
 
-let activate (context : vscode.ExtensionContext) =
+type DefaultViewOpions() =
+    interface Vscode.TextDocumentShowOptions with 
+        member val viewColumn = None with get, set
+        member val preserveFocus = None with get, set
+        member val preview = None with get, set
+        member val selection= None with get, set
+
+let activate (context : Vscode.ExtensionContext) =
 
     let openXmlExplorerProvider = Model.MyTreeDataProvider()
     let agent = createAgent openXmlExplorerProvider context
     agentOption <- Some agent
 
-    vscode.Disposable(fun _ -> 
+    vscode.Disposable.Create(fun _ -> 
         Log.line "Stopping server from Disposable"
-        agent.Post StopServer)
-    |> context.subscriptions.Add
+        agent.Post StopServer
+        None)
+    |> context.Subscribe
 
-    vscode.window.registerTreeDataProvider("openXmlExplorer", openXmlExplorerProvider)
-    |> context.subscriptions.Add
+    Vscode.window.registerTreeDataProvider("openXmlExplorer", openXmlExplorerProvider)
+    |> context.Subscribe
 
-    vscode.workspace.registerTextDocumentContentProvider(
-        vscode.DocumentSelector.Case1 "openxml", openXmlExplorerProvider)
-    |> context.subscriptions.Add
+    Vscode.workspace.registerTextDocumentContentProvider("openxml", openXmlExplorerProvider)
+    |> context.Subscribe
 
-    vscode.commands.registerCommand("openxml-explorer.explorePackage", objfy2 (fun (uri:vscode.Uri) ->
+    Vscode.commands.registerCommand("openxml-explorer.explorePackage", objfy2 (fun (uri:Vscode.Uri) ->
         agent.Post (ExplorePackage uri) 
-    )) |> context.subscriptions.Add
+    )) |> context.Subscribe
 
-    vscode.commands.registerCommand("openxml-explorer.closePackage", objfy2 (fun (node:Model.DataNode) ->
+    Vscode.commands.registerCommand("openxml-explorer.closePackage", objfy2 (fun (node:Model.DataNode) ->
         agent.Post (ClosePackage node)
-    ))|> context.subscriptions.Add
+    ))|> context.Subscribe
 
-    vscode.commands.registerCommand("openxml-explorer.closeAllPackage", objfy2 (fun _ ->
+    Vscode.commands.registerCommand("openxml-explorer.closeAllPackage", objfy2 (fun _ ->
         agent.Post (CloseAllPackages)
-    )) |> context.subscriptions.Add
+    )) |> context.Subscribe
 
-    vscode.commands.registerCommand("openxml-explorer.openPart",  objfy2 (fun (uri:vscode.Uri) ->
+    Vscode.commands.registerCommand("openxml-explorer.openPart",  objfy2 (fun (uri:Vscode.Uri) ->
         promise {
-            let! document = vscode.workspace.openTextDocument(uri)
-            let! _ = vscode.window.showTextDocument(document)
+            let! document = Vscode.workspace.openTextDocument(uri) |> Promise.ofThenable
+            let! _ = Vscode.window.showTextDocument(document, DefaultViewOpions()) |> Promise.ofThenable
             return ()
         }
-    )) |> context.subscriptions.Add
+    )) |> context.Subscribe
 
-    vscode.commands.registerCommand("openxml-explorer.restartServer", objfy2 (fun _ ->
+    Vscode.commands.registerCommand("openxml-explorer.restartServer", objfy2 (fun ()->
         agent.Post RestartServer
-    )) |> context.subscriptions.Add
+    )) |> context.Subscribe
     
 // Signature is important https://github.com/microsoft/vscode/issues/567
 let deactivate() =

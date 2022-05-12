@@ -1,6 +1,6 @@
 module OpenXmlExplorer.Model
 
-open Fable.Import
+open Fable.Import.VSCode
 open Fable.Core
 
 type DataNode =
@@ -14,60 +14,79 @@ type DataNode =
 
 let getCollapseStatus (list:'a []) =
     if Array.length list > 0
-        then vscode.TreeItemCollapsibleState.Collapsed
-        else vscode.TreeItemCollapsibleState.None
+        then Vscode.TreeItemCollapsibleState.Collapsed
+        else Vscode.TreeItemCollapsibleState.None
 
 type OpenPartCommand(args) =
-    interface vscode.Command with
+    interface Vscode.Command with
         member val title = "Open OpenXml Resource" with get, set
         member val command = "openxml-explorer.openPart" with get, set
         member val arguments = Some args with get, set
+        member val tooltip = None with get, set
 
 type MyTreeDataProvider() =
     let items = ResizeArray<DataNode>();
-    let event = vscode.EventEmitter<DataNode option>()
+    let onDidChangeTreeDataEmitter = 
+        vscode.EventEmitter.Create<U3<DataNode, ResizeArray<DataNode>, unit> option>()
 
     member val ApiClint : Shared.IOpenXmlApi option = None with get, set
 
     member this.openOpenXml(document: Shared.Document) =
         let node = Document(document)
         items.Add(node)
-        event.fire(None)
+        onDidChangeTreeDataEmitter.fire(None)
 
     member this.clear() =
         items.Clear();
-        event.fire(None)
+        onDidChangeTreeDataEmitter.fire(None)
 
     member this.close(item:DataNode) =
         items.Remove(item) |> ignore
-        event.fire(None)
+        onDidChangeTreeDataEmitter.fire(None)
 
-    interface vscode.TreeDataProvider<DataNode> with
-        member this.onDidChangeTreeData = event.event
+    interface Vscode.TreeDataProvider<DataNode> with
+        member val onDidChangeTreeData = onDidChangeTreeDataEmitter.event |> Some with get, set
         member this.getTreeItem(node) =
             match node with
             | Document document -> 
-                vscode.TreeItem(document.FileName, getCollapseStatus document.MainParts,
-                    tooltip = Some document.Path,
-                    resourceUri = Some(vscode.Uri.parse(document.Path)),
-                    contextValue = Some "openxml",
-                    iconPath = (vscode.ThemeIcon("package") |> U4.Case4 |> Some))
+                let item = vscode.TreeItem.Create(
+                    U2.Case1 document.FileName, 
+                    getCollapseStatus document.MainParts)
+                item.tooltip <- document.Path |> U2.Case1 |> Some
+                item.resourceUri <- Some(vscode.Uri.parse(document.Path))
+                item.contextValue <- Some "openxml"
+                item.iconPath  <- vscode.ThemeIcon.Create("package") |> U4.Case4 |> Some
+                U2.Case1 item
             | Part (part, document) when part.Uri.Contains(".xml") ->
                 let command = 
-                    let uri = vscode.Uri(scheme="openxml", path=part.Uri, fragment=document.Path)
-                    OpenPartCommand([box uri] |> ResizeArray) :> vscode.Command
+                    let uri = vscode.Uri.from({ 
+                        new Vscode.UriStaticFromComponents with 
+                            member _.scheme="openxml"
+                            member _.path = part.Uri |> Some
+                            member _.fragment= document.Path |> Some
+                            member _.authority = None
+                            member _.query = None
+                    })
+                    //let uri = vscode.Uri(scheme="openxml", path=part.Uri, fragment=document.Path)
+                    OpenPartCommand([box uri |> Some] |> ResizeArray) :> Vscode.Command
 
-                vscode.TreeItem(part.Name, getCollapseStatus part.ChildParts,
-                    tooltip = Some(part.Uri),
-                    command = Some command,
-                    contextValue = Some "file",
-                    iconPath = (vscode.ThemeIcon("file-code") |> U4.Case4 |> Some)
-                )
+                let item = vscode.TreeItem.Create(
+                    U2.Case1 part.Name, 
+                    getCollapseStatus part.ChildParts)
+                item.tooltip <- part.Uri |> U2.Case1 |> Some
+                item.command <- Some command
+                item.contextValue <- Some "file"
+                item.iconPath <- vscode.ThemeIcon.Create("file-code") |> U4.Case4 |> Some
+                U2.Case1 item
             | Part (part, _) -> 
-                vscode.TreeItem(part.Name, getCollapseStatus part.ChildParts,
-                    tooltip = Some(part.Uri),
-                    iconPath = (vscode.ThemeIcon("file-binary") |> U4.Case4 |> Some)
-                )
+                let item =  vscode.TreeItem.Create(
+                    U2.Case1 part.Name, 
+                    getCollapseStatus part.ChildParts)
+                item.tooltip <- part.Uri |> U2.Case1 |> Some
+                item.iconPath <- vscode.ThemeIcon.Create("file-binary") |> U4.Case4 |> Some
+                U2.Case1 item
+        member this.resolveTreeItem (item, element, _) =
+            item |> U2.Case1 |> Some
 
         member this.getChildren(node) = 
             match node with
@@ -80,15 +99,23 @@ type MyTreeDataProvider() =
                 part.ChildParts
                 |> Array.map(fun x -> Part(x, document))
                 |> ResizeArray
+            |> U2.Case1
+            |> Some
+        member this.getParent(_) = None
 
-        member this.getParent = None
-
-    interface vscode.TextDocumentContentProvider with
-        member this.provideTextDocumentContent(url) = 
+    interface Vscode.TextDocumentContentProvider with
+        member val onDidChange = None with get, set
+        member this.provideTextDocumentContent(url, _) = 
             match this.ApiClint with
             | Some(client) ->
-                client.getPartContent (url.fragment) (url.path)
+                async {
+                    let! content = client.getPartContent (url.fragment) (url.path)
+                    return Some content
+                }
                 |> Async.StartAsPromise
+                |> Promise.toThenable
                 |> U2.Case2
             | None ->
                 U2.Case1 "Extension API client is not available"
+            |> Some
+            
