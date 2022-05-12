@@ -1,3 +1,7 @@
+### 0.1.0 - 15.05.2020
+* Migration to .NET 6
+* Dependencies update
+
 ### 0.0.13 - 21.07.2021
 * Dependencies update
 
