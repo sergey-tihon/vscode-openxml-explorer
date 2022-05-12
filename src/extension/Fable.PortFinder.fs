@@ -5,8 +5,8 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
-type Array<'T> = System.Collections.Generic.IList<'T>
-type Error = System.Exception
+type Array<'T> = Collections.Generic.IList<'T>
+type Error = Exception
 
 /// portfinder.js typescript definitions.
 /// (C) 2011, Charlie Robbins

@@ -52,7 +52,10 @@ and InterceptorId = float
 
 and RequestInterceptor =
     abstract ``use``: fulfilledFn: Func<AxiosXHRConfig<'U>, AxiosXHRConfig<'U>> -> InterceptorId
-    abstract ``use``: fulfilledFn: Func<AxiosXHRConfig<'U>, AxiosXHRConfig<'U>> * rejectedFn: Func<obj, obj> -> InterceptorId
+
+    abstract ``use``:
+        fulfilledFn: Func<AxiosXHRConfig<'U>, AxiosXHRConfig<'U>> * rejectedFn: Func<obj, obj> -> InterceptorId
+
     abstract eject: interceptorId: InterceptorId -> unit
 
 and ResponseInterceptor =
@@ -223,7 +226,10 @@ module AxiosHelpers =
     let private upcastAxiosXhr(xhr: AxiosXHR<'t>) : AxiosXHR =
         xhr :> AxiosXHR
 
-    let all2 (xhr1: JS.Promise<AxiosXHR<'T1>>) (xhr2: JS.Promise<AxiosXHR<'T2>>) : JS.Promise<AxiosXHR<'T1> * AxiosXHR<'T2>> =
+    let all2
+        (xhr1: JS.Promise<AxiosXHR<'T1>>)
+        (xhr2: JS.Promise<AxiosXHR<'T2>>)
+        : JS.Promise<AxiosXHR<'T1> * AxiosXHR<'T2>> =
 
         // Box upcast all response types (Promise.all needs all promises to have the same type)
         let xhrObjSeq: JS.Promise<AxiosXHR> list = [

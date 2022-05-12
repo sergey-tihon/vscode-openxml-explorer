@@ -18,7 +18,20 @@ let getCollapseStatus(list: 'a []) =
     else
         Vscode.TreeItemCollapsibleState.None
 
-type OpenPartCommand(args) =
+type OpenPartCommand(path: string, fragment: string) =
+    let uri =
+        vscode.Uri.from(
+            { new Vscode.UriStaticFromComponents with
+                member _.scheme = "openxml"
+                member _.path = path |> Some
+                member _.fragment = fragment |> Some
+                member _.authority = None
+                member _.query = None
+            }
+        )
+
+    let args = [ box uri |> Some ] |> ResizeArray
+
     interface Vscode.Command with
         member val title = "Open OpenXml Resource" with get, set
         member val command = "openxml-explorer.openPart" with get, set
@@ -33,23 +46,23 @@ type MyTreeDataProvider() =
 
     member val ApiClint: Shared.IOpenXmlApi option = None with get, set
 
-    member this.openOpenXml(document: Shared.Document) =
+    member _.openOpenXml(document: Shared.Document) =
         let node = Document(document)
         items.Add(node)
         onDidChangeTreeDataEmitter.fire(None)
 
-    member this.clear() =
+    member _.clear() =
         items.Clear()
         onDidChangeTreeDataEmitter.fire(None)
 
-    member this.close(item: DataNode) =
+    member _.close(item: DataNode) =
         items.Remove(item) |> ignore
         onDidChangeTreeDataEmitter.fire(None)
 
     interface Vscode.TreeDataProvider<DataNode> with
         member val onDidChangeTreeData = onDidChangeTreeDataEmitter.event |> Some with get, set
 
-        member this.getTreeItem(node) =
+        member _.getTreeItem(node) =
             match node with
             | Document document ->
                 let item =
@@ -61,25 +74,11 @@ type MyTreeDataProvider() =
                 item.iconPath <- vscode.ThemeIcon.Create("package") |> U4.Case4 |> Some
                 U2.Case1 item
             | Part(part, document) when part.Uri.Contains(".xml") ->
-                let command =
-                    let uri =
-                        vscode.Uri.from(
-                            { new Vscode.UriStaticFromComponents with
-                                member _.scheme = "openxml"
-                                member _.path = part.Uri |> Some
-                                member _.fragment = document.Path |> Some
-                                member _.authority = None
-                                member _.query = None
-                            }
-                        )
-                    //let uri = vscode.Uri(scheme="openxml", path=part.Uri, fragment=document.Path)
-                    OpenPartCommand([ box uri |> Some ] |> ResizeArray) :> Vscode.Command
-
                 let item =
                     vscode.TreeItem.Create(U2.Case1 part.Name, getCollapseStatus part.ChildParts)
 
                 item.tooltip <- part.Uri |> U2.Case1 |> Some
-                item.command <- Some command
+                item.command <- Some(OpenPartCommand(part.Uri, document.Path) :> Vscode.Command)
                 item.contextValue <- Some "file"
                 item.iconPath <- vscode.ThemeIcon.Create("file-code") |> U4.Case4 |> Some
                 U2.Case1 item
@@ -91,10 +90,10 @@ type MyTreeDataProvider() =
                 item.iconPath <- vscode.ThemeIcon.Create("file-binary") |> U4.Case4 |> Some
                 U2.Case1 item
 
-        member this.resolveTreeItem(item, element, _) =
+        member _.resolveTreeItem(item, element, _) =
             item |> U2.Case1 |> Some
 
-        member this.getChildren(node) =
+        member _.getChildren(node) =
             match node with
             | None -> items
             | Some(Document document) ->
@@ -108,7 +107,7 @@ type MyTreeDataProvider() =
             |> U2.Case1
             |> Some
 
-        member this.getParent(_) = None
+        member _.getParent _ = None
 
     interface Vscode.TextDocumentContentProvider with
         member val onDidChange = None with get, set

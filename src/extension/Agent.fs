@@ -46,7 +46,10 @@ let createAgent (provider: MyTreeDataProvider) (context: Vscode.ExtensionContext
                     provider.openOpenXml(doc)
                 with
                 | e ->
-                    Vscode.window.showErrorMessage($"Package '%s{uri.fsPath}' cannot be opened! Error: '%s{e.Message}'", Array.empty<string>)
+                    Vscode.window.showErrorMessage(
+                        $"Package '%s{uri.fsPath}' cannot be opened! Error: '%s{e.Message}'",
+                        Array.empty<string>
+                    )
                     |> ignore
 
                 return! messageLoop(Some client)

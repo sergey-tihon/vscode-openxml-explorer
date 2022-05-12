@@ -30,10 +30,16 @@ let activate(context: Vscode.ExtensionContext) =
     Vscode.workspace.registerTextDocumentContentProvider("openxml", openXmlExplorerProvider)
     |> context.Subscribe
 
-    Vscode.commands.registerCommand("openxml-explorer.explorePackage", objfy2(fun (uri: Vscode.Uri) -> agent.Post(ExplorePackage uri)))
+    Vscode.commands.registerCommand(
+        "openxml-explorer.explorePackage",
+        objfy2(fun (uri: Vscode.Uri) -> agent.Post(ExplorePackage uri))
+    )
     |> context.Subscribe
 
-    Vscode.commands.registerCommand("openxml-explorer.closePackage", objfy2(fun (node: Model.DataNode) -> agent.Post(ClosePackage node)))
+    Vscode.commands.registerCommand(
+        "openxml-explorer.closePackage",
+        objfy2(fun (node: Model.DataNode) -> agent.Post(ClosePackage node))
+    )
     |> context.Subscribe
 
     Vscode.commands.registerCommand("openxml-explorer.closeAllPackage", objfy2(fun _ -> agent.Post(CloseAllPackages)))
