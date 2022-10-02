@@ -29,8 +29,8 @@ let getApiClient(serverHost) : IOpenXmlApi =
             fun () -> async {
                 try
                     return! axios.get(getRoute "checkHealth") |> toAsync
-                with
-                | e -> return false
+                with e ->
+                    return false
             }
         stopApplication =
             fun () ->

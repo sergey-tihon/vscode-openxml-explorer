@@ -12,7 +12,7 @@ type DataNode =
         | Document doc -> $"Document: %s{doc.FileName}[%d{doc.MainParts.Length}]"
         | Part(part, _) -> $"Part: %s{part.Uri}[%d{part.ChildParts.Length}]"
 
-let getCollapseStatus(list: 'a []) =
+let getCollapseStatus(list: 'a[]) =
     if Array.length list > 0 then
         Vscode.TreeItemCollapsibleState.Collapsed
     else

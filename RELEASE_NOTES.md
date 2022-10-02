@@ -1,4 +1,8 @@
-### 0.1.0 - 12.05.2020
+### 0.1.1 - 02.10.2022
+* Dependencies update
+* Fantomas v5
+
+### 0.1.0 - 12.05.2021
 * Migration to .NET 6
 * Dependencies update
 

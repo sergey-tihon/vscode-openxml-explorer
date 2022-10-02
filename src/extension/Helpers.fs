@@ -28,6 +28,7 @@ module ContextExtensions =
     open Fable.Import.VSCode.Vscode
 
     type ExtensionContext with
+
         member inline x.Subscribe< ^t when ^t: (member dispose: unit -> obj option)>(item: ^t) =
             x.subscriptions.Add(unbox(box item))
 

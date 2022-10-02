@@ -7,14 +7,14 @@ type DocumentPart = {
     Name: string
     Length: int64
     ContentType: string
-    ChildParts: DocumentPart []
+    ChildParts: DocumentPart[]
 }
 
 type Document = {
     Path: string
     FileName: string
     LastWriteTime: DateTime option
-    MainParts: DocumentPart []
+    MainParts: DocumentPart[]
 }
 
 module Route =

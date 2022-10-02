@@ -14,7 +14,11 @@ let private toStr =
 let startServer port extensionPath =
     let cb (e: ExecError option) stdout' stderr' =
         //stdout' |> toStr |> fun s -> if s <> "" then Log.line s
-        stderr' |> toStr |> (fun s -> if s <> "" then Log.line s)
+        stderr'
+        |> toStr
+        |> (fun s ->
+            if s <> "" then
+                Log.line s)
 
         if e.IsSome then
             Log.line($"ExecError: %s{e.Value.ToString()}")
