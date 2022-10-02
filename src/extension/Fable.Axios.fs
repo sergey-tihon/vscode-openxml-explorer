@@ -53,8 +53,7 @@ and InterceptorId = float
 and RequestInterceptor =
     abstract ``use``: fulfilledFn: Func<AxiosXHRConfig<'U>, AxiosXHRConfig<'U>> -> InterceptorId
 
-    abstract ``use``:
-        fulfilledFn: Func<AxiosXHRConfig<'U>, AxiosXHRConfig<'U>> * rejectedFn: Func<obj, obj> -> InterceptorId
+    abstract ``use``: fulfilledFn: Func<AxiosXHRConfig<'U>, AxiosXHRConfig<'U>> * rejectedFn: Func<obj, obj> -> InterceptorId
 
     abstract eject: interceptorId: InterceptorId -> unit
 
@@ -74,7 +73,7 @@ and AxiosInstance =
 
     abstract request: config: AxiosXHRConfig<'T> -> JS.Promise<AxiosXHR<'T>>
     /// Don't use this directly, use the strongly-typed Axios.all variant instead
-    abstract all: xhrPromises: JS.Promise<AxiosXHR> seq -> JS.Promise<AxiosXHR []>
+    abstract all: xhrPromises: JS.Promise<AxiosXHR> seq -> JS.Promise<AxiosXHR[]>
     abstract spread: fn: Func<'T1, 'T2, 'U> -> Func<'T1 * 'T2, 'U>
     abstract get: url: string * ?config: AxiosXHRConfigBase<'T> -> JS.Promise<AxiosXHR<'T>>
     abstract delete: url: string * ?config: AxiosXHRConfigBase<'T> -> JS.Promise<AxiosXHR<'T>>
@@ -226,19 +225,13 @@ module AxiosHelpers =
     let private upcastAxiosXhr(xhr: AxiosXHR<'t>) : AxiosXHR =
         xhr :> AxiosXHR
 
-    let all2
-        (xhr1: JS.Promise<AxiosXHR<'T1>>)
-        (xhr2: JS.Promise<AxiosXHR<'T2>>)
-        : JS.Promise<AxiosXHR<'T1> * AxiosXHR<'T2>> =
+    let all2 (xhr1: JS.Promise<AxiosXHR<'T1>>) (xhr2: JS.Promise<AxiosXHR<'T2>>) : JS.Promise<AxiosXHR<'T1> * AxiosXHR<'T2>> =
 
         // Box upcast all response types (Promise.all needs all promises to have the same type)
-        let xhrObjSeq: JS.Promise<AxiosXHR> list = [
-            xhr1 |> Promise.map upcastAxiosXhr
-            xhr2 |> Promise.map upcastAxiosXhr
-        ]
+        let xhrObjSeq: JS.Promise<AxiosXHR> list = [ xhr1 |> Promise.map upcastAxiosXhr; xhr2 |> Promise.map upcastAxiosXhr ]
 
         Globals.axios.all xhrObjSeq
-        |> Promise.map (fun results ->
+        |> Promise.map(fun results ->
             if results.Length <> xhrObjSeq.Length then
                 failwith "Incorrect response array length returned by axios.all() JS implementation"
 
@@ -260,7 +253,7 @@ module AxiosHelpers =
         ]
 
         Globals.axios.all xhrObjSeq
-        |> Promise.map (fun results ->
+        |> Promise.map(fun results ->
             if results.Length <> xhrObjSeq.Length then
                 failwith "Incorrect response array length returned by axios.all() JS implementation"
 
@@ -285,7 +278,7 @@ module AxiosHelpers =
         ]
 
         Globals.axios.all xhrObjSeq
-        |> Promise.map (fun results ->
+        |> Promise.map(fun results ->
             if results.Length <> xhrObjSeq.Length then
                 failwith "Incorrect response array length returned by axios.all() JS implementation"
 
@@ -313,7 +306,7 @@ module AxiosHelpers =
         ]
 
         Globals.axios.all xhrObjSeq
-        |> Promise.map (fun results ->
+        |> Promise.map(fun results ->
             if results.Length <> xhrObjSeq.Length then
                 failwith "Incorrect response array length returned by axios.all() JS implementation"
 
@@ -344,7 +337,7 @@ module AxiosHelpers =
         ]
 
         Globals.axios.all xhrObjSeq
-        |> Promise.map (fun results ->
+        |> Promise.map(fun results ->
             if results.Length <> xhrObjSeq.Length then
                 failwith "Incorrect response array length returned by axios.all() JS implementation"
 

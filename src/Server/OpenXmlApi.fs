@@ -27,7 +27,7 @@ let getPackageInfo(path: string) : Document =
     and parseRelationships (parentUri: string) (thisUri: string) (relationship: PackageRelationshipCollection) =
         relationship
         |> Seq.filter(fun r -> r.TargetMode = TargetMode.Internal)
-        |> Seq.choose (fun relationship ->
+        |> Seq.choose(fun relationship ->
             let uri =
                 PackUriHelper.ResolvePartUri(relationship.SourceUri, relationship.TargetUri)
 
@@ -59,8 +59,7 @@ let createOpenXmlApiFromContext(httpContext: HttpContext) : IOpenXmlApi =
             fun filePath -> async {
                 try
                     return getPackageInfo filePath
-                with
-                | ex ->
+                with ex ->
                     printfn $"%A{ex}"
                     return getPackageInfo filePath
             }
@@ -74,8 +73,7 @@ let createOpenXmlApiFromContext(httpContext: HttpContext) : IOpenXmlApi =
                         return xDoc.ToString()
                     else
                         return content
-                with
-                | ex ->
+                with ex ->
                     printfn $"%A{ex}"
                     return $"%A{ex}"
             }

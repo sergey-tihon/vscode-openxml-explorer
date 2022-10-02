@@ -18,7 +18,7 @@ let activate(context: Vscode.ExtensionContext) =
     let agent = createAgent openXmlExplorerProvider context
     agentOption <- Some agent
 
-    vscode.Disposable.Create (fun _ ->
+    vscode.Disposable.Create(fun _ ->
         Log.line "Stopping server from Disposable"
         agent.Post StopServer
         None)
@@ -30,16 +30,10 @@ let activate(context: Vscode.ExtensionContext) =
     Vscode.workspace.registerTextDocumentContentProvider("openxml", openXmlExplorerProvider)
     |> context.Subscribe
 
-    Vscode.commands.registerCommand(
-        "openxml-explorer.explorePackage",
-        objfy2(fun (uri: Vscode.Uri) -> agent.Post(ExplorePackage uri))
-    )
+    Vscode.commands.registerCommand("openxml-explorer.explorePackage", objfy2(fun (uri: Vscode.Uri) -> agent.Post(ExplorePackage uri)))
     |> context.Subscribe
 
-    Vscode.commands.registerCommand(
-        "openxml-explorer.closePackage",
-        objfy2(fun (node: Model.DataNode) -> agent.Post(ClosePackage node))
-    )
+    Vscode.commands.registerCommand("openxml-explorer.closePackage", objfy2(fun (node: Model.DataNode) -> agent.Post(ClosePackage node)))
     |> context.Subscribe
 
     Vscode.commands.registerCommand("openxml-explorer.closeAllPackage", objfy2(fun _ -> agent.Post(CloseAllPackages)))
@@ -47,7 +41,7 @@ let activate(context: Vscode.ExtensionContext) =
 
     Vscode.commands.registerCommand(
         "openxml-explorer.openPart",
-        objfy2 (fun (uri: Vscode.Uri) -> promise {
+        objfy2(fun (uri: Vscode.Uri) -> promise {
             let! document = Vscode.workspace.openTextDocument(uri) |> Promise.ofThenable
 
             let! _ =

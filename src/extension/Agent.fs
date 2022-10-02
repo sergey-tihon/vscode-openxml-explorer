@@ -30,7 +30,7 @@ let createAgent (provider: MyTreeDataProvider) (context: Vscode.ExtensionContext
         return client
     }
 
-    MailboxProcessor.Start (fun inbox ->
+    MailboxProcessor.Start(fun inbox ->
         let rec messageLoop(client': IOpenXmlApi option) = async {
             let! cmd = inbox.Receive()
 
@@ -44,12 +44,8 @@ let createAgent (provider: MyTreeDataProvider) (context: Vscode.ExtensionContext
                 try
                     let! doc = client.getPackageInfo uri.fsPath
                     provider.openOpenXml(doc)
-                with
-                | e ->
-                    Vscode.window.showErrorMessage(
-                        $"Package '%s{uri.fsPath}' cannot be opened! Error: '%s{e.Message}'",
-                        Array.empty<string>
-                    )
+                with e ->
+                    Vscode.window.showErrorMessage($"Package '%s{uri.fsPath}' cannot be opened! Error: '%s{e.Message}'", Array.empty<string>)
                     |> ignore
 
                 return! messageLoop(Some client)
