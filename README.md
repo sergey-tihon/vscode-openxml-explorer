@@ -25,8 +25,8 @@ Ideas and features:
 
 * [Zip Explorer](https://github.com/stef-levesque/vscode-zipexplorer)
 * [ionide-vscode-fsharp](https://github.com/ionide/ionide-vscode-fsharp)
-* [PackageExplorer](https://archive.codeplex.com/?p=packageexplorer)
 * [Open XML Package Editor for Modern Visual Studios](https://github.com/bsivanov/Open-XML-Package-Editor-Power-Tool-for-Visual-Studio)
+* [PackageExplorer](http://web.archive.org/web/20210701011207/https://archive.codeplex.com/?p=packageexplorer)
 
 Technologies:
 
