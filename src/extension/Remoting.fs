@@ -14,26 +14,25 @@ let getApiClient(serverHost) : IOpenXmlApi =
     let getRoute methodName =
         serverHost + Route.builder typeName methodName
 
-    {
-        getPackageInfo =
-            fun filePath ->
-                let data = [ filePath ]
-                axios.post<Document>(getRoute "getPackageInfo", data) |> toAsync
+    { getPackageInfo =
+        fun filePath ->
+            let data = [ filePath ]
+            axios.post<Document>(getRoute "getPackageInfo", data) |> toAsync
 
-        getPartContent =
-            fun filePath partUri ->
-                let data = [ filePath; partUri ]
-                axios.post<string>(getRoute "getPartContent", data) |> toAsync
+      getPartContent =
+        fun filePath partUri ->
+            let data = [ filePath; partUri ]
+            axios.post<string>(getRoute "getPartContent", data) |> toAsync
 
-        checkHealth =
-            fun () -> async {
+      checkHealth =
+        fun () ->
+            async {
                 try
                     return! axios.get(getRoute "checkHealth") |> toAsync
                 with e ->
                     return false
             }
-        stopApplication =
-            fun () ->
-                Log.line $"Stopping API Server ..."
-                axios.get(getRoute "stopApplication") |> toAsync
-    }
+      stopApplication =
+        fun () ->
+            Log.line $"Stopping API Server ..."
+            axios.get(getRoute "stopApplication") |> toAsync }
