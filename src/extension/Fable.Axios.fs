@@ -22,8 +22,8 @@ and AxiosXHRConfigBase<'T> =
     abstract responseType: string option with get, set
     abstract xsrfCookieName: string option with get, set
     abstract xsrfHeaderName: string option with get, set
-    abstract transformRequest: U2<Func<'T, 'U>, Func<'T, 'U>> option with get, set
-    abstract transformResponse: Func<'T, 'U> option with get, set
+// abstract transformRequest: U2<Func<'T, 'U>, Func<'T, 'U>> option with get, set
+// abstract transformResponse: Func<'T, 'U> option with get, set
 
 and AxiosXHRConfig<'T> =
     inherit AxiosXHRConfigBase<'T>
