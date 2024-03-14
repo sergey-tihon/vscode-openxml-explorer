@@ -41,15 +41,16 @@ let activate(context: Vscode.ExtensionContext) =
 
     Vscode.commands.registerCommand(
         "openxml-explorer.openPart",
-        objfy2(fun (uri: Vscode.Uri) -> promise {
-            let! document = Vscode.workspace.openTextDocument(uri) |> Promise.ofThenable
+        objfy2(fun (uri: Vscode.Uri) ->
+            promise {
+                let! document = Vscode.workspace.openTextDocument(uri) |> Promise.ofThenable
 
-            let! _ =
-                Vscode.window.showTextDocument(document, DefaultViewOpions())
-                |> Promise.ofThenable
+                let! _ =
+                    Vscode.window.showTextDocument(document, DefaultViewOpions())
+                    |> Promise.ofThenable
 
-            return ()
-        })
+                return ()
+            })
     )
     |> context.Subscribe
 

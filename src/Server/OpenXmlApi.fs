@@ -16,13 +16,11 @@ let getPackageInfo(path: string) : Document =
         let uri = part.Uri.OriginalString
         use stream = part.GetStream()
 
-        {
-            Uri = uri
-            Name = Path.GetFileName(uri)
-            Length = stream.Length
-            ContentType = part.ContentType
-            ChildParts = part.GetRelationships() |> parseRelationships parent uri
-        }
+        { Uri = uri
+          Name = Path.GetFileName(uri)
+          Length = stream.Length
+          ContentType = part.ContentType
+          ChildParts = part.GetRelationships() |> parseRelationships parent uri }
 
     and parseRelationships (parentUri: string) (thisUri: string) (relationship: PackageRelationshipCollection) =
         relationship
@@ -37,12 +35,10 @@ let getPackageInfo(path: string) : Document =
                 relationship.Package.GetPart uri |> parsePart thisUri |> Some)
         |> Seq.toArray
 
-    {
-        Path = path
-        FileName = Path.GetFileName(path)
-        LastWriteTime = package.PackageProperties.Modified |> Option.ofNullable
-        MainParts = package.GetRelationships() |> parseRelationships "" ""
-    }
+    { Path = path
+      FileName = Path.GetFileName(path)
+      LastWriteTime = package.PackageProperties.Modified |> Option.ofNullable
+      MainParts = package.GetRelationships() |> parseRelationships "" "" }
 
 let getPartContent (path: string) (partUri: string) : string =
     use package = Package.Open(path, FileMode.Open, FileAccess.Read)
@@ -54,17 +50,18 @@ let getPartContent (path: string) (partUri: string) : string =
 let createOpenXmlApiFromContext(httpContext: HttpContext) : IOpenXmlApi =
     let lifetime = httpContext.GetService<IHostApplicationLifetime>()
 
-    {
-        getPackageInfo =
-            fun filePath -> async {
+    { getPackageInfo =
+        fun filePath ->
+            async {
                 try
                     return getPackageInfo filePath
                 with ex ->
                     printfn $"%A{ex}"
                     return getPackageInfo filePath
             }
-        getPartContent =
-            fun filePath partUri -> async {
+      getPartContent =
+        fun filePath partUri ->
+            async {
                 try
                     let content = getPartContent filePath partUri
 
@@ -77,10 +74,10 @@ let createOpenXmlApiFromContext(httpContext: HttpContext) : IOpenXmlApi =
                     printfn $"%A{ex}"
                     return $"%A{ex}"
             }
-        checkHealth = fun () -> async { return true }
-        stopApplication =
-            fun () -> async {
+      checkHealth = fun () -> async { return true }
+      stopApplication =
+        fun () ->
+            async {
                 lifetime.StopApplication()
                 return ()
-            }
-    }
+            } }

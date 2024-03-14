@@ -26,8 +26,7 @@ type OpenPartCommand(path: string, fragment: string) =
                 member _.path = path |> Some
                 member _.fragment = fragment |> Some
                 member _.authority = None
-                member _.query = None
-            }
+                member _.query = None }
         )
 
     let args = [ box uri |> Some ] |> ResizeArray
