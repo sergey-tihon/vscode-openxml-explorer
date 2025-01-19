@@ -1,9 +1,13 @@
 name: Build Pull Requests
 
 on:
-  push:
-    branches:
-    - '*'
+    push:
+      branches:
+        - main
+    pull_request:
+      branches:
+        - main
+
 
 jobs:
   build:
