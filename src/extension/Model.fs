@@ -76,7 +76,7 @@ type MyTreeDataProvider() =
                 let item =
                     vscode.TreeItem.Create(U2.Case1 part.Name, getCollapseStatus part.ChildParts)
 
-                item.tooltip <- part.Uri |> U2.Case1 |> Some
+                item.tooltip <- part.GetTooltip() |> U2.Case1 |> Some
                 item.command <- Some(OpenPartCommand(part.Uri, document.Path) :> Vscode.Command)
                 item.contextValue <- Some "file"
                 item.iconPath <- vscode.ThemeIcon.Create("file-code") |> U4.Case4 |> Some
@@ -85,7 +85,7 @@ type MyTreeDataProvider() =
                 let item =
                     vscode.TreeItem.Create(U2.Case1 part.Name, getCollapseStatus part.ChildParts)
 
-                item.tooltip <- part.Uri |> U2.Case1 |> Some
+                item.tooltip <- part.GetTooltip() |> U2.Case1 |> Some
                 item.iconPath <- vscode.ThemeIcon.Create("file-binary") |> U4.Case4 |> Some
                 U2.Case1 item
 

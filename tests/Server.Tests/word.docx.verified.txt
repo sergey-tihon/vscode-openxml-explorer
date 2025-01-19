@@ -1,0 +1,65 @@
+﻿{
+  Path: {ProjectDirectory}../data/word.docx,
+  FileName: word.docx,
+  LastWriteTime: {},
+  MainParts: [
+    {
+      Uri: /docProps/app.xml,
+      Name: app.xml,
+      RelationshipId: rId3,
+      Length: 711,
+      ContentType: application/vnd.openxmlformats-officedocument.extended-properties+xml
+    },
+    {
+      Uri: /docProps/core.xml,
+      Name: core.xml,
+      RelationshipId: rId2,
+      Length: 751,
+      ContentType: application/vnd.openxmlformats-package.core-properties+xml
+    },
+    {
+      Uri: /word/document.xml,
+      Name: document.xml,
+      RelationshipId: rId1,
+      Length: 2835,
+      ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml,
+      ChildParts: [
+        {
+          Uri: /word/fontTable.xml,
+          Name: fontTable.xml,
+          RelationshipId: rId4,
+          Length: 1567,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml
+        },
+        {
+          Uri: /word/settings.xml,
+          Name: settings.xml,
+          RelationshipId: rId2,
+          Length: 2758,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml
+        },
+        {
+          Uri: /word/styles.xml,
+          Name: styles.xml,
+          RelationshipId: rId1,
+          Length: 29278,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml
+        },
+        {
+          Uri: /word/theme/theme1.xml,
+          Name: theme1.xml,
+          RelationshipId: rId5,
+          Length: 8393,
+          ContentType: application/vnd.openxmlformats-officedocument.theme+xml
+        },
+        {
+          Uri: /word/webSettings.xml,
+          Name: webSettings.xml,
+          RelationshipId: rId3,
+          Length: 803,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml
+        }
+      ]
+    }
+  ]
+}

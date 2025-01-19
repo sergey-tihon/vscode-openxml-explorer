@@ -5,9 +5,13 @@ open System
 type DocumentPart =
     { Uri: string
       Name: string
+      RelationshipId: string
       Length: int64
       ContentType: string
       ChildParts: DocumentPart[] }
+
+    member this.GetTooltip() =
+        $"%s{this.Uri} (%s{this.RelationshipId})"
 
 type Document =
     { Path: string
@@ -16,7 +20,6 @@ type Document =
       MainParts: DocumentPart[] }
 
 module Route =
-
     let builder typeName methodName =
         $"/api/%s{typeName}/%s{methodName}"
 

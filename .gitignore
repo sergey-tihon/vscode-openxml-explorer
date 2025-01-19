@@ -457,3 +457,6 @@ paket-files
 issueList.md
 release/package-lock\.json
 *.vsix
+
+# Verify settings
+*.received.*
