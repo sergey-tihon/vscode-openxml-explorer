@@ -33,7 +33,7 @@ jobs:
     - name: Restore local tools
       run: dotnet tool restore
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet paket restore
     - name: Install VSCE
       run: yarn global add vsce
     - name: Build and Test
