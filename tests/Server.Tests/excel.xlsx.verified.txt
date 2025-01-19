@@ -25,6 +25,13 @@
       ContentType: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml,
       ChildParts: [
         {
+          Uri: /xl/worksheets/sheet1.xml,
+          Name: sheet1.xml,
+          RelationshipId: rId1,
+          Length: 1130,
+          ContentType: application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml
+        },
+        {
           Uri: /xl/styles.xml,
           Name: styles.xml,
           RelationshipId: rId3,
@@ -37,13 +44,6 @@
           RelationshipId: rId2,
           Length: 8390,
           ContentType: application/vnd.openxmlformats-officedocument.theme+xml
-        },
-        {
-          Uri: /xl/worksheets/sheet1.xml,
-          Name: sheet1.xml,
-          RelationshipId: rId1,
-          Length: 1130,
-          ContentType: application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml
         }
       ]
     }

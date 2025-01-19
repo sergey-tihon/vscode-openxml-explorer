@@ -25,11 +25,11 @@
       ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml,
       ChildParts: [
         {
-          Uri: /word/webSettings.xml,
-          Name: webSettings.xml,
-          RelationshipId: rId3,
-          Length: 803,
-          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml
+          Uri: /word/fontTable.xml,
+          Name: fontTable.xml,
+          RelationshipId: rId4,
+          Length: 1567,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml
         },
         {
           Uri: /word/settings.xml,
@@ -53,11 +53,11 @@
           ContentType: application/vnd.openxmlformats-officedocument.theme+xml
         },
         {
-          Uri: /word/fontTable.xml,
-          Name: fontTable.xml,
-          RelationshipId: rId4,
-          Length: 1567,
-          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml
+          Uri: /word/webSettings.xml,
+          Name: webSettings.xml,
+          RelationshipId: rId3,
+          Length: 803,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml
         }
       ]
     }

@@ -3,18 +3,18 @@
   FileName: word-libre6.docx,
   MainParts: [
     {
-      Uri: /docProps/core.xml,
-      Name: core.xml,
-      RelationshipId: rId1,
-      Length: 731,
-      ContentType: application/vnd.openxmlformats-package.core-properties+xml
-    },
-    {
       Uri: /docProps/app.xml,
       Name: app.xml,
       RelationshipId: rId2,
       Length: 510,
       ContentType: application/vnd.openxmlformats-officedocument.extended-properties+xml
+    },
+    {
+      Uri: /docProps/core.xml,
+      Name: core.xml,
+      RelationshipId: rId1,
+      Length: 731,
+      ContentType: application/vnd.openxmlformats-package.core-properties+xml
     },
     {
       Uri: /word/document.xml,
@@ -23,13 +23,6 @@
       Length: 4661,
       ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml,
       ChildParts: [
-        {
-          Uri: /word/styles.xml,
-          Name: styles.xml,
-          RelationshipId: rId1,
-          Length: 2421,
-          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml
-        },
         {
           Uri: /word/fontTable.xml,
           Name: fontTable.xml,
@@ -43,6 +36,13 @@
           RelationshipId: rId3,
           Length: 241,
           ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml
+        },
+        {
+          Uri: /word/styles.xml,
+          Name: styles.xml,
+          RelationshipId: rId1,
+          Length: 2421,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml
         }
       ]
     }
