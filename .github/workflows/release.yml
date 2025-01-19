@@ -1,6 +1,6 @@
 name: Release
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       username:
@@ -16,26 +16,28 @@ jobs:
     steps:
     # manual triggers are detached HEADs, so we need to checkout the branch
     # to actually create + push a commit later on in the workflow
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         ref: ${{ github.head_ref }}
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: ${{ matrix.dotnet }}
-    - uses: actions/setup-node@v2-beta
+        dotnet-version: "9.0.x"
+    - uses: actions/setup-node@v3
       with:
-        node-version: '15.12.0'
+        node-version: '22'
+        cache: 'yarn'
+
     - name: Restore local tools
       run: dotnet tool restore
-    - name: Paket Restore
+    - name: Restore dependencies
       run: dotnet paket restore
     - name: Install VSCE
       run: yarn global add vsce
     - name: Publish Release
       env:
         vsce-token: ${{ secrets.VSCE_TOKEN }}
-      run: dotnet fake build -t Release
+      run: dotnet fsi build.fsx -t Release
     - name: upload artifact package
       uses: actions/upload-artifact@v2
       with:

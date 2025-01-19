@@ -1,9 +1,13 @@
 name: Build Pull Requests
 
 on:
-  push:
-   branches:
-     - '*'
+    push:
+      branches:
+        - main
+    pull_request:
+      branches:
+        - main
+
 
 jobs:
   build:
@@ -11,24 +15,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest]
-        dotnet: [6.0.401]
+        os: [macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: ${{ matrix.dotnet }}
-    - uses: actions/setup-node@v2-beta
+        dotnet-version: "9.0.x"
+    - uses: actions/setup-node@v3
       with:
-        node-version: '15.12.0'
+        node-version: '22'
+        cache: 'yarn'
+
     - name: Restore local tools
       run: dotnet tool restore
-    - name: Paket Restore
+    - name: Restore dependencies
       run: dotnet paket restore
     - name: Install VSCE
       run: yarn global add vsce
     - name: Build and Test
-      run: dotnet fake run build.fsx -t Build
+      run: dotnet fsi build.fsx -t Build

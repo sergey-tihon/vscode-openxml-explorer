@@ -3,28 +3,32 @@
   "isRoot": true,
   "tools": {
     "paket": {
-      "version": "7.1.5",
+      "version": "9.0.2",
       "commands": [
         "paket"
-      ]
+      ],
+      "rollForward": true
     },
     "fake-cli": {
-      "version": "5.22.0",
+      "version": "6.1.3",
       "commands": [
         "fake"
-      ]
+      ],
+      "rollForward": true
     },
     "fable": {
-      "version": "3.7.20",
+      "version": "5.0.0-alpha.5",
       "commands": [
         "fable"
-      ]
+      ],
+      "rollForward": true
     },
     "fantomas": {
-      "version": "5.0.3",
+      "version": "7.0.0",
       "commands": [
         "fantomas"
-      ]
+      ],
+      "rollForward": true
     }
   }
 }
