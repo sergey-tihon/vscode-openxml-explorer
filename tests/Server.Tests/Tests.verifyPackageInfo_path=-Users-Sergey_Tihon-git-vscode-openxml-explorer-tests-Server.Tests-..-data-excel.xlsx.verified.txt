@@ -1,0 +1,45 @@
+﻿{
+  Path: {ProjectDirectory}../data/excel.xlsx,
+  FileName: excel.xlsx,
+  LastWriteTime: {},
+  MainParts: [
+    {
+      Uri: /docProps/app.xml,
+      Name: app.xml,
+      Length: 795,
+      ContentType: application/vnd.openxmlformats-officedocument.extended-properties+xml
+    },
+    {
+      Uri: /docProps/core.xml,
+      Name: core.xml,
+      Length: 635,
+      ContentType: application/vnd.openxmlformats-package.core-properties+xml
+    },
+    {
+      Uri: /xl/workbook.xml,
+      Name: workbook.xml,
+      Length: 2187,
+      ContentType: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml,
+      ChildParts: [
+        {
+          Uri: /xl/styles.xml,
+          Name: styles.xml,
+          Length: 1618,
+          ContentType: application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml
+        },
+        {
+          Uri: /xl/theme/theme1.xml,
+          Name: theme1.xml,
+          Length: 8390,
+          ContentType: application/vnd.openxmlformats-officedocument.theme+xml
+        },
+        {
+          Uri: /xl/worksheets/sheet1.xml,
+          Name: sheet1.xml,
+          Length: 1130,
+          ContentType: application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml
+        }
+      ]
+    }
+  ]
+}

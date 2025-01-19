@@ -1,0 +1,57 @@
+﻿{
+  Path: {ProjectDirectory}../data/word.docx,
+  FileName: word.docx,
+  LastWriteTime: {},
+  MainParts: [
+    {
+      Uri: /docProps/app.xml,
+      Name: app.xml,
+      Length: 711,
+      ContentType: application/vnd.openxmlformats-officedocument.extended-properties+xml
+    },
+    {
+      Uri: /docProps/core.xml,
+      Name: core.xml,
+      Length: 751,
+      ContentType: application/vnd.openxmlformats-package.core-properties+xml
+    },
+    {
+      Uri: /word/document.xml,
+      Name: document.xml,
+      Length: 2835,
+      ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml,
+      ChildParts: [
+        {
+          Uri: /word/webSettings.xml,
+          Name: webSettings.xml,
+          Length: 803,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml
+        },
+        {
+          Uri: /word/settings.xml,
+          Name: settings.xml,
+          Length: 2758,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml
+        },
+        {
+          Uri: /word/styles.xml,
+          Name: styles.xml,
+          Length: 29278,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml
+        },
+        {
+          Uri: /word/theme/theme1.xml,
+          Name: theme1.xml,
+          Length: 8393,
+          ContentType: application/vnd.openxmlformats-officedocument.theme+xml
+        },
+        {
+          Uri: /word/fontTable.xml,
+          Name: fontTable.xml,
+          Length: 1567,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml
+        }
+      ]
+    }
+  ]
+}

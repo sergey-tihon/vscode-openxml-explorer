@@ -1,0 +1,38 @@
+﻿{
+  Path: {ProjectDirectory}../data/excel-libre6.xlsx,
+  FileName: excel-libre6.xlsx,
+  MainParts: [
+    {
+      Uri: /xl/workbook.xml,
+      Name: workbook.xml,
+      Length: 887,
+      ContentType: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml,
+      ChildParts: [
+        {
+          Uri: /xl/styles.xml,
+          Name: styles.xml,
+          Length: 4451,
+          ContentType: application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml
+        },
+        {
+          Uri: /xl/worksheets/sheet1.xml,
+          Name: sheet1.xml,
+          Length: 2386,
+          ContentType: application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml
+        }
+      ]
+    },
+    {
+      Uri: /docProps/core.xml,
+      Name: core.xml,
+      Length: 731,
+      ContentType: application/vnd.openxmlformats-package.core-properties+xml
+    },
+    {
+      Uri: /docProps/app.xml,
+      Name: app.xml,
+      Length: 378,
+      ContentType: application/vnd.openxmlformats-officedocument.extended-properties+xml
+    }
+  ]
+}

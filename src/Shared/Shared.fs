@@ -16,7 +16,6 @@ type Document =
       MainParts: DocumentPart[] }
 
 module Route =
-
     let builder typeName methodName =
         $"/api/%s{typeName}/%s{methodName}"
 

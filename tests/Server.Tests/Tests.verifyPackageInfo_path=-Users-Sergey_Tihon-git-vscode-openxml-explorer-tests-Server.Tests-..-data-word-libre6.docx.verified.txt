@@ -1,0 +1,44 @@
+﻿{
+  Path: {ProjectDirectory}../data/word-libre6.docx,
+  FileName: word-libre6.docx,
+  MainParts: [
+    {
+      Uri: /docProps/core.xml,
+      Name: core.xml,
+      Length: 731,
+      ContentType: application/vnd.openxmlformats-package.core-properties+xml
+    },
+    {
+      Uri: /docProps/app.xml,
+      Name: app.xml,
+      Length: 510,
+      ContentType: application/vnd.openxmlformats-officedocument.extended-properties+xml
+    },
+    {
+      Uri: /word/document.xml,
+      Name: document.xml,
+      Length: 4661,
+      ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml,
+      ChildParts: [
+        {
+          Uri: /word/styles.xml,
+          Name: styles.xml,
+          Length: 2421,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml
+        },
+        {
+          Uri: /word/fontTable.xml,
+          Name: fontTable.xml,
+          Length: 1076,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml
+        },
+        {
+          Uri: /word/settings.xml,
+          Name: settings.xml,
+          Length: 241,
+          ContentType: application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml
+        }
+      ]
+    }
+  ]
+}

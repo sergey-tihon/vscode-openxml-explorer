@@ -12,9 +12,16 @@ nuget FSharp.Core
 nuget Fable.Remoting.AspNetCore
 nuget System.IO.Packaging
 
-nuget Microsoft.NET.Test.Sdk
-nuget NUnit3TestAdapter
-nuget FsUnit
-
 github ionide/ionide-vscode-helpers src/Fable.Import.VSCode.fs
 github ionide/ionide-vscode-helpers src/Helpers.fs
+
+group Test
+    source https://api.nuget.org/v3/index.json
+    frameworks: net9.0
+
+    nuget Microsoft.NET.Test.Sdk
+    nuget NUnit3TestAdapter
+    nuget FsUnit
+    nuget Verify.NUnit
+    nuget Argon.FSharp
+
