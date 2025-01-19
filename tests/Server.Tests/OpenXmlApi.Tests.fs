@@ -19,6 +19,7 @@ let verifyPackageInfo path =
     let doc = OpenXmlApi.getPackageInfo path
 
     task {
-        let! _ = Verifier.Verify(doc).UseParameters(path)
+        let fileName = Path.GetFileName(path)
+        let! _ = Verifier.Verify(doc).UseFileName(fileName)
         ()
     }
