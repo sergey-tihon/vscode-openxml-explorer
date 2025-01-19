@@ -32,9 +32,7 @@ and AxiosXHRConfig<'T> =
     abstract data: 'T option with get, set
 
 /// This untyped version of the AxiosXHR interface is required to implement Axios.all
-and AxiosXHR =
-    interface
-    end
+and AxiosXHR = interface end
 
 and AxiosXHR<'T> =
     inherit AxiosXHR
