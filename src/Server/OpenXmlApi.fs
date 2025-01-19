@@ -12,12 +12,13 @@ open Shared
 let getPackageInfo(path: string) : Document =
     use package = Package.Open(path, FileMode.Open, FileAccess.Read)
 
-    let rec parsePart (parent: string) (part: PackagePart) =
+    let rec parsePart (parent: string) (relId: string) (part: PackagePart) =
         let uri = part.Uri.OriginalString
         use stream = part.GetStream()
 
         { Uri = uri
           Name = Path.GetFileName(uri)
+          RelationshipId = relId
           Length = stream.Length
           ContentType = part.ContentType
           ChildParts = part.GetRelationships() |> parseRelationships parent uri }
@@ -32,7 +33,9 @@ let getPackageInfo(path: string) : Document =
             if uri.OriginalString = parentUri then
                 None
             else
-                relationship.Package.GetPart uri |> parsePart thisUri |> Some)
+                relationship.Package.GetPart uri
+                |> parsePart thisUri relationship.Id
+                |> Some)
         |> Seq.toArray
 
     { Path = path

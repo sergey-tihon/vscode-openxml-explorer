@@ -6,7 +6,7 @@ open Fable.Import.Axios.Globals
 open Shared
 
 let inline private toAsync<'a>(resp: JS.Promise<AxiosXHR<'a>>) =
-    resp |> Promise.map(fun x -> x.data) |> Async.AwaitPromise
+    resp |> Promise.map(_.data) |> Async.AwaitPromise
 
 let getApiClient(serverHost) : IOpenXmlApi =
     let typeName = nameof(IOpenXmlApi)
