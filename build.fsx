@@ -135,6 +135,8 @@ Target.create "RunScript" (fun _ ->
         { Fable.DefaultArgs with
             Command = Fable.Build
             Debug = false
+            // https://github.com/fable-compiler/Fable/issues/3719#issuecomment-1951095571
+            AdditionalFableArgs = Some "--test:MSBuildCracker"
             Webpack = Fable.WithWebpack None })
 
 Target.create "Watch" (fun _ ->
