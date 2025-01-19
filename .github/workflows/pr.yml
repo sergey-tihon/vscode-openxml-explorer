@@ -35,4 +35,4 @@ jobs:
     - name: Install VSCE
       run: yarn global add vsce
     - name: Build and Test
-      run: dotnet fake run build.fsx -t Build
+      run: dotnet fsi build.fsx -t Build
