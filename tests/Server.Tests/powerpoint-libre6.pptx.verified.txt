@@ -5,120 +5,140 @@
     {
       Uri: /docProps/core.xml,
       Name: core.xml,
+      RelationshipId: rId1,
       Length: 738,
       ContentType: application/vnd.openxmlformats-package.core-properties+xml
     },
     {
       Uri: /docProps/app.xml,
       Name: app.xml,
+      RelationshipId: rId2,
       Length: 378,
       ContentType: application/vnd.openxmlformats-officedocument.extended-properties+xml
     },
     {
       Uri: /ppt/presentation.xml,
       Name: presentation.xml,
+      RelationshipId: rId3,
       Length: 797,
       ContentType: application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml,
       ChildParts: [
         {
           Uri: /ppt/theme/theme1.xml,
           Name: theme1.xml,
+          RelationshipId: rId1,
           Length: 6480,
           ContentType: application/vnd.openxmlformats-officedocument.theme+xml
         },
         {
           Uri: /ppt/slideMasters/slideMaster1.xml,
           Name: slideMaster1.xml,
+          RelationshipId: rId2,
           Length: 8915,
           ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml,
           ChildParts: [
             {
               Uri: /ppt/theme/theme1.xml,
               Name: theme1.xml,
+              RelationshipId: rId1,
               Length: 6480,
               ContentType: application/vnd.openxmlformats-officedocument.theme+xml
             },
             {
               Uri: /ppt/media/image1.png,
               Name: image1.png,
+              RelationshipId: rId2,
               Length: 105624,
               ContentType: image/png
             },
             {
               Uri: /ppt/media/image2.png,
               Name: image2.png,
+              RelationshipId: rId3,
               Length: 97814,
               ContentType: image/png
             },
             {
               Uri: /ppt/slideLayouts/slideLayout1.xml,
               Name: slideLayout1.xml,
+              RelationshipId: rId4,
               Length: 888,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout2.xml,
               Name: slideLayout2.xml,
+              RelationshipId: rId5,
               Length: 1995,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout3.xml,
               Name: slideLayout3.xml,
+              RelationshipId: rId6,
               Length: 1959,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout4.xml,
               Name: slideLayout4.xml,
+              RelationshipId: rId7,
               Length: 2483,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout5.xml,
               Name: slideLayout5.xml,
+              RelationshipId: rId8,
               Length: 1445,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout6.xml,
               Name: slideLayout6.xml,
+              RelationshipId: rId9,
               Length: 1449,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout7.xml,
               Name: slideLayout7.xml,
+              RelationshipId: rId10,
               Length: 3018,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout8.xml,
               Name: slideLayout8.xml,
+              RelationshipId: rId11,
               Length: 3018,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout9.xml,
               Name: slideLayout9.xml,
+              RelationshipId: rId12,
               Length: 3019,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout10.xml,
               Name: slideLayout10.xml,
+              RelationshipId: rId13,
               Length: 2496,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout11.xml,
               Name: slideLayout11.xml,
+              RelationshipId: rId14,
               Length: 3519,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout12.xml,
               Name: slideLayout12.xml,
+              RelationshipId: rId15,
               Length: 4553,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             }
@@ -127,90 +147,105 @@
         {
           Uri: /ppt/slideMasters/slideMaster2.xml,
           Name: slideMaster2.xml,
+          RelationshipId: rId3,
           Length: 8602,
           ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml,
           ChildParts: [
             {
               Uri: /ppt/theme/theme2.xml,
               Name: theme2.xml,
+              RelationshipId: rId1,
               Length: 6480,
               ContentType: application/vnd.openxmlformats-officedocument.theme+xml
             },
             {
               Uri: /ppt/media/image3.png,
               Name: image3.png,
+              RelationshipId: rId2,
               Length: 100440,
               ContentType: image/png
             },
             {
               Uri: /ppt/slideLayouts/slideLayout13.xml,
               Name: slideLayout13.xml,
+              RelationshipId: rId3,
               Length: 888,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout14.xml,
               Name: slideLayout14.xml,
+              RelationshipId: rId4,
               Length: 1997,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout15.xml,
               Name: slideLayout15.xml,
+              RelationshipId: rId5,
               Length: 1960,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout16.xml,
               Name: slideLayout16.xml,
+              RelationshipId: rId6,
               Length: 2483,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout17.xml,
               Name: slideLayout17.xml,
+              RelationshipId: rId7,
               Length: 1445,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout18.xml,
               Name: slideLayout18.xml,
+              RelationshipId: rId8,
               Length: 1449,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout19.xml,
               Name: slideLayout19.xml,
+              RelationshipId: rId9,
               Length: 3018,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout20.xml,
               Name: slideLayout20.xml,
+              RelationshipId: rId10,
               Length: 3018,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout21.xml,
               Name: slideLayout21.xml,
+              RelationshipId: rId11,
               Length: 3019,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout22.xml,
               Name: slideLayout22.xml,
+              RelationshipId: rId12,
               Length: 2496,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout23.xml,
               Name: slideLayout23.xml,
+              RelationshipId: rId13,
               Length: 3519,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             },
             {
               Uri: /ppt/slideLayouts/slideLayout24.xml,
               Name: slideLayout24.xml,
+              RelationshipId: rId14,
               Length: 4553,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
             }
@@ -219,102 +254,119 @@
         {
           Uri: /ppt/slides/slide1.xml,
           Name: slide1.xml,
+          RelationshipId: rId4,
           Length: 2255,
           ContentType: application/vnd.openxmlformats-officedocument.presentationml.slide+xml,
           ChildParts: [
             {
               Uri: /ppt/slideLayouts/slideLayout2.xml,
               Name: slideLayout2.xml,
+              RelationshipId: rId1,
               Length: 1995,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml,
               ChildParts: [
                 {
                   Uri: /ppt/slideMasters/slideMaster1.xml,
                   Name: slideMaster1.xml,
+                  RelationshipId: rId1,
                   Length: 8915,
                   ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml,
                   ChildParts: [
                     {
                       Uri: /ppt/theme/theme1.xml,
                       Name: theme1.xml,
+                      RelationshipId: rId1,
                       Length: 6480,
                       ContentType: application/vnd.openxmlformats-officedocument.theme+xml
                     },
                     {
                       Uri: /ppt/media/image1.png,
                       Name: image1.png,
+                      RelationshipId: rId2,
                       Length: 105624,
                       ContentType: image/png
                     },
                     {
                       Uri: /ppt/media/image2.png,
                       Name: image2.png,
+                      RelationshipId: rId3,
                       Length: 97814,
                       ContentType: image/png
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout1.xml,
                       Name: slideLayout1.xml,
+                      RelationshipId: rId4,
                       Length: 888,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout3.xml,
                       Name: slideLayout3.xml,
+                      RelationshipId: rId6,
                       Length: 1959,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout4.xml,
                       Name: slideLayout4.xml,
+                      RelationshipId: rId7,
                       Length: 2483,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout5.xml,
                       Name: slideLayout5.xml,
+                      RelationshipId: rId8,
                       Length: 1445,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout6.xml,
                       Name: slideLayout6.xml,
+                      RelationshipId: rId9,
                       Length: 1449,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout7.xml,
                       Name: slideLayout7.xml,
+                      RelationshipId: rId10,
                       Length: 3018,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout8.xml,
                       Name: slideLayout8.xml,
+                      RelationshipId: rId11,
                       Length: 3018,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout9.xml,
                       Name: slideLayout9.xml,
+                      RelationshipId: rId12,
                       Length: 3019,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout10.xml,
                       Name: slideLayout10.xml,
+                      RelationshipId: rId13,
                       Length: 2496,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout11.xml,
                       Name: slideLayout11.xml,
+                      RelationshipId: rId14,
                       Length: 3519,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout12.xml,
                       Name: slideLayout12.xml,
+                      RelationshipId: rId15,
                       Length: 4553,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     }
@@ -327,96 +379,112 @@
         {
           Uri: /ppt/slides/slide2.xml,
           Name: slide2.xml,
+          RelationshipId: rId5,
           Length: 1579,
           ContentType: application/vnd.openxmlformats-officedocument.presentationml.slide+xml,
           ChildParts: [
             {
               Uri: /ppt/slideLayouts/slideLayout15.xml,
               Name: slideLayout15.xml,
+              RelationshipId: rId1,
               Length: 1960,
               ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml,
               ChildParts: [
                 {
                   Uri: /ppt/slideMasters/slideMaster2.xml,
                   Name: slideMaster2.xml,
+                  RelationshipId: rId1,
                   Length: 8602,
                   ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml,
                   ChildParts: [
                     {
                       Uri: /ppt/theme/theme2.xml,
                       Name: theme2.xml,
+                      RelationshipId: rId1,
                       Length: 6480,
                       ContentType: application/vnd.openxmlformats-officedocument.theme+xml
                     },
                     {
                       Uri: /ppt/media/image3.png,
                       Name: image3.png,
+                      RelationshipId: rId2,
                       Length: 100440,
                       ContentType: image/png
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout13.xml,
                       Name: slideLayout13.xml,
+                      RelationshipId: rId3,
                       Length: 888,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout14.xml,
                       Name: slideLayout14.xml,
+                      RelationshipId: rId4,
                       Length: 1997,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout16.xml,
                       Name: slideLayout16.xml,
+                      RelationshipId: rId6,
                       Length: 2483,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout17.xml,
                       Name: slideLayout17.xml,
+                      RelationshipId: rId7,
                       Length: 1445,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout18.xml,
                       Name: slideLayout18.xml,
+                      RelationshipId: rId8,
                       Length: 1449,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout19.xml,
                       Name: slideLayout19.xml,
+                      RelationshipId: rId9,
                       Length: 3018,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout20.xml,
                       Name: slideLayout20.xml,
+                      RelationshipId: rId10,
                       Length: 3018,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout21.xml,
                       Name: slideLayout21.xml,
+                      RelationshipId: rId11,
                       Length: 3019,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout22.xml,
                       Name: slideLayout22.xml,
+                      RelationshipId: rId12,
                       Length: 2496,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout23.xml,
                       Name: slideLayout23.xml,
+                      RelationshipId: rId13,
                       Length: 3519,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     },
                     {
                       Uri: /ppt/slideLayouts/slideLayout24.xml,
                       Name: slideLayout24.xml,
+                      RelationshipId: rId14,
                       Length: 4553,
                       ContentType: application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml
                     }
