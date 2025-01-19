@@ -36,6 +36,7 @@ let getPackageInfo(path: string) : Document =
                 relationship.Package.GetPart uri
                 |> parsePart thisUri relationship.Id
                 |> Some)
+        |> Seq.sortBy _.Name
         |> Seq.toArray
 
     { Path = path
