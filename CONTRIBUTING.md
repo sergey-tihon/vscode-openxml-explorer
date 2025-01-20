@@ -6,10 +6,10 @@ Please take a moment to review this document in order to make the contribution p
 
 ### Requirements
 
-* VSCode
-* Node.js
-* Yarn
-* .NET 5.0 SDK
+- VSCode
+- Node.js
+- Yarn
+- .NET 9.0 SDK
 
 ### How to build
 
