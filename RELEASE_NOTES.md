@@ -1,3 +1,10 @@
+### 0.2.0 - 20.01.2025
+* Migration to .NET 8
+* Migration to  System.IO.Packaging v9.0.1
+* Added relationship id to part tooltips
+* Sorted parts by name
+* Dependencies update
+
 ### 0.1.1 - 02.10.2022
 * Dependencies update
 * Fantomas v5
