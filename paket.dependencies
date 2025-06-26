@@ -1,6 +1,6 @@
 version 9.0.2
 source https://api.nuget.org/v3/index.json
-frameworks: net8.0, netstandard2.0
+frameworks: net9.0, netstandard2.0
 storage:none
 
 nuget Fable.Core

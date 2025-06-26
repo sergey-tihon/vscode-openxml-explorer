@@ -17,7 +17,7 @@ let getPackageInfo(path: string) : Document =
         use stream = part.GetStream()
 
         { Uri = uri
-          Name = Path.GetFileName(uri)
+          Name = Path.GetFileName uri
           RelationshipId = relId
           Length = stream.Length
           ContentType = part.ContentType
@@ -40,7 +40,7 @@ let getPackageInfo(path: string) : Document =
         |> Seq.toArray
 
     { Path = path
-      FileName = Path.GetFileName(path)
+      FileName = Path.GetFileName path
       LastWriteTime = package.PackageProperties.Modified |> Option.ofNullable
       MainParts = package.GetRelationships() |> parseRelationships "" "" }
 
@@ -69,8 +69,8 @@ let createOpenXmlApiFromContext(httpContext: HttpContext) : IOpenXmlApi =
                 try
                     let content = getPartContent filePath partUri
 
-                    if partUri.Contains(".xml") then
-                        let xDoc = XDocument.Parse(content)
+                    if partUri.Contains ".xml" then
+                        let xDoc = XDocument.Parse content
                         return xDoc.ToString()
                     else
                         return content
