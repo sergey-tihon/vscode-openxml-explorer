@@ -9,9 +9,8 @@
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceRoot}/release" 
+				"--extensionDevelopmentPath=${workspaceRoot}/release"
 			],
-			"stopOnEntry": false,
 			"sourceMaps": true
 		},
 		{
@@ -20,9 +19,9 @@
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceRoot}/release" 
+				"--extensionDevelopmentPath=${workspaceRoot}/release",
+				"--disable-extensions"
 			],
-			"stopOnEntry": false,
 			"sourceMaps": true
 		}
 	]
