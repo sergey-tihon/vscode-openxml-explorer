@@ -8,6 +8,7 @@ type AgentActions =
     | ExplorePackage of uri: Vscode.Uri
     | ClosePackage of document: DataNode
     | CloseAllPackages
+    | SavePartContent of filePath: string * partUri: string * content: string
     | RestartServer
     | StopServer
 
@@ -58,6 +59,26 @@ let createAgent (provider: MyTreeDataProvider) (context: Vscode.ExtensionContext
                 | CloseAllPackages ->
                     provider.clear()
                     return! messageLoop client'
+                | SavePartContent(filePath, partUri, content) ->
+                    let! client =
+                        match client' with
+                        | Some client -> async { return client }
+                        | None -> getNewClient()
+
+                    try
+                        let! success = client.setPartContent filePath partUri content
+
+                        if success then
+                            Vscode.window.showInformationMessage($"Part '%s{partUri}' saved successfully!", Array.empty<string>)
+                            |> ignore
+                        else
+                            Vscode.window.showErrorMessage($"Failed to save part '%s{partUri}'!", Array.empty<string>)
+                            |> ignore
+                    with e ->
+                        Vscode.window.showErrorMessage($"Error saving part '%s{partUri}': %s{e.Message}", Array.empty<string>)
+                        |> ignore
+
+                    return! messageLoop(Some client)
                 | RestartServer ->
                     provider.clear()
 

@@ -16,7 +16,7 @@ Display the content of a OpenXml (_.pptx,_.docx, \*.xlsx) file in a Tree Explore
 ## Requirements
 
 - Visual Studio Code - <https://code.visualstudio.com>
-- .NET 8.0 Runtime - <https://dotnet.microsoft.com/download/dotnet/8.0>
+- .NET 9.0 Runtime - <https://dotnet.microsoft.com/download/dotnet/9.0>
 
 ## Credits
 

@@ -51,6 +51,20 @@ let getPartContent (path: string) (partUri: string) : string =
     use sr = new StreamReader(stream)
     sr.ReadToEnd()
 
+let setPartContent (path: string) (partUri: string) (content: string) : bool =
+    try
+        use package = Package.Open(path, FileMode.Open, FileAccess.ReadWrite)
+        let part = package.GetPart(Uri(partUri, UriKind.Relative))
+        use stream = part.GetStream(FileMode.Create, FileAccess.Write)
+        use writer = new StreamWriter(stream)
+        writer.Write(content)
+        writer.Flush()
+        package.Flush()
+        true
+    with ex ->
+        printfn $"Error saving part content: %A{ex}"
+        false
+
 let createOpenXmlApiFromContext(httpContext: HttpContext) : IOpenXmlApi =
     let lifetime = httpContext.GetService<IHostApplicationLifetime>()
 
@@ -77,6 +91,15 @@ let createOpenXmlApiFromContext(httpContext: HttpContext) : IOpenXmlApi =
                 with ex ->
                     printfn $"%A{ex}"
                     return $"%A{ex}"
+            }
+      setPartContent =
+        fun filePath partUri content ->
+            async {
+                try
+                    return setPartContent filePath partUri content
+                with ex ->
+                    printfn $"Error in setPartContent API: %A{ex}"
+                    return false
             }
       checkHealth = fun () -> async { return true }
       stopApplication =
