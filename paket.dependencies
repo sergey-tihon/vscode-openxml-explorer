@@ -1,6 +1,6 @@
 version 9.0.2
 source https://api.nuget.org/v3/index.json
-frameworks: net9.0, netstandard2.0
+frameworks: net10.0, netstandard2.0
 storage:none
 
 nuget Fable.Core
@@ -17,7 +17,7 @@ github ionide/ionide-vscode-helpers src/Helpers.fs
 
 group Test
     source https://api.nuget.org/v3/index.json
-    frameworks: net9.0
+    frameworks: net10.0
 
     nuget Microsoft.NET.Test.Sdk
     nuget NUnit3TestAdapter
