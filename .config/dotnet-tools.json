@@ -17,14 +17,14 @@
       "rollForward": true
     },
     "fable": {
-      "version": "5.0.0-alpha.13",
+      "version": "5.0.0-alpha.21",
       "commands": [
         "fable"
       ],
       "rollForward": true
     },
     "fantomas": {
-      "version": "7.0.2",
+      "version": "7.0.5",
       "commands": [
         "fantomas"
       ],
