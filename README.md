@@ -3,6 +3,9 @@
 [![Version](https://vsmarketplacebadges.dev/version-short/sergey-tihon.openxml-explorer.svg)](https://marketplace.visualstudio.com/items?itemName=sergey-tihon.openxml-explorer)
 [![Installs](https://vsmarketplacebadges.dev/installs-short/sergey-tihon.openxml-explorer.svg)](https://marketplace.visualstudio.com/items?itemName=sergey-tihon.openxml-explorer)
 
+[![Open VSX Version](https://img.shields.io/open-vsx/v/sergey-tihon/openxml-explorer)](https://open-vsx.org/extension/sergey-tihon/openxml-explorer)
+[![Open VSX Downloads](https://img.shields.io/open-vsx/dt/sergey-tihon/openxml-explorer)](https://open-vsx.org/extension/sergey-tihon/openxml-explorer)
+
 Display the content of a OpenXml (_.pptx,_.docx, \*.xlsx) file in a Tree Explorer
 
 ## Features
