@@ -2,7 +2,7 @@
     "name": "openxml-explorer",
     "displayName": "OpenXml Package Explorer",
     "description": "Display content of OpenXml packages (*.pptx, *.docx, *.xlsx) in Tree Explorer",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "publisher": "sergey-tihon",
     "contributors": [
         {
