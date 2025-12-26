@@ -1,6 +1,6 @@
 module Server
 
-open Microsoft.AspNetCore.Hosting
+open Microsoft.AspNetCore.Builder
 open Fable.Remoting.Server
 open Fable.Remoting.AspNetCore
 
@@ -16,6 +16,9 @@ let main args =
     if args.Length = 0 then
         failwithf $"Please specify server Url as first parameter. args=%A{args}"
 
-    WebHostBuilder().UseKestrel().Configure(fun app -> app.UseRemoting webApp).UseUrls(args.[0]).Build().Run()
+    let app = WebApplication.CreateBuilder(args).Build()
+    app.Urls.Add(args.[0])
+    app.UseRemoting webApp
+    app.Run()
 
     0
