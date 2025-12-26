@@ -19,16 +19,20 @@ let createAgent (provider: MyTreeDataProvider) (context: Vscode.ExtensionContext
             Log.line $"Starting server on port %d{port} ..."
             let client = ServerHost.startServer port context.extensionPath
 
-            let rec waitForBootstrap() =
+            let rec waitForBootstrap retries =
                 async {
-                    let! status = client.checkHealth()
+                    if retries <= 0 then
+                        Log.show()
+                        failwith "Server startup timeout"
+                    else
+                        let! status = client.checkHealth()
 
-                    if not status then
-                        do! Async.Sleep(200)
-                        do! waitForBootstrap()
+                        if not status then
+                            do! Async.Sleep 200
+                            do! waitForBootstrap(retries - 1)
                 }
 
-            do! waitForBootstrap()
+            do! waitForBootstrap 50 // 50 * 200ms = 10 seconds timeout
             provider.ApiClint <- Some client
             return client
         }
@@ -47,14 +51,14 @@ let createAgent (provider: MyTreeDataProvider) (context: Vscode.ExtensionContext
 
                     try
                         let! doc = client.getPackageInfo uri.fsPath
-                        provider.openOpenXml(doc)
+                        provider.openOpenXml doc
                     with e ->
                         Vscode.window.showErrorMessage($"Package '%s{uri.fsPath}' cannot be opened! Error: '%s{e.Message}'", Array.empty<string>)
                         |> ignore
 
                     return! messageLoop(Some client)
                 | ClosePackage document ->
-                    provider.close(document)
+                    provider.close document
                     return! messageLoop client'
                 | CloseAllPackages ->
                     provider.clear()

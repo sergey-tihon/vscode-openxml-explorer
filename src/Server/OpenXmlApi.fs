@@ -75,7 +75,7 @@ let createOpenXmlApiFromContext(httpContext: HttpContext) : IOpenXmlApi =
                     return getPackageInfo filePath
                 with ex ->
                     printfn $"%A{ex}"
-                    return getPackageInfo filePath
+                    return raise ex
             }
       getPartContent =
         fun filePath partUri ->
