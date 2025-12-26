@@ -6,10 +6,10 @@ open Fable.Import.Axios.Globals
 open Shared
 
 let inline private toAsync<'a>(resp: JS.Promise<AxiosXHR<'a>>) =
-    resp |> Promise.map(_.data) |> Async.AwaitPromise
+    resp |> Promise.map _.data |> Async.AwaitPromise
 
 let getApiClient(serverHost) : IOpenXmlApi =
-    let typeName = nameof(IOpenXmlApi)
+    let typeName = nameof IOpenXmlApi
 
     let getRoute methodName =
         serverHost + Route.builder typeName methodName
@@ -24,15 +24,23 @@ let getApiClient(serverHost) : IOpenXmlApi =
             let data = [ filePath; partUri ]
             axios.post<string>(getRoute "getPartContent", data) |> toAsync
 
+      setPartContent =
+        fun filePath partUri content ->
+            let data = [ filePath; partUri; content ]
+            axios.post<bool>(getRoute "setPartContent", data) |> toAsync
+
       checkHealth =
         fun () ->
             async {
                 try
-                    return! axios.get(getRoute "checkHealth") |> toAsync
-                with e ->
+                    return! axios.post<bool>(getRoute "checkHealth", []) |> toAsync
+                with _ ->
                     return false
             }
+
       stopApplication =
         fun () ->
-            Log.line $"Stopping API Server ..."
-            axios.get(getRoute "stopApplication") |> toAsync }
+            async {
+                Log.line "Stopping API Server ..."
+                do! axios.post<unit>(getRoute "stopApplication", []) |> toAsync
+            } }

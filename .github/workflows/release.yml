@@ -16,14 +16,14 @@ jobs:
     steps:
     # manual triggers are detached HEADs, so we need to checkout the branch
     # to actually create + push a commit later on in the workflow
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: ${{ github.head_ref }}
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: "9.0.x"
-    - uses: actions/setup-node@v3
+        global-json-file: global.json
+    - uses: actions/setup-node@v4
       with:
         node-version: '22'
         cache: 'yarn'
@@ -39,7 +39,7 @@ jobs:
         vsce-token: ${{ secrets.VSCE_TOKEN }}
       run: dotnet fsi build.fsx -t Release
     - name: upload artifact package
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: openxml-explorer-vscode-ext
         path: release/

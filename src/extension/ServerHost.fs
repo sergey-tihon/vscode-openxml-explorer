@@ -24,15 +24,20 @@ let startServer port extensionPath =
             Log.line($"ExecError: %s{e.Value.ToString()}")
             Log.show()
 
-    let host = $"http://0.0.0.0:%d{port}"
+    // Server binds to 0.0.0.0 (all interfaces), but client connects via localhost
+    let bindHost = $"http://0.0.0.0:%d{port}"
+    let clientHost = $"http://localhost:%d{port}"
     let opts = createEmpty<ExecOptions>
     opts.cwd <- Some(extensionPath + "/bin")
-    childProcess.exec($"dotnet Server.dll %s{host}", opts, cb) |> ignore
-    Log.line $"API server started at %s{host}"
 
-    Remoting.getApiClient host
+    childProcess.exec($"dotnet Server.dll %s{bindHost}", opts, cb)
+    |> ignore
+
+    Log.line $"API server started at %s{bindHost}"
+
+    Remoting.getApiClient clientHost
 
 let getFreePort() =
     let opts = createEmpty<PortFinderOptions>
-    opts.port <- Some(20489)
-    Globals.portfinder.getPortPromise(opts) |> Async.AwaitPromise
+    opts.port <- Some 20489
+    Globals.portfinder.getPortPromise opts |> Async.AwaitPromise

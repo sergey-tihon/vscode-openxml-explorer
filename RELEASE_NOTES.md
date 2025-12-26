@@ -1,3 +1,9 @@
+### 0.3.0 - 26.12.2025
+
+- Migration to .NET 10
+- Migration to System.IO.Packaging v10.0.1
+- Dependencies update
+
 ### 0.2.0 - 20.01.2025
 
 - Migration to .NET 8
