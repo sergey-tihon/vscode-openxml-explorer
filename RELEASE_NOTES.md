@@ -4,7 +4,7 @@
 - Fantomas v8
 - Build scripts migrated from FAKE to Fun.Build v1.2.0
 - XML parts can be edited and saved back to their source package.
-- Minimum supported VS Code version is now 1.23.
+- Minimum supported VS Code version is now 1.66.
 
 ### 0.3.0 - 26.12.2025
 
