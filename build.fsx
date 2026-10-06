@@ -1,286 +1,232 @@
-#r "nuget: Fake.Core.Target"
-#r "nuget: Fake.Core.Process"
-#r "nuget: Fake.Core.ReleaseNotes"
-#r "nuget: Fake.Core.Environment"
-#r "nuget: Fake.Core.UserInput"
-#r "nuget: Fake.DotNet.Cli"
-#r "nuget: Fake.DotNet.AssemblyInfoFile"
-#r "nuget: Fake.DotNet.Paket"
-#r "nuget: Fake.DotNet.MsBuild"
-#r "nuget: Fake.IO.FileSystem"
-#r "nuget: Fake.IO.Zip"
-#r "nuget: Fake.Api.GitHub"
-#r "nuget: Fake.Tools.Git"
-#r "nuget: Fake.Javascript.Yarn"
+#r "nuget: Fun.Build, 1.2.0"
 
-// Boilerplate - https://github.com/fsprojects/FAKE/issues/2719#issuecomment-1470687052
-System.Environment.GetCommandLineArgs()
-|> Array.skip 2 // skip fsi.exe; build.fsx
-|> Array.toList
-|> Fake.Core.Context.FakeExecutionContext.Create false __SOURCE_FILE__
-|> Fake.Core.Context.RuntimeContext.Fake
-|> Fake.Core.Context.setExecutionContext
-
-open Fake.Core
-open Fake.Core.TargetOperators
-open Fake.JavaScript
-open Fake.DotNet
-open Fake.IO
-open Fake.IO.Globbing.Operators
+open System
+open System.Diagnostics
 open System.IO
+open System.Runtime.CompilerServices
+open Fun.Build
 
-Target.initEnvironment()
+let repoRoot = __SOURCE_DIRECTORY__
 
-let releaseNotesData = File.ReadAllLines "RELEASE_NOTES.md" |> ReleaseNotes.parseAll
+let releaseHeading =
+    File.ReadLines(Path.Combine(repoRoot, "RELEASE_NOTES.md"))
+    |> Seq.tryFind(fun line -> line.StartsWith("### ", StringComparison.Ordinal))
+    |> Option.defaultWith(fun () -> failwith "RELEASE_NOTES.md does not contain a release heading")
 
-let release = List.head releaseNotesData
+let releaseVersion =
+    let versionText =
+        releaseHeading.Substring(4).Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        |> Array.tryHead
+        |> Option.defaultWith(fun () -> failwithf "Invalid release heading: %s" releaseHeading)
 
-// --------------------------------------------------------------------------------------
-// Build the Generator project and run it
-// --------------------------------------------------------------------------------------
+    Version.Parse versionText
 
-Target.create "Clean" (fun _ ->
-    Shell.cleanDir "./temp"
-    Shell.cleanDir "./out"
-    Shell.copy "release" [ "README.md"; "LICENSE.md" ]
-    Shell.copyFile "release/CHANGELOG.md" "RELEASE_NOTES.md"
+let cleanDirectory path =
+    if Directory.Exists path then
+        Directory.Delete(path, true)
 
-    // Remove SVG files from the release
-    // https://github.com/microsoft/vscode-vsce/issues/183
-    let fileName = "release/README.md"
+    Directory.CreateDirectory(path) |> ignore
 
-    let lines =
-        File.ReadAllLines fileName
-        |> Array.filter(fun s -> s.Contains(".svg") |> not)
-
-    File.WriteAllLines(fileName, lines))
-
-Target.create "YarnInstall" (fun _ -> Yarn.install id)
-
-module Fable =
-    type Command =
-        | Build
-        | Watch
-        | Clean
-
-    type Webpack =
-        | WithoutWebpack
-        | WithWebpack of args: string option
-
-    type Args =
-        { Command: Command
-          Debug: bool
-          ProjectPath: string
-          OutDir: string option
-          Defines: string list
-          AdditionalFableArgs: string option
-          Webpack: Webpack }
-
-    let DefaultArgs =
-        { Command = Build
-          Debug = false
-          ProjectPath = "./src/extension/Extension.fsproj"
-          OutDir = Some "./out"
-          Defines = []
-          AdditionalFableArgs = None
-          Webpack = WithoutWebpack }
-
-    let private mkArgs args =
-        let fableCmd =
-            match args.Command with
-            | Build -> ""
-            | Watch -> "watch"
-            | Clean -> "clean"
-
-        let fableProjPath = args.ProjectPath
-        let fableDebug = if args.Debug then "--define DEBUG" else ""
-
-        let fableOutDir =
-            match args.OutDir with
-            | Some dir -> sprintf "--outDir %s" dir
-            | None -> ""
-
-        let fableDefines =
-            args.Defines |> List.map(sprintf "--define %s") |> String.concat " "
-
-        let fableAdditionalArgs = args.AdditionalFableArgs |> Option.defaultValue ""
-
-        let webpackCmd =
-            match args.Webpack with
-            | WithoutWebpack -> ""
-            | WithWebpack webpackArgs ->
-                sprintf
-                    "--%s webpack %s %s"
-                    (match args.Command with
-                     | Watch -> "runWatch"
-                     | _ -> "run")
-                    (if args.Debug then
-                         "--mode=development"
-                     else
-                         "--mode=production")
-                    (webpackArgs |> Option.defaultValue "")
-
-        // $"{fableCmd} {fableProjPath} {fableOutDir} {fableDebug} {fableDefines} {fableAdditionalArgs} {webpackCmd}"
-        sprintf "%s %s %s %s %s %s %s" fableCmd fableProjPath fableOutDir fableDebug fableDefines fableAdditionalArgs webpackCmd
-
-    let run args =
-        let cmd = mkArgs args
-        let result = DotNet.exec id "fable" cmd
-
-        if not result.OK then
-            failwithf "Error while running 'dotnet fable' with args: %s" cmd
-
-Target.create "RunScript" (fun _ ->
-    Fable.run
-        { Fable.DefaultArgs with
-            Command = Fable.Build
-            Debug = false
-            Webpack = Fable.WithWebpack None })
-
-Target.create "Watch" (fun _ ->
-    Fable.run
-        { Fable.DefaultArgs with
-            Command = Fable.Watch
-            Debug = true
-            Webpack = Fable.WithWebpack None })
-
-
-Target.create "BuildServer" (fun _ ->
-    DotNet.exec id "publish" "src/Server/Server.fsproj -c Release -o release/bin"
-    |> ignore)
-
-// --------------------------------------------------------------------------------------
-// Check code format & format code using Fantomas
-
-let sourceFiles = !!"src/**/*.fs" ++ "tests/**/*.fs" -- "./**/*Assembly*.fs"
-
-Target.create "CheckFormat" (fun _ ->
-    let result =
-        sourceFiles
-        |> Seq.map(sprintf "\"%s\"")
-        |> String.concat " "
-        |> sprintf "%s --check"
-        |> DotNet.exec id "fantomas"
-
-    if result.ExitCode = 0 then
-        Trace.log "No files need formatting"
-    elif result.ExitCode = 99 then
-        failwith "Some files need formatting, check output for more info"
+let shellCommand command =
+    if OperatingSystem.IsWindows() then
+        "cmd /c " + command
     else
-        Trace.logf "Errors while formatting: %A" result.Errors)
-
-Target.create "Format" (fun _ ->
-    let result =
-        sourceFiles
-        |> Seq.map(sprintf "\"%s\"")
-        |> String.concat " "
-        |> DotNet.exec id "fantomas"
-
-    if not result.OK then
-        printfn "Errors while formatting all files: %A" result.Messages)
+        command
 
 
-// --------------------------------------------------------------------------------------
-// Build and run test projects
-// --------------------------------------------------------------------------------------
+let clean =
+    stage "Clean" {
+        run (fun _ ->
+            cleanDirectory(Path.Combine(repoRoot, "temp"))
+            cleanDirectory(Path.Combine(repoRoot, "out"))
+            Directory.CreateDirectory(Path.Combine(repoRoot, "release")) |> ignore
+            File.Copy(Path.Combine(repoRoot, "README.md"), Path.Combine(repoRoot, "release/README.md"), true)
+            File.Copy(Path.Combine(repoRoot, "LICENSE.md"), Path.Combine(repoRoot, "release/LICENSE.md"), true)
+            File.Copy(Path.Combine(repoRoot, "RELEASE_NOTES.md"), Path.Combine(repoRoot, "release/CHANGELOG.md"), true)
 
-Target.create "RunTests" (fun _ ->
-    let result = DotNet.exec id "test" ""
+            let readmePath = Path.Combine(repoRoot, "release/README.md")
 
-    if not result.OK then
-        failwithf "Test failed: %A" result.Errors)
+            File.ReadAllLines(readmePath)
+            |> Array.filter(fun line -> line.Contains(".svg") |> not)
+            |> fun lines -> File.WriteAllLines(readmePath, lines))
+    }
 
-// --------------------------------------------------------------------------------------
-// Packaging and release
-// --------------------------------------------------------------------------------------
+let yarnInstall =
+    stage "YarnInstall" {
+        run (shellCommand "yarn install")
+    }
 
-let run cmd args dir =
-    let parms =
-        { ExecParams.Empty with
-            Program = cmd
-            WorkingDir = dir
-            CommandLine = args }
-
-    if Process.shellExec parms <> 0 then
-        failwithf "Error while running '%s' with args: %s" cmd args
-
-
-let platformTool tool path =
-    match Environment.isUnix with
-    | true -> tool
-    | _ ->
-        match ProcessUtils.tryFindFileOnPath path with
-        | None -> failwithf "can't find tool %s on PATH" tool
-        | Some v -> v
+let checkFormat =
+    stage "CheckFormat" {
+        run "dotnet fantomas src tests --check"
+        echo "No files need formatting"
+    }
 
 
-let vsceTool = lazy (platformTool "vsce" "vsce.cmd")
+let runScript =
+    stage "RunScript" {
+        run "dotnet fable ./src/extension/Extension.fsproj --outDir ./out --run webpack --mode=production"
+    }
 
-let setPackageJsonField name value releaseDir =
-    let fileName = sprintf "./%s/package.json" releaseDir
+let watch =
+    stage "Watch" {
+        run "dotnet fable watch ./src/extension/Extension.fsproj --outDir ./out --define DEBUG --runWatch webpack --mode=development"
+    }
 
-    let lines =
-        File.ReadAllLines fileName
-        |> Seq.map(fun line ->
-            if line.TrimStart().StartsWith(sprintf "\"%s\":" name) then
-                let indent = line.Substring(0, line.IndexOf("\""))
-                sprintf "%s\"%s\": %s," indent name value
+let buildServer =
+    stage "BuildServer" {
+        run "dotnet publish src/Server/Server.fsproj -c Release -o release/bin"
+    }
+
+let runTests =
+    stage "RunTests" {
+        run "dotnet test"
+    }
+
+let buildProject =
+    stage "BuildProject" {
+        clean
+        yarnInstall
+        checkFormat
+        runScript
+        buildServer
+    }
+
+let setPackageJsonField name value releaseDirectory =
+    let packageJson = Path.Combine(repoRoot, releaseDirectory, "package.json")
+    let prefix = sprintf "\"%s\":" name
+    let mutable found = false
+
+    let updatedLines =
+        File.ReadAllLines(packageJson)
+        |> Array.map(fun line ->
+            if line.TrimStart().StartsWith(prefix, StringComparison.Ordinal) then
+                found <- true
+                let indentLength = line.Length - line.TrimStart().Length
+                sprintf "%s\"%s\": %s," (line.Substring(0, indentLength)) name value
             else
                 line)
 
-    File.WriteAllLines(fileName, lines)
+    if not found then
+        failwithf "Could not find package.json field %s in %s" name packageJson
 
-let setVersion (release: ReleaseNotes.ReleaseNotes) releaseDir =
-    let versionString = sprintf "\"%O\"" release.NugetVersion
-    setPackageJsonField "version" versionString releaseDir
+    File.WriteAllLines(packageJson, updatedLines)
 
-let buildPackage dir =
-    Process.killAllByName "vsce"
-    run vsceTool.Value "package" dir
-    !!(sprintf "%s/*.vsix" dir) |> Seq.iter(Shell.moveFile "./temp/")
+let setVersion =
+    stage "SetVersion" {
+        run (fun _ -> setPackageJsonField "version" (sprintf "\"%O\"" releaseVersion) "release")
+    }
+
+let killAllByName processName =
+    for proc in Process.GetProcessesByName(processName) do
+        use proc = proc
+
+        try
+            if not proc.HasExited then
+                proc.Kill(true)
+        with _ -> ()
+
+let buildPackage =
+    stage "BuildPackage" {
+        run (fun _ -> killAllByName "vsce")
+
+        stage "Package extension" {
+            workingDir (Path.Combine(repoRoot, "release"))
+            run (shellCommand "vsce package")
+        }
+
+        run (fun _ ->
+            let tempDirectory = Path.Combine(repoRoot, "temp")
+            Directory.CreateDirectory(tempDirectory) |> ignore
+
+            Directory.GetFiles(Path.Combine(repoRoot, "release"), "*.vsix")
+            |> Array.iter(fun packagePath ->
+                let destination = Path.Combine(tempDirectory, Path.GetFileName(packagePath))
+                File.Move(packagePath, destination, true)))
+    }
+
+let readPassword () =
+    if Console.IsInputRedirected then
+        failwith "Set the vsce-token environment variable when no interactive terminal is available."
+
+    Console.Write("VSCE Token: ")
+    let token = ResizeArray<char>()
+    let mutable reading = true
+
+    while reading do
+        let key = Console.ReadKey(true)
+
+        match key.Key with
+        | ConsoleKey.Enter -> reading <- false
+        | ConsoleKey.Backspace when token.Count > 0 ->
+            token.RemoveAt(token.Count - 1)
+            Console.Write("\b \b")
+        | _ when Char.IsControl(key.KeyChar) |> not ->
+            token.Add(key.KeyChar)
+            Console.Write('*')
+        | _ -> ()
+
+    Console.WriteLine()
+    String(token.ToArray())
+
+let publishToGallery =
+    stage "PublishToGallery" {
+        workingDir (Path.Combine(repoRoot, "release"))
+        run (fun context -> async {
+            let token = Environment.GetEnvironmentVariable("vsce-token")
+
+            let token =
+                if String.IsNullOrWhiteSpace token then
+                    readPassword ()
+                else
+                    token
+
+            let commandFormat =
+                if OperatingSystem.IsWindows() then
+                    "cmd /c vsce publish --pat {0}"
+                else
+                    "vsce publish --pat {0}"
+
+            let command = FormattableStringFactory.Create(commandFormat, [| box token |])
+            return! context.RunSensitiveCommand command
+        })
+    }
 
 
-Target.create "SetVersion" (fun _ -> setVersion release "release")
+pipeline "Default" {
+    workingDir repoRoot
 
-let publishToGallery releaseDir =
-    let token =
-        match Environment.environVarOrDefault "vsce-token" "" with
-        | s when not(String.isNullOrWhiteSpace s) -> s
-        | _ -> UserInput.getUserPassword "VSCE Token: "
+    buildProject
 
-    Process.killAllByName "vsce"
-    run vsceTool.Value (sprintf "publish --pat %s" token) releaseDir
+    runIfOnlySpecified false
+}
 
-Target.create "BuildPackage" (fun _ -> buildPackage "release")
+pipeline "Build" {
+    workingDir repoRoot
 
-Target.create "PublishToGallery" (fun _ -> publishToGallery "release")
+    buildProject
 
-// Target.create "ReleaseGitHub" (fun _ ->
-//     releaseGithub release
-// )
+    runTests
+    runIfOnlySpecified
+}
 
-// --------------------------------------------------------------------------------------
-// Run generator by default. Invoke 'build <Target>' to override
-// --------------------------------------------------------------------------------------
+pipeline "Release" {
+    workingDir repoRoot
 
-Target.create "Default" ignore
-Target.create "Build" ignore
-Target.create "Release" ignore
+    buildProject
 
-"Clean"
-==> "YarnInstall"
-==> "CheckFormat"
-==> "RunScript"
-==> "BuildServer"
-==> "Default"
-==> "RunTests"
-==> "Build"
+    runTests
+    setVersion
+    buildPackage
+    publishToGallery
+    runIfOnlySpecified
+}
 
-"Build"
-==> "SetVersion"
-==> "BuildPackage"
-//==> "ReleaseGitHub"
-==> "PublishToGallery"
-==> "Release"
+pipeline "Watch" {
+    workingDir repoRoot
+    watch
+    runIfOnlySpecified
+}
 
-Target.runOrDefault "Default"
+
+tryPrintPipelineCommandHelp ()

@@ -21,7 +21,7 @@
             },
             "label": "Build",
             "args": [
-                "-t", "Default"
+                "-p", "Default"
             ],
             "group": {
                 "kind": "build",
@@ -37,7 +37,7 @@
             },
             "label": "Full Build",
             "args": [
-                "-t", "Build"
+                "-p", "Build"
             ],
             "group": "build"
         },
@@ -50,7 +50,7 @@
             },
             "label": "Watch",
             "args": [
-                "-t", "Watch"
+                "-p", "Watch"
             ],
             "group": "build",
             "isBackground": true,

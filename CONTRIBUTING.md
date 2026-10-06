@@ -14,7 +14,7 @@ Please take a moment to review this document in order to make the contribution p
 ### How to build
 
 1. Run `yarn install` to restore `npm` dependencies
-1. Build project `./build.sh`
+1. Build project `./build.sh -p Build`
 1. Press `F5` for single build, or run `Watch` task and `Launch Only` debug configuration for watch mode compilation.
 
 ## Updating dependencies

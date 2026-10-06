@@ -2,7 +2,8 @@
 
 ## Build & Test Commands
 
-- Build: `./build.sh` (Linux/macOS) or `./build.cmd` (Windows)
+- Build: `./build.sh -p Build` (Linux/macOS) or `./build.cmd -p Build` (Windows; Fun.Build)
+- Select a build pipeline: `./build.sh -p <name>` (`Default`, `Build`, `Release`, `Watch`)
 - Test all: `dotnet test`
 - Single test: `dotnet test --filter "FullyQualifiedName~word.docx"`
 - Format check: `dotnet fantomas src/**/*.fs tests/**/*.fs --check`

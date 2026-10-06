@@ -299,8 +299,6 @@ _Pvt_Extensions
 .paket/paket.exe
 paket-files/
 
-# FAKE - F# Make
-.fake/
 
 # CodeRush personal settings
 .cr/personal
@@ -443,7 +441,6 @@ $RECYCLE.BIN/
 
 # Custom
 temp
-.fake
 .ionide
 .paket
 .vs

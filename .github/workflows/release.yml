@@ -37,7 +37,7 @@ jobs:
     - name: Publish Release
       env:
         vsce-token: ${{ secrets.VSCE_TOKEN }}
-      run: dotnet fsi build.fsx -t Release
+      run: dotnet fsi build.fsx -- -p Release
     - name: upload artifact package
       uses: actions/upload-artifact@v7
       with:

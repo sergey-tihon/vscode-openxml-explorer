@@ -9,13 +9,6 @@
       ],
       "rollForward": true
     },
-    "fake-cli": {
-      "version": "6.1.4",
-      "commands": [
-        "fake"
-      ],
-      "rollForward": true
-    },
     "fable": {
       "version": "5.19.0",
       "commands": [
