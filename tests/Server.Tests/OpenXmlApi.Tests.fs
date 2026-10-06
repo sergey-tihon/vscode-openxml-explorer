@@ -16,7 +16,15 @@ ShouldMatchConfiguration.ShouldMatchApprovedDefaults.ConfigureDiffEngine()
 
 let shouldMatchPackageInfo fileName =
     let path = Path.Combine(__SOURCE_DIRECTORY__, "../data", fileName)
-    let doc = OpenXmlApi.getPackageInfo path
+    let packageInfo = OpenXmlApi.getPackageInfo path
+
+    let doc =
+        { packageInfo with
+            LastWriteTime =
+                packageInfo.LastWriteTime
+                |> Option.map(fun time -> time.ToUniversalTime())
+        }
+
     let snapshot = JsonSerializer.Serialize(doc, serializerOptions)
 
     snapshot.ShouldMatchApproved(fun options ->

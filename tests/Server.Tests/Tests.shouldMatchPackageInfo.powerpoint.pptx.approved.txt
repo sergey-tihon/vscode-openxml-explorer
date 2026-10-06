@@ -1,7 +1,7 @@
 {
   "Path": "{ProjectDirectory}/../data/powerpoint.pptx",
   "FileName": "powerpoint.pptx",
-  "LastWriteTime": "2021-03-14T23:15:43+01:00",
+  "LastWriteTime": "2021-03-14T22:15:43Z",
   "MainParts": [
     {
       "Uri": "/docProps/app.xml",

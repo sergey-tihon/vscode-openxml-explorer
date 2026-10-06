@@ -1,7 +1,7 @@
 {
   "Path": "{ProjectDirectory}/../data/word.docx",
   "FileName": "word.docx",
-  "LastWriteTime": "2021-03-14T21:14:00+01:00",
+  "LastWriteTime": "2021-03-14T20:14:00Z",
   "MainParts": [
     {
       "Uri": "/docProps/app.xml",
