@@ -4,7 +4,7 @@
 
 - Build: `./build.sh` (Linux/macOS) or `./build.cmd` (Windows)
 - Test all: `dotnet test`
-- Single test: `dotnet test --filter "verifyPackageInfo(word.docx)"`
+- Single test: `dotnet test --filter "FullyQualifiedName~word.docx"`
 - Format check: `dotnet fantomas src/**/*.fs tests/**/*.fs --check`
 - Format fix: `dotnet fantomas src/**/*.fs tests/**/*.fs`
 - Update NuGet deps: `dotnet paket update`
@@ -25,4 +25,4 @@
 - `src/extension/` - VS Code extension (F# compiled to JS via Fable)
 - `src/Server/` - .NET backend server
 - `src/Shared/` - Shared types between extension and server
-- `tests/Server.Tests/` - NUnit tests with Verify snapshots (`.verified.txt`)
+- `tests/Server.Tests/` - Expecto tests with Shouldly approval snapshots (`.approved.txt`)

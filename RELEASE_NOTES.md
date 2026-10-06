@@ -1,6 +1,6 @@
 ### 0.3.1 - 06.10.2026
 
-- Dependencies update (Fable 5, Fable.Remoting 3.1, System.IO.Packaging v10.0.12; Verify.NUnit v31.9.2 / NUnit 4.6.1)
+- Dependencies update (Fable 5, Fable.Remoting 3.1, System.IO.Packaging v10.0.12, Expecto 11.1.0, Shouldly 5.0.0-preview.2)
 - Fantomas v8
 - Dependabot configuration for GitHub Actions, npm, dotnet tools and .NET SDK
 

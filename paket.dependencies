@@ -19,11 +19,10 @@ group Test
     frameworks: net10.0
 
     nuget Microsoft.NET.Test.Sdk
-    nuget NUnit3TestAdapter
-    nuget NUnit ~> 4.6
-    nuget FsUnit
-    nuget Verify.NUnit = 31.9.2
-    nuget Verify = 31.9.2
-    nuget Argon.FSharp
+    nuget Expecto
+    nuget YoloDev.Expecto.TestSdk
+    nuget Shouldly = 5.0.0-preview.2
+    nuget Shouldly.DiffEngine = 5.0.0-preview.2
+    nuget FSharp.SystemTextJson
     nuget FSharp.Core ~> 10.1
 

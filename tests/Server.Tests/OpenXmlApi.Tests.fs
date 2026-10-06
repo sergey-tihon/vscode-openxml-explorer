@@ -1,24 +1,37 @@
 module Server.Tests
 
-open NUnit.Framework
 open System.IO
-open VerifyTests
-open VerifyNUnit
-open Argon
+open System.Text.Encodings.Web
+open System.Text.Json
+open System.Text.Json.Serialization
+open Expecto
+open Shouldly
 
-VerifierSettings.AddExtraSettings(fun settings -> settings.DefaultValueHandling <- DefaultValueHandling.Include)
+let serializerOptions = JsonFSharpOptions.Default().ToJsonSerializerOptions()
+serializerOptions.Encoder <- JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+serializerOptions.WriteIndented <- true
 
-[<TestCase("word.docx")>]
-[<TestCase("excel.xlsx")>]
-[<TestCase("powerpoint.pptx")>]
-[<TestCase("word-libre6.docx")>]
-[<TestCase("excel-libre6.xlsx")>]
-[<TestCase("powerpoint-libre6.pptx")>]
-let verifyPackageInfo fileName =
+ShouldMatchConfiguration.ShouldMatchApprovedDefaults.ConfigureDiffEngine()
+|> ignore
+
+let shouldMatchPackageInfo fileName =
     let path = Path.Combine(__SOURCE_DIRECTORY__, "../data", fileName)
     let doc = OpenXmlApi.getPackageInfo path
+    let snapshot = JsonSerializer.Serialize(doc, serializerOptions)
 
-    task {
-        let! _ = Verifier.Verify(doc).UseFileName fileName
-        ()
-    }
+    snapshot.ShouldMatchApproved(fun options ->
+        options.WithDiscriminator(fileName).WithScrubber(fun content -> content.Replace(__SOURCE_DIRECTORY__, "{ProjectDirectory}"))
+        |> ignore)
+
+[<Tests>]
+let tests =
+    [
+        "word.docx"
+        "excel.xlsx"
+        "powerpoint.pptx"
+        "word-libre6.docx"
+        "excel-libre6.xlsx"
+        "powerpoint-libre6.pptx"
+    ]
+    |> List.map(fun fileName -> testCase fileName (fun () -> shouldMatchPackageInfo fileName))
+    |> testList "Package info"
