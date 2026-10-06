@@ -1,3 +1,9 @@
+### 0.3.1 - 06.10.2026
+
+- Dependencies update (Fable 5, Fable.Remoting 3.1, System.IO.Packaging v10.0.12; Verify.NUnit v31.9.2 / NUnit 4.6.1)
+- Fantomas v8
+- Dependabot configuration for GitHub Actions, npm, dotnet tools and .NET SDK
+
 ### 0.3.0 - 26.12.2025
 
 - Migration to .NET 10

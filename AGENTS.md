@@ -1,13 +1,17 @@
 # Agent Guidelines
 
 ## Build & Test Commands
+
 - Build: `./build.sh` (Linux/macOS) or `./build.cmd` (Windows)
 - Test all: `dotnet test`
 - Single test: `dotnet test --filter "verifyPackageInfo(word.docx)"`
 - Format check: `dotnet fantomas src/**/*.fs tests/**/*.fs --check`
 - Format fix: `dotnet fantomas src/**/*.fs tests/**/*.fs`
+- Update NuGet deps: `dotnet paket update`
+- Update npm deps: `yarn upgrade --latest`
 
 ## Code Style (F#)
+
 - Indent: 4 spaces, max line length: 150 chars
 - No space before lowercase function invocation: `getPackageInfo filePath`
 - Stroustrup-style multiline brackets (closing bracket on same column)
@@ -17,6 +21,7 @@
 - Underscore placeholder for member access: `|> Seq.sortBy _.Name`
 
 ## Project Structure
+
 - `src/extension/` - VS Code extension (F# compiled to JS via Fable)
 - `src/Server/` - .NET backend server
 - `src/Shared/` - Shared types between extension and server

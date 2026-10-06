@@ -1,4 +1,4 @@
-version 9.0.2
+version 11.0.0
 source https://api.nuget.org/v3/index.json
 frameworks: net10.0, netstandard2.0
 storage:none
@@ -8,10 +8,9 @@ nuget Fable.Promise
 nuget Fable.Node
 nuget Fable.Browser.Dom
 
-nuget FSharp.Core
+nuget FSharp.Core ~> 10.1
 nuget Fable.Remoting.AspNetCore
 nuget System.IO.Packaging
-
 github ionide/ionide-vscode-helpers src/Fable.Import.VSCode.fs
 github ionide/ionide-vscode-helpers src/Helpers.fs
 
@@ -21,7 +20,10 @@ group Test
 
     nuget Microsoft.NET.Test.Sdk
     nuget NUnit3TestAdapter
+    nuget NUnit ~> 4.6
     nuget FsUnit
-    nuget Verify.NUnit
+    nuget Verify.NUnit = 31.9.2
+    nuget Verify = 31.9.2
     nuget Argon.FSharp
+    nuget FSharp.Core ~> 10.1
 
