@@ -3,7 +3,6 @@
 - Dependencies update (Fable 5, Fable.Remoting 3.1, System.IO.Packaging v10.0.12, Expecto 11.1.0, Shouldly 5.0.0-preview.2)
 - Fantomas v8
 - Build scripts migrated from FAKE to Fun.Build v1.2.0
-- Dependabot configuration for GitHub Actions, npm, dotnet tools and .NET SDK
 
 ### 0.3.0 - 26.12.2025
 
