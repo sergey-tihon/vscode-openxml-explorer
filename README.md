@@ -11,14 +11,14 @@ Display the content of a OpenXml (_.pptx,_.docx, \*.xlsx) file in a Tree Explore
 ## Features
 
 - Explore content of OpenXml packages (parts and their relationships)
-- Explore preformatted content of XML parts (read only)
+- View and edit formatted XML parts, saving changes back to the source package.
 - Implemented on top of official SDK from MS [System.IO.Packaging](https://www.nuget.org/packages/System.IO.Packaging/)
 
 ![screenshot](release/images/screenshot.png)
 
 ## Requirements
 
-- Visual Studio Code - <https://code.visualstudio.com>
+- Visual Studio Code 1.66 or newer - <https://code.visualstudio.com>
 - .NET 10.0 Runtime - <https://dotnet.microsoft.com/download/dotnet/10.0>
 
 ## Credits
