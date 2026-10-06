@@ -18,8 +18,12 @@ let shouldMatchPackageInfo fileName =
     let path = Path.Combine(__SOURCE_DIRECTORY__, "../data", fileName)
     let packageInfo = OpenXmlApi.getPackageInfo path
 
+    let normalizedPath =
+        Path.GetRelativePath(__SOURCE_DIRECTORY__, packageInfo.Path).Replace('\\', '/')
+
     let doc =
         { packageInfo with
+            Path = "{ProjectDirectory}/" + normalizedPath
             LastWriteTime =
                 packageInfo.LastWriteTime
                 |> Option.map(fun time -> time.ToUniversalTime())
@@ -27,9 +31,7 @@ let shouldMatchPackageInfo fileName =
 
     let snapshot = JsonSerializer.Serialize(doc, serializerOptions)
 
-    snapshot.ShouldMatchApproved(fun options ->
-        options.WithDiscriminator(fileName).WithScrubber(fun content -> content.Replace(__SOURCE_DIRECTORY__, "{ProjectDirectory}"))
-        |> ignore)
+    snapshot.ShouldMatchApproved(fun options -> options.WithDiscriminator(fileName) |> ignore)
 
 [<Tests>]
 let tests =

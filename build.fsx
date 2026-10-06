@@ -80,7 +80,7 @@ let buildServer =
 
 let runTests =
     stage "RunTests" {
-        run "dotnet test"
+        run "dotnet test tests/Server.Tests/Server.Tests.fsproj -m:1"
     }
 
 let buildProject =

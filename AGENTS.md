@@ -4,8 +4,8 @@
 
 - Build: `./build.sh -p Build` (Linux/macOS) or `./build.cmd -p Build` (Windows; Fun.Build)
 - Select a build pipeline: `./build.sh -p <name>` (`Default`, `Build`, `Release`, `Watch`)
-- Test all: `dotnet test`
-- Single test: `dotnet test --filter "FullyQualifiedName~word.docx"`
+- Test all: `dotnet test tests/Server.Tests/Server.Tests.fsproj -m:1`
+- Single test: `dotnet test tests/Server.Tests/Server.Tests.fsproj -m:1 --filter "FullyQualifiedName~word.docx"`
 - Format check: `dotnet fantomas src/**/*.fs tests/**/*.fs --check`
 - Format fix: `dotnet fantomas src/**/*.fs tests/**/*.fs`
 - Update NuGet deps: `dotnet paket update` (the Fun.Build `#r` pin in `build.fsx` is updated manually)
