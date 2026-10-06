@@ -1,7 +1,9 @@
 module OpenXmlExplorer.Model
 
+open System.Collections.Generic
 open Fable.Import.VSCode
 open Fable.Core
+open Fable.Core.JsInterop
 
 type DataNode =
     | Document of document: Shared.Document
@@ -40,6 +42,17 @@ type OpenPartCommand(path: string, fragment: string) =
 
 type MyTreeDataProvider() =
     let items = ResizeArray<DataNode>()
+
+    let onDidChangeFileEmitter =
+        vscode.EventEmitter.Create<ResizeArray<Vscode.FileChangeEvent>>()
+
+    let modifiedTimes = Dictionary<string, float>()
+
+    let readOnlyError(uri: Vscode.Uri) =
+        unbox<exn>(vscode.FileSystemError.NoPermissions(U2.Case2 uri))
+
+    let unavailableError(uri: Vscode.Uri) =
+        unbox<exn>(vscode.FileSystemError.Unavailable(U2.Case2 uri))
 
     let onDidChangeTreeDataEmitter =
         vscode.EventEmitter.Create<U3<DataNode, ResizeArray<DataNode>, unit> option>()
@@ -109,18 +122,61 @@ type MyTreeDataProvider() =
 
         member _.getParent _ = None
 
-    interface Vscode.TextDocumentContentProvider with
-        member val onDidChange = None with get, set
+    interface Vscode.FileSystemProvider with
+        member _.onDidChangeFile = onDidChangeFileEmitter.event
 
-        member this.provideTextDocumentContent(url, _) =
+        member _.watch(_, _) =
+            vscode.Disposable.Create(fun () -> None)
+
+        member _.stat(uri) =
+            let key = uri.toString()
+
+            if not(modifiedTimes.ContainsKey key) then
+                modifiedTimes[key] <- JS.Constructors.Date.now()
+
+            let stat = createEmpty<Vscode.FileStat>
+            stat.``type`` <- Vscode.FileType.File
+            stat.ctime <- 0.
+            stat.mtime <- modifiedTimes[key]
+            stat.size <- 0.
+            U2.Case1 stat
+
+        member _.readDirectory _ =
+            U2.Case1(ResizeArray<string * Vscode.FileType>())
+
+        member _.createDirectory uri =
+            raise(readOnlyError uri)
+
+        member this.readFile(uri) =
             match this.ApiClint with
-            | Some(client) ->
+            | Some client ->
                 async {
-                    let! content = client.getPartContent (url.fragment) (url.path)
-                    return Some content
+                    let! content = client.getPartContent uri.fragment uri.path
+                    return Utf8.encode content
                 }
                 |> Async.StartAsPromise
                 |> Promise.toThenable
                 |> U2.Case2
-            | None -> U2.Case1 "Extension API client is not available"
-            |> Some
+            | None -> raise(unavailableError uri)
+
+        member this.writeFile(uri, content, _) =
+            match this.ApiClint with
+            | Some client ->
+                async {
+                    match! client.setPartContent uri.fragment uri.path (Utf8.decode content) with
+                    | Some error -> raise(unbox<exn>(vscode.FileSystemError.Create(U2.Case1 $"Cannot save part '%s{uri.path}': %s{error}")))
+                    | None -> modifiedTimes[uri.toString()] <- JS.Constructors.Date.now()
+                }
+                |> Async.StartAsPromise
+                |> Promise.toThenable
+                |> U2.Case2
+            | None -> raise(unavailableError uri)
+
+        member _.delete(uri, _) =
+            raise(readOnlyError uri)
+
+        member _.rename(oldUri, _, _) =
+            raise(readOnlyError oldUri)
+
+        member _.copy(source, _, _) =
+            raise(readOnlyError source)

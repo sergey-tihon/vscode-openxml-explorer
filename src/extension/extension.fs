@@ -27,7 +27,7 @@ let activate(context: Vscode.ExtensionContext) =
     Vscode.window.registerTreeDataProvider("openXmlExplorer", openXmlExplorerProvider)
     |> context.Subscribe
 
-    Vscode.workspace.registerTextDocumentContentProvider("openxml", openXmlExplorerProvider)
+    Vscode.workspace.registerFileSystemProvider("openxml", openXmlExplorerProvider)
     |> context.Subscribe
 
     Vscode.commands.registerCommand("openxml-explorer.explorePackage", objfy2(fun (uri: Vscode.Uri) -> agent.Post(ExplorePackage uri)))

@@ -28,7 +28,7 @@ let getApiClient(serverHost) : IOpenXmlApi =
         setPartContent =
             fun filePath partUri content ->
                 let data = [ filePath; partUri; content ]
-                axios.post<bool>(getRoute "setPartContent", data) |> toAsync
+                axios.post<string option>(getRoute "setPartContent", data) |> toAsync
 
         checkHealth =
             fun () ->
