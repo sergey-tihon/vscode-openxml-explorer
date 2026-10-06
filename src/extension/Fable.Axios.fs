@@ -109,24 +109,30 @@ module private AxiosErrorJS =
 
 /// The request was sent and the server responded with a status code outside of the 2xx range.
 type AxiosErrorResponse<'T, 'E> =
-    { name: string
-      message: string
-      config: AxiosXHRConfigBase<'T>
-      request: obj
-      response: AxiosXHR<'E> }
+    {
+        name: string
+        message: string
+        config: AxiosXHRConfigBase<'T>
+        request: obj
+        response: AxiosXHR<'E>
+    }
 
 /// The request was made but no response was received.
 type AxiosNoResponse<'T> =
-    { name: string
-      message: string
-      config: AxiosXHRConfigBase<'T>
-      request: obj }
+    {
+        name: string
+        message: string
+        config: AxiosXHRConfigBase<'T>
+        request: obj
+    }
 
 /// An error occurred while setting up the request
 type AxiosRequestFailed<'T> =
-    { name: string
-      message: string
-      config: AxiosXHRConfigBase<'T> }
+    {
+        name: string
+        message: string
+        config: AxiosXHRConfigBase<'T>
+    }
 
 /// <summary>
 /// The three types of errors that can occur when making an axios request.
@@ -158,22 +164,28 @@ module AxiosError =
         match error.config, error.response, error.request with
         | Some config, Some response, Some request ->
             ErrorResponse
-                { name = error.name
-                  message = error.message
-                  config = config
-                  request = request
-                  response = response }
+                {
+                    name = error.name
+                    message = error.message
+                    config = config
+                    request = request
+                    response = response
+                }
         | Some config, _, Some request ->
             NoResponse
-                { name = error.name
-                  message = error.message
-                  config = config
-                  request = request }
+                {
+                    name = error.name
+                    message = error.message
+                    config = config
+                    request = request
+                }
         | Some config, _, _ ->
             RequestFailed
-                { name = error.name
-                  message = error.message
-                  config = config }
+                {
+                    name = error.name
+                    message = error.message
+                    config = config
+                }
         | e -> UnknownError jsNative
 
 
@@ -237,9 +249,11 @@ module AxiosHelpers =
 
         // Box upcast all response types (Promise.all needs all promises to have the same type)
         let xhrObjSeq: JS.Promise<AxiosXHR> list =
-            [ xhr1 |> Promise.map upcastAxiosXhr
-              xhr2 |> Promise.map upcastAxiosXhr
-              xhr3 |> Promise.map upcastAxiosXhr ]
+            [
+                xhr1 |> Promise.map upcastAxiosXhr
+                xhr2 |> Promise.map upcastAxiosXhr
+                xhr3 |> Promise.map upcastAxiosXhr
+            ]
 
         Globals.axios.all xhrObjSeq
         |> Promise.map(fun results ->
@@ -260,10 +274,12 @@ module AxiosHelpers =
 
         // Box upcast all response types (Promise.all needs all promises to have the same type)
         let xhrObjSeq: JS.Promise<AxiosXHR> list =
-            [ xhr1 |> Promise.map upcastAxiosXhr
-              xhr2 |> Promise.map upcastAxiosXhr
-              xhr3 |> Promise.map upcastAxiosXhr
-              xhr4 |> Promise.map upcastAxiosXhr ]
+            [
+                xhr1 |> Promise.map upcastAxiosXhr
+                xhr2 |> Promise.map upcastAxiosXhr
+                xhr3 |> Promise.map upcastAxiosXhr
+                xhr4 |> Promise.map upcastAxiosXhr
+            ]
 
         Globals.axios.all xhrObjSeq
         |> Promise.map(fun results ->
@@ -286,11 +302,13 @@ module AxiosHelpers =
 
         // Box upcast all response types (Promise.all needs all promises to have the same type)
         let xhrObjSeq: JS.Promise<AxiosXHR> list =
-            [ xhr1 |> Promise.map upcastAxiosXhr
-              xhr2 |> Promise.map upcastAxiosXhr
-              xhr3 |> Promise.map upcastAxiosXhr
-              xhr4 |> Promise.map upcastAxiosXhr
-              xhr5 |> Promise.map upcastAxiosXhr ]
+            [
+                xhr1 |> Promise.map upcastAxiosXhr
+                xhr2 |> Promise.map upcastAxiosXhr
+                xhr3 |> Promise.map upcastAxiosXhr
+                xhr4 |> Promise.map upcastAxiosXhr
+                xhr5 |> Promise.map upcastAxiosXhr
+            ]
 
         Globals.axios.all xhrObjSeq
         |> Promise.map(fun results ->
@@ -315,12 +333,14 @@ module AxiosHelpers =
 
         // Box upcast all response types (Promise.all needs all promises to have the same type)
         let xhrObjSeq: JS.Promise<AxiosXHR> list =
-            [ xhr1 |> Promise.map upcastAxiosXhr
-              xhr2 |> Promise.map upcastAxiosXhr
-              xhr3 |> Promise.map upcastAxiosXhr
-              xhr4 |> Promise.map upcastAxiosXhr
-              xhr5 |> Promise.map upcastAxiosXhr
-              xhr6 |> Promise.map upcastAxiosXhr ]
+            [
+                xhr1 |> Promise.map upcastAxiosXhr
+                xhr2 |> Promise.map upcastAxiosXhr
+                xhr3 |> Promise.map upcastAxiosXhr
+                xhr4 |> Promise.map upcastAxiosXhr
+                xhr5 |> Promise.map upcastAxiosXhr
+                xhr6 |> Promise.map upcastAxiosXhr
+            ]
 
         Globals.axios.all xhrObjSeq
         |> Promise.map(fun results ->

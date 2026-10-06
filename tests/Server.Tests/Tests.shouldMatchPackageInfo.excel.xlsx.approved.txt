@@ -1,0 +1,56 @@
+{
+  "Path": "{ProjectDirectory}/../data/excel.xlsx",
+  "FileName": "excel.xlsx",
+  "LastWriteTime": "2021-03-14T22:14:48Z",
+  "MainParts": [
+    {
+      "Uri": "/docProps/app.xml",
+      "Name": "app.xml",
+      "RelationshipId": "rId3",
+      "Length": 795,
+      "ContentType": "application/vnd.openxmlformats-officedocument.extended-properties+xml",
+      "ChildParts": []
+    },
+    {
+      "Uri": "/docProps/core.xml",
+      "Name": "core.xml",
+      "RelationshipId": "rId2",
+      "Length": 635,
+      "ContentType": "application/vnd.openxmlformats-package.core-properties+xml",
+      "ChildParts": []
+    },
+    {
+      "Uri": "/xl/workbook.xml",
+      "Name": "workbook.xml",
+      "RelationshipId": "rId1",
+      "Length": 2187,
+      "ContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml",
+      "ChildParts": [
+        {
+          "Uri": "/xl/worksheets/sheet1.xml",
+          "Name": "sheet1.xml",
+          "RelationshipId": "rId1",
+          "Length": 1130,
+          "ContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml",
+          "ChildParts": []
+        },
+        {
+          "Uri": "/xl/styles.xml",
+          "Name": "styles.xml",
+          "RelationshipId": "rId3",
+          "Length": 1618,
+          "ContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml",
+          "ChildParts": []
+        },
+        {
+          "Uri": "/xl/theme/theme1.xml",
+          "Name": "theme1.xml",
+          "RelationshipId": "rId2",
+          "Length": 8390,
+          "ContentType": "application/vnd.openxmlformats-officedocument.theme+xml",
+          "ChildParts": []
+        }
+      ]
+    }
+  ]
+}

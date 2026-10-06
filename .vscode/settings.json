@@ -5,7 +5,6 @@
     "**/.svn": true,
     "**/.hg": true,
     "**/.DS_Store": true,
-    "**/.fake": true,
     "**/.paket": true
   },
   "search.exclude": {

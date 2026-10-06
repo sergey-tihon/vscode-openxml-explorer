@@ -1,28 +1,28 @@
 {
     "scripts": {},
     "dependencies": {
-        "@babel/runtime": "^7.28.4",
-        "axios": "^1.13.2",
-        "htmlparser2": "^10.0.0",
+        "@babel/runtime": "^8.0.5",
+        "axios": "^1.20.0",
+        "htmlparser2": "^12.0.0",
         "platform-detect": "^3.0.1",
         "portfinder": "^1.0.38"
     },
     "devDependencies": {
-        "@babel/core": "^7.28.5",
-        "@babel/plugin-transform-runtime": "^7.28.5",
-        "@babel/preset-env": "^7.28.5",
+        "@babel/core": "^8.0.6",
+        "@babel/plugin-transform-runtime": "^8.0.6",
+        "@babel/preset-env": "^8.0.6",
         "@types/showdown": "^2.0.6",
-        "@types/vscode": "^1.107.0",
-        "@types/ws": "^8.18.1",
-        "@vscode/debugadapter": "^1.51.0",
-        "babel-loader": "^10.0.0",
-        "mocha": "^11.7.5",
+        "@types/vscode": "^1.140.0",
+        "@types/ws": "^8.18.2",
+        "@vscode/debugadapter": "^1.68.0",
+        "babel-loader": "^10.1.1",
+        "mocha": "^12.0.3",
         "showdown": "^2.1.0",
-        "toml": "^3.0.0",
-        "webpack": "^5.104.1",
-        "webpack-cli": "^6.0.1",
-        "ws": "^8.18.3",
+        "toml": "^5.0.0",
+        "webpack": "^5.111.1",
+        "webpack-cli": "^7.2.3",
+        "ws": "^8.22.0",
         "xhr2": "^0.2.1",
-        "yarn-upgrade-all": "^0.7.5"
+        "yarn-upgrade-all": "^0.8.1"
     }
 }

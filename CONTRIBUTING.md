@@ -7,12 +7,19 @@ Please take a moment to review this document in order to make the contribution p
 ### Requirements
 
 - VSCode
-- Node.js
-- Yarn
-- .NET 9.0 SDK
+- Node.js 24 (or 22.18+)
+- Yarn 1.x
+- .NET 10.0 SDK (10.0.401 or newer)
 
 ### How to build
 
 1. Run `yarn install` to restore `npm` dependencies
-1. Build project `./build.sh`
+1. Build project `./build.sh -p Build`
 1. Press `F5` for single build, or run `Watch` task and `Launch Only` debug configuration for watch mode compilation.
+
+## Updating dependencies
+
+- NuGet packages are managed by Paket: `dotnet paket update`
+- npm packages: `yarn upgrade --latest`
+- Fun.Build is referenced by version in `build.fsx`; update the `#r` package version manually.
+

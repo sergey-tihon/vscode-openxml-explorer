@@ -1,6 +1,7 @@
 group Test
     Microsoft.NET.Test.Sdk
-    NUnit3TestAdapter
-    FsUnit
-    Verify.NUnit
-    Argon.FSharp
+    Expecto
+    YoloDev.Expecto.TestSdk
+    Shouldly
+    Shouldly.DiffEngine
+    FSharp.SystemTextJson
