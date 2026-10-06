@@ -8,7 +8,7 @@
 - Single test: `dotnet test --filter "FullyQualifiedName~word.docx"`
 - Format check: `dotnet fantomas src/**/*.fs tests/**/*.fs --check`
 - Format fix: `dotnet fantomas src/**/*.fs tests/**/*.fs`
-- Update NuGet deps: `dotnet paket update`
+- Update NuGet deps: `dotnet paket update` (the Fun.Build `#r` pin in `build.fsx` is updated manually)
 - Update npm deps: `yarn upgrade --latest`
 
 ## Code Style (F#)

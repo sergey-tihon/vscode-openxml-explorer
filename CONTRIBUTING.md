@@ -21,5 +21,5 @@ Please take a moment to review this document in order to make the contribution p
 
 - NuGet packages are managed by Paket: `dotnet paket update`
 - npm packages: `yarn upgrade --latest`
-- Dependabot (`.github/dependabot.yml`) opens weekly PRs for GitHub Actions, npm packages, dotnet tools (`.config/dotnet-tools.json`) and the .NET SDK (`global.json`, 10.x only). It does not support Paket, so `paket.dependencies` / `paket.lock` must be updated manually.
+- Dependabot (`.github/dependabot.yml`) opens weekly PRs for GitHub Actions, npm packages, dotnet tools (`.config/dotnet-tools.json`) and the .NET SDK (`global.json`, 10.x only). Paket is unsupported; update `paket.dependencies` / `paket.lock` manually, and update Fun.Build's `#r` version in `build.fsx` manually.
 
