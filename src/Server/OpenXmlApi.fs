@@ -55,19 +55,16 @@ let getPartContent (path: string) (partUri: string) : string =
     use sr = new StreamReader(stream)
     sr.ReadToEnd()
 
-let setPartContent (path: string) (partUri: string) (content: string) : bool =
-    try
-        use package = Package.Open(path, FileMode.Open, FileAccess.ReadWrite)
-        let part = package.GetPart(Uri(partUri, UriKind.Relative))
-        use stream = part.GetStream(FileMode.Create, FileAccess.Write)
-        use writer = new StreamWriter(stream)
-        writer.Write(content)
-        writer.Flush()
-        package.Flush()
-        true
-    with ex ->
-        printfn $"Error saving part content: %A{ex}"
-        false
+let setPartContent (path: string) (partUri: string) (content: string) : unit =
+    let xDoc = XDocument.Parse(content, LoadOptions.PreserveWhitespace)
+
+    if isNull xDoc.Declaration then
+        xDoc.Declaration <- XDeclaration("1.0", "UTF-8", "yes")
+
+    use package = Package.Open(path, FileMode.Open, FileAccess.ReadWrite)
+    let part = package.GetPart(Uri(partUri, UriKind.Relative))
+    use stream = part.GetStream(FileMode.Create, FileAccess.Write)
+    xDoc.Save(stream, SaveOptions.DisableFormatting)
 
 let createOpenXmlApiFromContext(httpContext: HttpContext) : IOpenXmlApi =
     let lifetime = httpContext.GetService<IHostApplicationLifetime>()
@@ -101,10 +98,11 @@ let createOpenXmlApiFromContext(httpContext: HttpContext) : IOpenXmlApi =
             fun filePath partUri content ->
                 async {
                     try
-                        return setPartContent filePath partUri content
+                        setPartContent filePath partUri content
+                        return None
                     with ex ->
                         printfn $"Error in setPartContent API: %A{ex}"
-                        return false
+                        return Some ex.Message
                 }
         checkHealth = fun () -> async { return true }
         stopApplication =

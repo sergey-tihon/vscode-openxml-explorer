@@ -13,6 +13,16 @@ module Log =
     let show() =
         channel.Value.show(true)
 
+
+module Utf8 =
+    open Fable.Core
+
+    [<Emit("new TextEncoder().encode($0)")>]
+    let encode(text: string) : JS.Uint8Array = jsNative
+
+    [<Emit("new TextDecoder().decode($0)")>]
+    let decode(bytes: JS.Uint8Array) : string = jsNative
+
 module Promise =
     open Fable.Core
     open Fable.Import.VSCode
