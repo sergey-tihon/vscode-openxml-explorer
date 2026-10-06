@@ -12,6 +12,9 @@ jobs:
   release:
     # this workflow is the same as the build workflow, up until artifact upload + publish
     runs-on: macos-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
     # manual triggers are detached HEADs, so we need to checkout the branch
@@ -38,6 +41,8 @@ jobs:
       env:
         vsce-token: ${{ secrets.VSCE_TOKEN }}
       run: dotnet fsi build.fsx -- -p Release
+    - name: Publish to Open VSX
+      run: npx --yes ovsx publish temp/*.vsix --trusted-publishing
     - name: upload artifact package
       uses: actions/upload-artifact@v7
       with:
