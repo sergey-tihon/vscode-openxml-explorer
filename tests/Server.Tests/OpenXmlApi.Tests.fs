@@ -74,6 +74,18 @@ let setPartContentTests =
                 finally
                     File.Delete path
 
+            testCase "preserves whitespace-only nodes"
+            <| fun () ->
+                let path = copyToTemp "word.docx"
+
+                try
+                    let content = "<root>\n  <child />\n</root>"
+                    OpenXmlApi.setPartContent path "/word/document.xml" content
+                    let saved = OpenXmlApi.getPartContent path "/word/document.xml"
+                    Expect.stringContains saved "<root>\n  <child />\n</root>" "whitespace-only text nodes are preserved"
+                finally
+                    File.Delete path
+
             testCase "rejects malformed XML"
             <| fun () ->
                 let path = copyToTemp "word.docx"

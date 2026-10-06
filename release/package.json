@@ -19,7 +19,7 @@
         "url": "https://github.com/sergey-tihon/vscode-openxml-explorer.git"
     },
     "engines": {
-        "vscode": "^0.10.10"
+        "vscode": "^1.23.0"
     },
     "categories": [
         "Other"

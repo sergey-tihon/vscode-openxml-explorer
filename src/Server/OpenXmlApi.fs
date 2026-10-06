@@ -56,7 +56,7 @@ let getPartContent (path: string) (partUri: string) : string =
     sr.ReadToEnd()
 
 let setPartContent (path: string) (partUri: string) (content: string) : unit =
-    let xDoc = XDocument.Parse content
+    let xDoc = XDocument.Parse(content, LoadOptions.PreserveWhitespace)
 
     if isNull xDoc.Declaration then
         xDoc.Declaration <- XDeclaration("1.0", "UTF-8", "yes")
